@@ -20,6 +20,11 @@ class ActionExecuter {
     return this.mcData.itemsByName[ name ].id
   }
 
+  /**
+   * 
+   * @param {*} name 
+   * @returns {Promise<boolean>} 
+   */
   async #placeBlock( name ) {
     const blockInInventory = this._bot.inventory.findInventoryItem( name, null );
 
@@ -29,18 +34,23 @@ class ActionExecuter {
     const blockNearby = this._bot.findBlock({
       maxDistance: 30,
       useExtraInfo: true,
-      matching: bl => bl.name != 'air' && bl.skyLight == 15 && this._bot.entity.position.distanceTo( bl.position ) > 4
+      matching: bl => {
+          return bl.name != 'air' 
+          && this._bot.blockAt( bl.position.offset( 0, 1, 0 ) ).name == 'air' 
+          && this._bot.entity.position.distanceTo( bl.position ) > 2;
+      }
     });
 
-    await this._bot.equip( blockInInventory, 'hand' );
-
+    this._bot.pathfinder.setGoal( null );
     await this._cmds.digManager.goTo( blockNearby.position.x, blockNearby.position.y ,  blockNearby.position.z );
+    await this._bot.equip( blockInInventory, 'hand' );
     this._bot.setControlState( 'jump', true );
     await wait( 380 );
     try {
       await this._bot.placeBlock( blockNearby, new vec( 0, 1, 0 ) ).catch( err => {});
     } catch(err) {
-      await this._bot.placeBlock( blockNearby, new vec( 0, 2, 0 ) );
+      console.warn( err );
+      await this._bot.placeBlock( blockNearby, new vec( 0, 2, 0 ) ).catch( err => {});
     }
     this._bot.setControlState( 'jump', false );
     
@@ -99,6 +109,7 @@ class ActionExecuter {
     try {
       await this._bot.craft( currentRecipe, count, blockCrafting );
     } catch(err) {
+      console.log( err );
       return await this.craftItem( itemName, count, recipyNumber + 1 );
     }
 
@@ -201,6 +212,7 @@ class GoalInterpreter {
 
   async #prepare() {
     this.goals = await this.#download( this.pathToGoals );
+    console.log( 'Registered the following list of blocks: ' );
     console.log( this.goals );
   }
 
@@ -221,10 +233,9 @@ class GoalInterpreter {
           return false;
 
         await this.actionExecuter.craftItem( resolvingItem, Math.ceil( count / condition.resultsIn ) );
-        console.log('item crafted!');
+        //if the item was already crafted, nothink will happen...
         await this.GetItem( resolvingItem, count );
         
-
       case 'recheckConditions':
         return await this.GetItem( resolvingItem, count );
 

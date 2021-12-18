@@ -3,19 +3,28 @@ const CommandInterpreter = require( "./commands.js" ).CommandInterperter;
 
 const pathfinder = require( "mineflayer-pathfinder" ).pathfinder;
 const autoeat = require("mineflayer-auto-eat");
+const toolPlugin = require('mineflayer-tool').plugin;
 const inventoryViewer = require("mineflayer-web-inventory");
+
+const name = process.argv.find( argument => argument.startsWith('name=') )?.split('=')[1] || 'bot';
+const host = process.argv.find( argument => argument.startsWith('host=') )?.split('=')[1] || 'localhost';
+const version =  process.argv.find( argument => argument.startsWith('version=') )?.split('=')[1] || '1.16.4';
+
+console.log('Bot params: ');
+console.log({ name, host, version });
+console.log( 'To change bot params, type <paramName>=<paramValue>' );
 
 const Item = require( "prismarine-item")('1.16.4');
 
-
-
 const bot = mineflayer.createBot({
-  host: 'localhost',
-  username: 'bot',
-  version: '1.16.4',
+  host: host,
+  username: name,
+  version: version,
 });
+
 bot.loadPlugin( pathfinder );
 bot.loadPlugin( autoeat );
+bot.loadPlugin( toolPlugin );
 inventoryViewer( bot );
 
 bot.once("spawn", () => {
@@ -23,6 +32,10 @@ bot.once("spawn", () => {
   bot.autoEat.options.bannedFood = []
   bot.autoEat.options.eatingTimeout = 3
 });
+
+bot.once('spawn', () => {
+  bot.chat('I spawned');
+})
 
 bot.on("health", () => {
   if (bot.food === 20) bot.autoEat.disable()
@@ -34,23 +47,5 @@ bot.setMaxListeners( 1000 );
 
 bot.on('kicked', console.log );
 bot.on('error', console.log );
-
-bot.on('spawn', () => {
-  const nearbyItem = bot.nearestEntity( entity => {
-    if ( entity.mobType != "Item" )
-      return false;
-
-    const item = Item.fromNotch( entity.metadata[7] );
-    console.log( item );
-
-    return true;
-  })
-  bot.chat('I spawned');
-  console.log( bot.entities );
-  return;
-  const entityItem = bot.nearestEntity( entity => entity.mobType == "Item" );
-  console.log( entityItem.metadata[7] );
-  console.log( Item.fromNotch( entityItem.metadata[7] ) );
-})
 
 const interpreter = new CommandInterpreter( bot );

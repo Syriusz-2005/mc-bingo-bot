@@ -44,7 +44,7 @@ const commands = {
     run: async ( user, bot, params, cmds ) => {
       const wantedBlock = params[1];
       bot.chat(`Analyzing: ${wantedBlock}`);
-      const result = await cmds.goalInterpreter.GetItem( wantedBlock );
+      const result = await cmds.goalInterpreter.GetItem( wantedBlock, params[2] || 1 );
       bot.chat(`getting block resulted in ${result}`);
     }
   },
