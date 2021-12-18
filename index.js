@@ -6,12 +6,20 @@ const autoeat = require("mineflayer-auto-eat");
 const toolPlugin = require('mineflayer-tool').plugin;
 const inventoryViewer = require("mineflayer-web-inventory");
 
+const name = process.argv.find( argument => argument.startsWith('name=') )?.split('=')[1] || 'bot';
+const host = process.argv.find( argument => argument.startsWith('host=') )?.split('=')[1] || 'localhost';
+const version =  process.argv.find( argument => argument.startsWith('version=') )?.split('=')[1] || '1.16.4';
+
+console.log('Bot params: ');
+console.log({ name, host, version });
+console.log( 'To change bot params, type <paramName>=<paramValue>' );
+
 const Item = require( "prismarine-item")('1.16.4');
 
 const bot = mineflayer.createBot({
-  host: 'localhost',
-  username: 'bot',
-  version: '1.16.4',
+  host: host,
+  username: name,
+  version: version,
 });
 
 bot.loadPlugin( pathfinder );
@@ -25,6 +33,10 @@ bot.once("spawn", () => {
   bot.autoEat.options.eatingTimeout = 3
 });
 
+bot.once('spawn', () => {
+  bot.chat('I spawned');
+})
+
 bot.on("health", () => {
   if (bot.food === 20) bot.autoEat.disable()
   // Disable the plugin if the bot is at 20 food points
@@ -35,9 +47,5 @@ bot.setMaxListeners( 1000 );
 
 bot.on('kicked', console.log );
 bot.on('error', console.log );
-
-bot.on('spawn', () => {
-  bot.chat('I spawned');
-})
 
 const interpreter = new CommandInterpreter( bot );

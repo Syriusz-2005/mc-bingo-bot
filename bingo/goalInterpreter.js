@@ -212,6 +212,7 @@ class GoalInterpreter {
 
   async #prepare() {
     this.goals = await this.#download( this.pathToGoals );
+    console.log( 'Registered the following list of blocks: ' );
     console.log( this.goals );
   }
 
@@ -232,10 +233,9 @@ class GoalInterpreter {
           return false;
 
         await this.actionExecuter.craftItem( resolvingItem, Math.ceil( count / condition.resultsIn ) );
-        console.log('item crafted!');
+        //if the item was already crafted, nothink will happen...
         await this.GetItem( resolvingItem, count );
         
-
       case 'recheckConditions':
         return await this.GetItem( resolvingItem, count );
 
