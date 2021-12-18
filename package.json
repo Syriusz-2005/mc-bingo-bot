@@ -1,0 +1,21 @@
+{
+  "name": "mcbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "minecraft-data": "^2.99.0",
+    "mineflayer": "^3.11.2",
+    "mineflayer-auto-eat": "^2.3.3",
+    "mineflayer-navigate": "^0.0.10",
+    "mineflayer-pathfinder": "^1.8.0",
+    "mineflayer-scaffold": "^1.0.0",
+    "prismarine-item": "^1.11.1"
+  }
+}

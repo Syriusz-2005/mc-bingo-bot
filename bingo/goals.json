@@ -1,0 +1,108 @@
+{
+  "items" : {
+
+    "birch_door" : {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "birch_door"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "birch_door"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "birch_planks",
+          "count": 6,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+
+    "birch_planks": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "birch_planks"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "birch_planks"
+        },
+
+        
+        {
+          "type": "blockNearby",
+          "name": "birch_planks",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type": "inInventory",
+          "name": "birch_log",
+          "recursive": true,
+          "count": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+
+    "birch_log": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "birch_log"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "birch_log"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "birch_log",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "birch_sapling": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "birch_sapling"
+        },
+
+        {
+          "type": "itemOnGround",
+          "name": "birch_sapling"
+        },
+
+        {
+          "type" : "blockNearby",
+          "name": "birch_sapling"
+        },
+
+        {
+          "type" : "blockNearby",
+          "name": "birch_leaves",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    }
+  }
+}
