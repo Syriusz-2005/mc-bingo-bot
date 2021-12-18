@@ -57,6 +57,136 @@
 
       ]
     },
+    
+    "oak_planks": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "oak_planks"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "oak_planks"
+        },
+
+        
+        {
+          "type": "blockNearby",
+          "name": "oak_planks",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type": "inInventory",
+          "name": "oak_log",
+          "recursive": true,
+          "count": 1,
+          "resultsIn": 4,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+
+
+  "acacia_planks": {
+    "conditions": [
+
+      {
+        "type":"inInventory",
+        "name": "acacia_planks"
+      },
+
+      {
+        "type" : "itemOnGround",
+        "name": "acacia_planks"
+      },
+
+      
+      {
+        "type": "blockNearby",
+        "name": "acacia_planks",
+        "actionAfterResolved": "recheckConditions"
+      },
+      
+      {
+        "type": "inInventory",
+        "name": "acacia_log",
+        "recursive": true,
+        "count": 1,
+        "resultsIn": 4,
+        "actionAfterResolved": "craft"
+      }
+
+    ]
+  },
+  
+  "dark_oak_planks": {
+    "conditions": [
+
+      {
+        "type":"inInventory",
+        "name": "dark_oak_planks"
+      },
+
+      {
+        "type" : "itemOnGround",
+        "name": "dark_oak_planks"
+      },
+
+      
+      {
+        "type": "blockNearby",
+        "name": "dark_oak_planks",
+        "actionAfterResolved": "recheckConditions"
+      },
+      
+      {
+        "type": "inInventory",
+        "name": "dark_oak_log",
+        "recursive": true,
+        "count": 1,
+        "resultsIn": 4,
+        "actionAfterResolved": "craft"
+      }
+
+    ]
+  },
+  "jungle_planks": {
+    "conditions": [
+
+      {
+        "type":"inInventory",
+        "name": "jungle_planks"
+      },
+
+      {
+        "type" : "itemOnGround",
+        "name": "jungle_planks"
+      },
+
+      
+      {
+        "type": "blockNearby",
+        "name": "jungle_planks",
+        "actionAfterResolved": "recheckConditions"
+      },
+      
+      {
+        "type": "inInventory",
+        "name": "jungle_log",
+        "recursive": true,
+        "count": 1,
+        "resultsIn": 4,
+        "actionAfterResolved": "craft"
+      }
+
+    ]
+  },
+
+    
 
     "birch_log": {
       "conditions": [
@@ -136,6 +266,120 @@
         }
 
       ]
+    },
+
+    
+    "oak_log": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "oak_log"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "oak_log"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "oak_log",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+
+    "spruce_log": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "spruce_log"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "spruce_log"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "spruce_log",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "jungle_log": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "jungle_log"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "jungle_log"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "jungle_log",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "acacia_log": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "acacia_log"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "acacia_log"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "acacia_log",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+    
+    "dark_oak_log": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dark_oak_log"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "dark_oak_log"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dark_oak_log",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
     }
+
+
   }
 }
