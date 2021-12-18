@@ -185,6 +185,37 @@
 
     ]
   },
+  "spruce_planks": {
+    "conditions": [
+
+      {
+        "type":"inInventory",
+        "name": "spruce_planks"
+      },
+
+      {
+        "type" : "itemOnGround",
+        "name": "spruce_planks"
+      },
+
+      
+      {
+        "type": "blockNearby",
+        "name": "spruce_planks",
+        "actionAfterResolved": "recheckConditions"
+      },
+      
+      {
+        "type": "inInventory",
+        "name": "spruce_log",
+        "recursive": true,
+        "count": 1,
+        "resultsIn": 4,
+        "actionAfterResolved": "craft"
+      }
+
+    ]
+  },
 
     
 
@@ -257,12 +288,54 @@
 
         {
           "type" : "inInventory",
-          "name":"birch_planks",
+          "name":"birch_planks", 
           "recursive": true,
           "count": 4,
           "resultsIn": 1,
-          "actionAfterResolved": "craft",
-          "todo": "add more conditions for all types of planks!"
+          "actionAfterResolved": "craft"
+        },
+
+        {
+          "type" : "inInventory",
+          "name":"oak_planks", 
+          "recursive": true,
+          "count": 4,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        },
+
+        
+        {
+          "type" : "inInventory",
+          "name":"dark_oak_planks", 
+          "recursive": true,
+          "count": 4,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type" : "inInventory",
+          "name":"jungle_planks", 
+          "recursive": true,
+          "count": 4,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type" : "inInventory",
+          "name":"acacia_planks",
+          "recursive": true,
+          "count": 4,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type" : "inInventory",
+          "name":"spruce_planks", 
+          "recursive": true,
+          "count": 4,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
         }
 
       ]
