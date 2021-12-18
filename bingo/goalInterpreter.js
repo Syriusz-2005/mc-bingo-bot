@@ -29,18 +29,23 @@ class ActionExecuter {
     const blockNearby = this._bot.findBlock({
       maxDistance: 30,
       useExtraInfo: true,
-      matching: bl => bl.name != 'air' && bl.skyLight == 15 && this._bot.entity.position.distanceTo( bl.position ) > 4
+      matching: bl => {
+          return bl.name != 'air' 
+          && this._bot.blockAt( bl.position.offset( 0, 1, 0 ) ).name == 'air' 
+          && this._bot.entity.position.distanceTo( bl.position ) > 2;
+      }
     });
 
-    await this._bot.equip( blockInInventory, 'hand' );
-
+    this._bot.pathfinder.setGoal( null );
     await this._cmds.digManager.goTo( blockNearby.position.x, blockNearby.position.y ,  blockNearby.position.z );
+    await this._bot.equip( blockInInventory, 'hand' );
     this._bot.setControlState( 'jump', true );
     await wait( 380 );
     try {
       await this._bot.placeBlock( blockNearby, new vec( 0, 1, 0 ) ).catch( err => {});
     } catch(err) {
-      await this._bot.placeBlock( blockNearby, new vec( 0, 2, 0 ) );
+      console.warn( err );
+      await this._bot.placeBlock( blockNearby, new vec( 0, 2, 0 ) ).catch( err => {});
     }
     this._bot.setControlState( 'jump', false );
     

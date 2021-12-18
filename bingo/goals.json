@@ -39,13 +39,6 @@
           "name": "birch_planks"
         },
 
-        
-        {
-          "type": "blockNearby",
-          "name": "birch_planks",
-          "actionAfterResolved": "recheckConditions"
-        },
-        
         {
           "type": "inInventory",
           "name": "birch_log",
@@ -53,6 +46,13 @@
           "count": 1,
           "resultsIn": 4,
           "actionAfterResolved": "craft"
+        },
+
+        
+        {
+          "type": "blockNearby",
+          "name": "birch_planks",
+          "actionAfterResolved": "recheckConditions"
         }
 
       ]

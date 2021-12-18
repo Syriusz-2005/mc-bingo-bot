@@ -7,13 +7,12 @@ const inventoryViewer = require("mineflayer-web-inventory");
 
 const Item = require( "prismarine-item")('1.16.4');
 
-
-
 const bot = mineflayer.createBot({
   host: 'localhost',
   username: 'bot',
   version: '1.16.4',
 });
+
 bot.loadPlugin( pathfinder );
 bot.loadPlugin( autoeat );
 inventoryViewer( bot );
@@ -36,21 +35,7 @@ bot.on('kicked', console.log );
 bot.on('error', console.log );
 
 bot.on('spawn', () => {
-  const nearbyItem = bot.nearestEntity( entity => {
-    if ( entity.mobType != "Item" )
-      return false;
-
-    const item = Item.fromNotch( entity.metadata[7] );
-    console.log( item );
-
-    return true;
-  })
   bot.chat('I spawned');
-  console.log( bot.entities );
-  return;
-  const entityItem = bot.nearestEntity( entity => entity.mobType == "Item" );
-  console.log( entityItem.metadata[7] );
-  console.log( Item.fromNotch( entityItem.metadata[7] ) );
 })
 
 const interpreter = new CommandInterpreter( bot );
