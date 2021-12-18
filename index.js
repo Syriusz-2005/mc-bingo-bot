@@ -1,8 +1,12 @@
 const mineflayer = require( "mineflayer" );
 const CommandInterpreter = require( "./commands.js" ).CommandInterperter;
+
 const pathfinder = require( "mineflayer-pathfinder" ).pathfinder;
 const autoeat = require("mineflayer-auto-eat");
-const Item = require( "prismarine-item")('1.16.4')
+const inventoryViewer = require("mineflayer-web-inventory");
+
+const Item = require( "prismarine-item")('1.16.4');
+
 
 
 const bot = mineflayer.createBot({
@@ -12,6 +16,7 @@ const bot = mineflayer.createBot({
 });
 bot.loadPlugin( pathfinder );
 bot.loadPlugin( autoeat );
+inventoryViewer( bot );
 
 bot.once("spawn", () => {
   bot.autoEat.options.priority = "foodPoints";

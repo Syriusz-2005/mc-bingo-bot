@@ -1,5 +1,7 @@
 const fs = require('fs/promises');
 const mineflayer = require('mineflayer');
+const { Item } = require('prismarine-item');
+const vec = require('vec3');
 const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
 
 class ActionExecuter {
@@ -13,6 +15,10 @@ class ActionExecuter {
     this.mcData = require('minecraft-data')( cmds.bot.version );
     this.Item = require( "prismarine-item")( cmds.bot.version );
   }
+
+  #getItemId( name ) {
+    return this.mcData.itemsByName[ name ].id
+  }
   
   /**
    * 
@@ -23,10 +29,32 @@ class ActionExecuter {
   }
   //as easy as it looks!
   
+  /**
+   * 
+   * @param {*} itemName 
+   * @param {*} count 
+   * @returns {Promise<boolean>}
+   */
   async craftItem( itemName, count = 1 ) {
-    const recipe = this._bot.recipesFor( this.mcData.itemsByName[ itemName ].id )[0];
-    //TODO: clearly, much more work to be done here ( selecting right recipe and using crafting table )
-    await this._bot.craft( recipe, count, null );
+    const allRecipies = this._bot.recipesFor( this.mcData.itemsByName[ itemName ].id );
+    const recipeWithoutCrafting = allRecipies.find( r => r.requiresTable == false );
+
+    if ( recipeWithoutCrafting ) {
+      await this._bot.craft( recipeWithoutCrafting, count, null );
+      return true;
+    }
+
+    const result = await this._cmds.goalInterpreter.GetItem( 'crafting_table', 1 );
+    if ( !result )
+      return false;
+
+    const blockToPlaceOn = this._bot.findBlock({ matching: () => true });
+    const itemCrafting = new Item( this.#getItemId( itemName ), 1 );
+    this._bot.inventory.updateSlot( this._bot.quickBarSlot, itemCrafting );
+    await this._bot.placeBlock( blockToPlaceOn, new vec( 0, 1, 0 ) );
+    const crafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
+    await this._bot.craft( allRecipies[0], count, crafting )
+
     return true;
   }
 

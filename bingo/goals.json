@@ -103,6 +103,36 @@
         }
 
       ]
+    },
+
+    "crafting_table": {
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "crafting_table"
+        },
+
+        {
+          "type": "itemOnGround",
+          "name": "crafting_table"
+        },
+
+        {
+          "type" : "blockNearby",
+          "name": "crafting_table"
+        },
+
+        {
+          "type" : "inInventory",
+          "name":"birch_planks",
+          "recursive": true,
+          "count": 4,
+          "actionAfterResolved": "craft",
+          "todo": "add more conditions for all types of planks!"
+        }
+
+      ]
     }
   }
 }
