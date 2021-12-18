@@ -19,6 +19,26 @@ class ActionExecuter {
   #getItemId( name ) {
     return this.mcData.itemsByName[ name ].id
   }
+
+  async #placeBlock( name ) {
+    const blockInInventory = this._bot.inventory.findInventoryItem( name, null );
+
+    if ( !blockInInventory )
+      return false;
+
+    const blockNearby = this._bot.findBlock({ matching: ( block ) => block.name != 'air' });
+    
+    await this._bot.equip( blockInInventory, 'hand' );
+
+    for ( let x = 0; x <= 1; x++ )
+      for ( let y = 0; y <= 1; y++ )
+        for ( let z = 0; z <= 1; z++ ) {
+          try {
+            await this._bot.placeBlock( blockNearby, new vec( x, y, z ) )
+            return true;
+          } catch( err ) { console.log( err ) }
+        }
+  }
   
   /**
    * 
@@ -36,7 +56,8 @@ class ActionExecuter {
    * @returns {Promise<boolean>}
    */
   async craftItem( itemName, count = 1 ) {
-    const allRecipies = this._bot.recipesFor( this.mcData.itemsByName[ itemName ].id );
+    console.log( 'crafting... ' + itemName );
+    const allRecipies = this._bot.recipesFor( this.#getItemId( itemName ), null, 0, true );
     const recipeWithoutCrafting = allRecipies.find( r => r.requiresTable == false );
 
     if ( recipeWithoutCrafting ) {
@@ -44,18 +65,20 @@ class ActionExecuter {
       return true;
     }
 
-    const result = await this._cmds.goalInterpreter.GetItem( 'crafting_table', 1 );
-    if ( !result )
-      return false;
+    let blockCrafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
 
-    const blockToPlaceOn = this._bot.findBlock({ matching: () => true });
-    const itemCrafting = new Item( this.#getItemId( itemName ), 1 );
-    this._bot.inventory.updateSlot( this._bot.quickBarSlot, itemCrafting );
-    await this._bot.placeBlock( blockToPlaceOn, new vec( 0, 1, 0 ) );
-    const crafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
-    await this._bot.craft( allRecipies[0], count, crafting )
+    if ( !blockCrafting ) {
+      const result = await this._cmds.goalInterpreter.GetItem( 'crafting_table', 1 );
+      if ( !result )
+        return false;
+    
+      const res = await this.#placeBlock( 'crafting_table' );
+      if ( !res ) return false;
 
-    return true;
+      blockCrafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
+    }
+
+    this._bot.craft( allRecipies[0], count, blockCrafting );
   }
 
   /**
@@ -86,20 +109,20 @@ class ActionExecuter {
    * 
    * @param {string} itemName
    * @param {number} count
-   * @returns {Promise<boolean>} 
+   * @returns {number} 
    */
-  isItemInInventory( itemName, count = 1 ) {
+  isItemInInventory( itemName ) {
     const countInInventory = this._bot.inventory.count( this.mcData.itemsByName[ itemName ].id );
-    return countInInventory >= count ? true : false;
+    return countInInventory ? countInInventory : 0;
   }
 
   /**
    * 
    * @param {string} itemName
    * @param {number} count
-   * @returns {Promise<boolean|{x, y, z}>} 
+   * @returns {Promise<boolean|{x, y, z, count}>} 
    */
-  async isItemOnGround( itemName, count = 1 ) {
+  async isItemOnGround( itemName ) {
     let overallCount = 0;
 
     const nearestEntity = this._bot.nearestEntity( entity => {
@@ -119,6 +142,7 @@ class ActionExecuter {
     if ( !nearestEntity )
       return false;
 
+    nearestEntity.position.count = overallCount;
     return nearestEntity.position;
   }
 
@@ -129,7 +153,7 @@ class ActionExecuter {
    * @param {number} count
    * @returns {Promise<boolean|{x, y, z}>} 
    */
-  async isBlockNearby( blockName, count = 1 ) {
+  async isBlockNearby( blockName ) {
     const wantedBlock = this._bot.findBlock({
       matching: ( block ) => block.name == blockName,
       maxDistance: 150
@@ -163,12 +187,16 @@ class GoalInterpreter {
   /**
    * @returns {Promise<boolean>}
    */
-  async #resolveActionAfterCondition( condition, resolvingItem ) {
+  async #resolveActionAfterCondition( condition, resolvingItem, count, currentItemCount ) {
 
     switch ( condition.actionAfterResolved ) {
 
       case 'craft':
-        return await this.actionExecuter.craftItem( resolvingItem );
+
+        if (condition.count > currentItemCount )
+          return false;
+      
+        return await this.actionExecuter.craftItem( resolvingItem, count );
 
       case 'recheckConditions':
         return await this.GetItem( resolvingItem );
@@ -179,39 +207,45 @@ class GoalInterpreter {
   }
 
   /**
-   * @returns {Promise<boolean>}
+   * @returns {Promise<number>}
    */
-  async #resolveCondition( condition, count ) {
+  async #resolveCondition( condition ) {
 
     let coordinates;
-    
+    let recursiveResult = false;
+    let result;
+
     switch ( condition.type ) {
 
       case 'inInventory':
-        if ( this.actionExecuter.isItemInInventory( condition.name, condition.count ) )
-          return true;
-        if ( condition.recursive == true )
-          return await this.GetItem( condition.name, condition.count );
-        return false;
+        result = this.actionExecuter.isItemInInventory( condition.name );
+
+        if ( condition.recursive == true && result < condition.count ) {
+          recursiveResult = await this.GetItem( condition.name, condition.count );
+        }
+        break
     
       case 'itemOnGround':
-        coordinates = await this.actionExecuter.isItemOnGround( condition.name, condition.count );
+        coordinates = await this.actionExecuter.isItemOnGround( condition.name );
+
         if ( coordinates ) {
-          return await this.actionExecuter.goToItem( coordinates.x, coordinates.y, coordinates.z );
+          await this.actionExecuter.goToItem( coordinates.x, coordinates.y, coordinates.z );
+          result = coordinates.count;
         }
-        return false;
+        break
 
       case 'blockNearby':
-        coordinates = await this.actionExecuter.isBlockNearby( condition.name, condition.count );
+          coordinates = await this.actionExecuter.isBlockNearby( condition.name );
           if ( coordinates ) {
-            return await this.actionExecuter.mineBlock( coordinates.x, coordinates.y, coordinates.z );
+            await this.actionExecuter.mineBlock( coordinates.x, coordinates.y, coordinates.z );
           }
-
-        return false;
+          break
 
       default:
         throw new Error('Invalid condition type');
     }
+
+    return recursiveResult == false ? this.actionExecuter.isItemInInventory( condition.name ) : condition.count;
   }
 
   /**
@@ -225,14 +259,18 @@ class GoalInterpreter {
     if ( !item )
       return false;
     
+    let sum = 0;
     for ( const condition of item.conditions ) {
-      const result = await this.#resolveCondition( condition, count );
-      if ( result == true ) {
+      sum = await this.#resolveCondition( condition, count );
+      console.log( { for: itemToFind, sum, type: condition.type } );
+      if ( sum > 0 ) {
         await wait( 500 );
-        return await this.#resolveActionAfterCondition( condition, itemToFind );
-      } else
-        continue
+        await this.#resolveActionAfterCondition( condition, itemToFind, count, sum );
+      }
 
+      if ( sum >= count ) {
+        return true;
+      }
     }
   }
 
