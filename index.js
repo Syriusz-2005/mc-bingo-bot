@@ -3,6 +3,7 @@ const CommandInterpreter = require( "./commands.js" ).CommandInterperter;
 
 const pathfinder = require( "mineflayer-pathfinder" ).pathfinder;
 const autoeat = require("mineflayer-auto-eat");
+const toolPlugin = require('mineflayer-tool').plugin;
 const inventoryViewer = require("mineflayer-web-inventory");
 
 const Item = require( "prismarine-item")('1.16.4');
@@ -15,6 +16,7 @@ const bot = mineflayer.createBot({
 
 bot.loadPlugin( pathfinder );
 bot.loadPlugin( autoeat );
+bot.loadPlugin( toolPlugin );
 inventoryViewer( bot );
 
 bot.once("spawn", () => {

@@ -20,6 +20,11 @@ class ActionExecuter {
     return this.mcData.itemsByName[ name ].id
   }
 
+  /**
+   * 
+   * @param {*} name 
+   * @returns {Promise<boolean>} 
+   */
   async #placeBlock( name ) {
     const blockInInventory = this._bot.inventory.findInventoryItem( name, null );
 
@@ -104,6 +109,7 @@ class ActionExecuter {
     try {
       await this._bot.craft( currentRecipe, count, blockCrafting );
     } catch(err) {
+      console.log( err );
       return await this.craftItem( itemName, count, recipyNumber + 1 );
     }
 

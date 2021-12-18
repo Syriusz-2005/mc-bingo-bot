@@ -13,6 +13,12 @@
           "type" : "itemOnGround",
           "name": "birch_door"
         },
+
+        {
+          "type": "blockNearby",
+          "name": "birch_door",
+          "actionAfterResolved": "recheckConditions"
+        },
         
         {
           "type" : "inInventory",

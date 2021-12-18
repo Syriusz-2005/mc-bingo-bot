@@ -56,6 +56,7 @@ exports.DigManager = class DigManager {
   async #tryDigBlockAt( x, y, z ) {
     this._bot.chat(`Digging block: ${x}, ${y}, ${z}`);
     const blockToDig = this._bot.blockAt( new vec( x, y, z ) );
+    this._bot.tool.equipForBlock( blockToDig, {});
     await this._bot.dig( blockToDig );
     return true;
   }
