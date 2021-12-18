@@ -19,6 +19,7 @@
           "recursive": true,
           "name" : "birch_planks",
           "count": 6,
+          "resultsIn": 3,
           "actionAfterResolved": "craft"
         }
 
@@ -50,6 +51,7 @@
           "name": "birch_log",
           "recursive": true,
           "count": 1,
+          "resultsIn": 4,
           "actionAfterResolved": "craft"
         }
 
@@ -128,6 +130,7 @@
           "name":"birch_planks",
           "recursive": true,
           "count": 4,
+          "resultsIn": 1,
           "actionAfterResolved": "craft",
           "todo": "add more conditions for all types of planks!"
         }

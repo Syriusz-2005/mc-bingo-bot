@@ -26,18 +26,24 @@ class ActionExecuter {
     if ( !blockInInventory )
       return false;
 
-    const blockNearby = this._bot.findBlock({ matching: ( block ) => block.name != 'air' });
-    
+    const blockNearby = this._bot.findBlock({
+      maxDistance: 30,
+      useExtraInfo: true,
+      matching: bl => bl.name != 'air' && bl.skyLight == 15 && this._bot.entity.position.distanceTo( bl.position ) > 4
+    });
+
     await this._bot.equip( blockInInventory, 'hand' );
 
-    for ( let x = 0; x <= 1; x++ )
-      for ( let y = 0; y <= 1; y++ )
-        for ( let z = 0; z <= 1; z++ ) {
-          try {
-            await this._bot.placeBlock( blockNearby, new vec( x, y, z ) )
-            return true;
-          } catch( err ) { console.log( err ) }
-        }
+    await this._cmds.digManager.goTo( blockNearby.position.x, blockNearby.position.y ,  blockNearby.position.z );
+    this._bot.setControlState( 'jump', true );
+    await wait( 380 );
+    try {
+      await this._bot.placeBlock( blockNearby, new vec( 0, 1, 0 ) ).catch( err => {});
+    } catch(err) {
+      await this._bot.placeBlock( blockNearby, new vec( 0, 2, 0 ) );
+    }
+    this._bot.setControlState( 'jump', false );
+    
   }
   
   /**
@@ -55,17 +61,27 @@ class ActionExecuter {
    * @param {*} count 
    * @returns {Promise<boolean>}
    */
-  async craftItem( itemName, count = 1 ) {
+  async craftItem( itemName, count = 1, recipyNumber = 0 ) {
+    if ( recipyNumber >= 50 )
+      return false;
+
     console.log( 'crafting... ' + itemName );
     const allRecipies = this._bot.recipesFor( this.#getItemId( itemName ), null, 0, true );
-    const recipeWithoutCrafting = allRecipies.find( r => r.requiresTable == false );
+    const currentRecipe = allRecipies[ recipyNumber ];
 
-    if ( recipeWithoutCrafting ) {
-      await this._bot.craft( recipeWithoutCrafting, count, null );
+    if ( !currentRecipe )
+      return false;
+
+    if ( currentRecipe.requiresTable == false ) {
+      try {
+        await this._bot.craft( currentRecipe, count, null );
+      } catch(err) {
+        return await this.craftItem( itemName, count, recipyNumber + 1 );
+      }
       return true;
     }
 
-    let blockCrafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
+    let blockCrafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table', maxDistance: 70 });
 
     if ( !blockCrafting ) {
       const result = await this._cmds.goalInterpreter.GetItem( 'crafting_table', 1 );
@@ -78,7 +94,15 @@ class ActionExecuter {
       blockCrafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
     }
 
-    this._bot.craft( allRecipies[0], count, blockCrafting );
+    await this._cmds.digManager.goTo( blockCrafting.position.x, blockCrafting.position.y + 1, blockCrafting.position.z );
+
+    try {
+      await this._bot.craft( currentRecipe, count, blockCrafting );
+    } catch(err) {
+      return await this.craftItem( itemName, count, recipyNumber + 1 );
+    }
+
+    return true
   }
 
   /**
@@ -188,40 +212,45 @@ class GoalInterpreter {
    * @returns {Promise<boolean>}
    */
   async #resolveActionAfterCondition( condition, resolvingItem, count, currentItemCount ) {
-
+    const countOfConditionItem = this.actionExecuter.isItemInInventory( condition.name );
+    
     switch ( condition.actionAfterResolved ) {
 
       case 'craft':
-
-        if (condition.count > currentItemCount )
+        if ( condition.count > countOfConditionItem )
           return false;
-      
-        return await this.actionExecuter.craftItem( resolvingItem, count );
+
+        await this.actionExecuter.craftItem( resolvingItem, Math.ceil( count / condition.resultsIn ) );
+        console.log('item crafted!');
+        await this.GetItem( resolvingItem, count );
+        
 
       case 'recheckConditions':
-        return await this.GetItem( resolvingItem );
+        return await this.GetItem( resolvingItem, count );
 
       default:
         return true;
     }
+
   }
 
   /**
-   * @returns {Promise<number>}
+   * @returns {Promise<boolean>}
    */
   async #resolveCondition( condition ) {
 
     let coordinates;
-    let recursiveResult = false;
-    let result;
+    let result = false;
 
     switch ( condition.type ) {
 
       case 'inInventory':
-        result = this.actionExecuter.isItemInInventory( condition.name );
+        let count = this.actionExecuter.isItemInInventory( condition.name );
 
-        if ( condition.recursive == true && result < condition.count ) {
-          recursiveResult = await this.GetItem( condition.name, condition.count );
+        if ( condition.recursive == true && count < condition.count ) {
+          result = await this.GetItem( condition.name, condition.count );
+        } else {
+          result = count == 0 ? false : true;
         }
         break
     
@@ -230,7 +259,7 @@ class GoalInterpreter {
 
         if ( coordinates ) {
           await this.actionExecuter.goToItem( coordinates.x, coordinates.y, coordinates.z );
-          result = coordinates.count;
+          result = true;
         }
         break
 
@@ -238,6 +267,7 @@ class GoalInterpreter {
           coordinates = await this.actionExecuter.isBlockNearby( condition.name );
           if ( coordinates ) {
             await this.actionExecuter.mineBlock( coordinates.x, coordinates.y, coordinates.z );
+            result = true
           }
           break
 
@@ -245,7 +275,7 @@ class GoalInterpreter {
         throw new Error('Invalid condition type');
     }
 
-    return recursiveResult == false ? this.actionExecuter.isItemInInventory( condition.name ) : condition.count;
+    return result;
   }
 
   /**
@@ -255,23 +285,39 @@ class GoalInterpreter {
    */
   async GetItem( itemToFind, count = 1 ) {
     const item = this.goals.items[ itemToFind ];
-    
     if ( !item )
-      return false;
+    return false;
     
+    let iterations = 0;
     let sum = 0;
     for ( const condition of item.conditions ) {
-      sum = await this.#resolveCondition( condition, count );
-      console.log( { for: itemToFind, sum, type: condition.type } );
-      if ( sum > 0 ) {
+      iterations++
+      if ( iterations > 100 )
+        break;
+
+      const result = await this.#resolveCondition( condition, count );
+      sum = this.actionExecuter.isItemInInventory( itemToFind );
+      console.log({ itemToFind, sum, type: condition.type, block: condition.name, wasResolved: result });
+
+      if ( sum >= count ) {
+        return true;
+      }
+
+      if ( result ) {
         await wait( 500 );
         await this.#resolveActionAfterCondition( condition, itemToFind, count, sum );
       }
+      sum = this.actionExecuter.isItemInInventory( itemToFind );
 
       if ( sum >= count ) {
         return true;
       }
     }
+
+    if ( sum == 0 )
+      return false;
+
+    return false;
   }
 
 }
