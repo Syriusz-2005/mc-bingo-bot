@@ -35,7 +35,7 @@ bingo/goals.json
 ```
 
 You can add your own blocks into goals.json using this schema:
-```json
+```jsonc
 {
   "items": {
 
