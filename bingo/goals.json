@@ -217,7 +217,7 @@
           "recursive": true,
           "name" : "oak_planks",
           "count": 6,
-          "resultsIn": 3,
+          "resultsIn": 2,
           "actionAfterResolved": "craft"
         }
 
@@ -249,7 +249,167 @@
           "recursive": true,
           "name" : "birch_planks",
           "count": 6,
-          "resultsIn": 3,
+          "resultsIn": 2,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "spruce_trapdoor" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "spruce_trapdoor"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "spruce_trapdoor"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "spruce_trapdoor",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "spruce_planks",
+          "count": 6,
+          "resultsIn": 2,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "dark_oak_trapdoor" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dark_oak_trapdoor"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "dark_oak_trapdoor"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dark_oak_trapdoor",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "dark_oak_planks",
+          "count": 6,
+          "resultsIn": 2,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "jungle_trapdoor" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "jungle_trapdoor"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "jungle_trapdoor"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "jungle_trapdoor",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "jungle_planks",
+          "count": 6,
+          "resultsIn": 2,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "acacia_trapdoor" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "acacia_trapdoor"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "acacia_trapdoor"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "acacia_trapdoor",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "acacia_planks",
+          "count": 6,
+          "resultsIn": 2,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "oak_button" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "oak_button"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "oak_button"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "oak_button",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "oak_planks",
+          "count": 1,
+          "resultsIn": 1,
           "actionAfterResolved": "craft"
         }
 

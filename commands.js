@@ -34,6 +34,26 @@ const commands = {
     }
   },
 
+  '!restart': {
+    /**
+     * @param {string} user 
+     * @param {mineflayer.Bot} bot
+     * @param {array<string>} params
+     */
+    run: async ( user, bot, params, cmds ) => {
+
+      bot.webInventory.stop();
+
+      var cmd = "node " + 'index.js';
+
+      var exec = require('child_process').exec;
+      exec( cmd , function () {
+        process.kill( 0 );
+      });
+      
+    }
+  },
+
   '!getBlock': {
     /**
      * @param {string} user 

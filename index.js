@@ -14,8 +14,6 @@ console.log('Bot params: ');
 console.log({ name, host, version });
 console.log( 'To change bot params, type <paramName>=<paramValue>' );
 
-const Item = require( "prismarine-item")('1.16.4');
-
 const bot = mineflayer.createBot({
   host: host,
   username: name,
@@ -25,7 +23,13 @@ const bot = mineflayer.createBot({
 bot.loadPlugin( pathfinder );
 bot.loadPlugin( autoeat );
 bot.loadPlugin( toolPlugin );
-inventoryViewer( bot );
+try {
+  inventoryViewer( bot, {
+    port: 3000
+  });
+} catch(err) {
+
+}
 
 bot.once("spawn", () => {
   bot.autoEat.options.priority = "foodPoints";
