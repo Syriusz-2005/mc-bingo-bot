@@ -117,6 +117,7 @@ class ActionExecuter {
   }
 
   /**
+   * @method smellItem messy function that will smell the item in the nearest rurnace works similar to craft item
    * @param {string} itemToSmell
    * @param {number} count
    * @returns {Promise<boolean>}
