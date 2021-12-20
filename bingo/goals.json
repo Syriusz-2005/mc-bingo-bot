@@ -981,7 +981,7 @@
     "birch_log": {
 
       "isFuel": true,
-      "smellingItemsAmount":1.5,
+      "smellingItemsAmount": 1.5,
  
       "conditions": [
 
@@ -1874,6 +1874,32 @@
           "resultsIn": 1,
           "actionAfterResolved":"craft"
         }
+      ]
+      
+    },
+
+    "iron_ingot": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"iron_ingot"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "iron_ingot"
+        },
+
+        {
+          "type": "inInventory",
+          "name":"iron_ore",
+          "count": 1,
+          "recursive": true,
+          "actionAfterResolved": "smell"  
+        }
+
       ]
       
     }

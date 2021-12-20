@@ -121,29 +121,60 @@ class ActionExecuter {
    * @param {number} count
    * @returns {Promise<boolean>}
    */
-  async smellItem( itemToSmell, count ) {
-    console.log(`smelting: ${itemToSmell}...`);
+  smellItem( itemToSmell, count ) {
+    return new Promise( async ( resolve ) => {
+      console.log(`smelting: ${itemToSmell}...`);
 
-    const fuelFound = await this._cmds.goalInterpreter.GetFuel( count );
-    if ( !fuelFound ) return false;
+      const fuelFound = await this._cmds.goalInterpreter.GetFuel( count );
+      if ( !fuelFound ) {
+        resolve( false );
+        return;
+      }
+  
+      let blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+  
+      if ( !blockFurnace ) {
+        const result = await this._cmds.goalInterpreter.GetItem( 'furnace', 1 );
+        if ( !result ) {
+          resolve( false )
+          return;
+        }
+  
+          const res = await this.#placeBlock( 'furnace' );
+          if ( !res ) { 
+            resolve( false );
+            return
+          }
+          blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+      }
+  
+      await this._cmds.digManager.goTo( blockFurnace.position.x, blockFurnace.position.y + 1, blockFurnace.position.z );
+      const furnace = await this._bot.openFurnace( blockFurnace );
+  
+      await furnace.takeOutput().catch( err => {} );
+      await furnace.putFuel( this.#getItemId( fuelFound ), 0, 40 ).catch( err => { console.warn( err ) });
+      await furnace.putInput( this.#getItemId( itemToSmell ), 0, count ).catch( err => { console.warn( err ) } );
 
-    let blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+      async function onUpdate() {
+        const item = furnace.outputItem();
+        if ( !item ) return;
+        
+        if ( item.count >= count ) {
+          try {
+            furnace.off('update', onUpdate );
+            const item = await furnace.takeOutput();
+            if ( !item ) return;
 
-    if ( !blockFurnace ) {
-      const result = await this._cmds.goalInterpreter.GetItem( 'furnace', 1 );
-      if ( !result )
-        return false;
+            furnace.close();
+            resolve( true );
+          } catch(err) {
+            console.warn( err );
+          }
+        }
+      }
 
-        const res = await this.#placeBlock( 'furnace' );
-        if ( !res ) return false;
-        blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
-    }
-
-    await this._cmds.digManager.goTo( blockCrafting.position.x, blockCrafting.position.y + 1, blockCrafting.position.z );
-    const furnace = await this._bot.openFurnace( blockFurnace );
-
-    await furnace.putFuel( this.#getItemId( fuelFound ) );
-    await furnace.putInput( this.#getItemId( itemToSmell ) );
+      furnace.on( 'update', onUpdate );
+    });
   }
 
   /**
@@ -279,7 +310,10 @@ class GoalInterpreter {
 
         await this.actionExecuter.craftItem( resolvingItem, Math.ceil( count / condition.resultsIn ) );
         //if the item was already crafted, nothink will happen...
-        await this.GetItem( resolvingItem, count );
+        return await this.GetItem( resolvingItem, count );
+
+      case 'smell':
+        return await this.actionExecuter.smellItem( condition.name, count );
         
       case 'recheckConditions':
         return await this.GetItem( resolvingItem, count );
@@ -388,6 +422,7 @@ class GoalInterpreter {
         await wait( 500 );
         await this.#resolveActionAfterCondition( condition, itemToFind, count );
       }
+      console.log( itemToFind );
       sumInInventory = this.actionExecuter.isItemInInventory( itemToFind );
 
       if ( sumInInventory >= count ) {
@@ -404,10 +439,10 @@ class GoalInterpreter {
    * @returns {Promise<string|false>}
    */
   async GetFuel( amountOfItemsToSmell ) {
-    for ( const key in this.goal.items ) {
-      if ( !this.goal.items[ key ].isFuel ) continue;
+    for ( const key in this.goals.items ) {
+      if ( !this.goals.items[ key ].isFuel ) continue;
 
-      const fuelNeeded = amountOfItemsToSmell / this.goal.items[ key ].smellingItemsAmount
+      const fuelNeeded = Math.ceil( amountOfItemsToSmell / this.goals.items[ key ].smellingItemsAmount );
 
       const isItemFound = await this.GetItem( key, fuelNeeded );
       if ( isItemFound )
