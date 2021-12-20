@@ -117,6 +117,36 @@ class ActionExecuter {
   }
 
   /**
+   * @param {string} itemToSmell
+   * @param {number} count
+   * @returns {Promise<boolean>}
+   */
+  async smellItem( itemToSmell, count ) {
+    console.log(`smelting: ${itemToSmell}...`);
+
+    const fuelFound = await this._cmds.goalInterpreter.GetFuel( count );
+    if ( !fuelFound ) return false;
+
+    let blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+
+    if ( !blockFurnace ) {
+      const result = await this._cmds.goalInterpreter.GetItem( 'furnace', 1 );
+      if ( !result )
+        return false;
+
+        const res = await this.#placeBlock( 'furnace' );
+        if ( !res ) return false;
+        blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+    }
+
+    await this._cmds.digManager.goTo( blockCrafting.position.x, blockCrafting.position.y + 1, blockCrafting.position.z );
+    const furnace = await this._bot.openFurnace( blockFurnace );
+
+    await furnace.putFuel( this.#getItemId( fuelFound ) );
+    await furnace.putInput( this.#getItemId( itemToSmell ) );
+  }
+
+  /**
    * 
    * @param {number} x 
    * @param {number} y 
@@ -366,6 +396,25 @@ class GoalInterpreter {
     }
 
     return false;
+  }
+
+  /**
+   * 
+   * @param {number} amountOfItemsToSmell 
+   * @returns {Promise<string|false>}
+   */
+  async GetFuel( amountOfItemsToSmell ) {
+    for ( const key in this.goal.items ) {
+      if ( !this.goal.items[ key ].isFuel ) continue;
+
+      const fuelNeeded = amountOfItemsToSmell / this.goal.items[ key ].smellingItemsAmount
+
+      const isItemFound = await this.GetItem( key, fuelNeeded );
+      if ( isItemFound )
+        return key;
+    }
+
+    return false
   }
 
 }

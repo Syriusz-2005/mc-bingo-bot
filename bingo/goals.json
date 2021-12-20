@@ -550,25 +550,211 @@
 
         {
           "type":"inInventory",
-          "name": "oak_button"
+          "name": "acacia_button"
         },
 
         {
           "type" : "itemOnGround",
-          "name": "oak_button"
+          "name": "acacia_button"
         },
 
         {
           "type": "blockNearby",
-          "name": "oak_button",
+          "name": "acacia_button",
           "actionAfterResolved": "recheckConditions"
         },
         
         {
           "type" : "inInventory",
           "recursive": true,
-          "name" : "oak_planks",
+          "name" : "acacia_planks",
           "count": 1,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "oak_boat" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "oak_boat"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "oak_boat"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "oak_planks",
+          "count": 5,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "dark_oak_boat" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dark_oak_boat"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "dark_oak_boat"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dark_oak_boat",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "dark_oak_planks",
+          "count": 5,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "birch_boat" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "birch_boat"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "birch_boat"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "birch_boat",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "birch_planks",
+          "count": 5,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "spruce_boat" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "spruce_boat"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "spruce_boat"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "spruce_boat",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "spruce_planks",
+          "count": 5,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "acacia_boat" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "acacia_boat"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "acacia_boat"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "acacia_boat",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "acacia_planks",
+          "count": 5,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "jungle_boat" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "jungle_boat"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "jungle_boat"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "jungle_boat",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "jungle_planks",
+          "count": 5,
           "resultsIn": 1,
           "actionAfterResolved": "craft"
         }
@@ -577,6 +763,10 @@
     },
 
     "birch_planks": {
+
+      "isFuel": true,
+      "smellingItemsAmount":1.5,
+ 
       "conditions": [
 
         {
@@ -609,6 +799,10 @@
     },
     
     "oak_planks": {
+
+      "isFuel": true,
+      "smellingItemsAmount":1.5,
+ 
       "conditions": [
 
         {
@@ -641,6 +835,10 @@
 
 
   "acacia_planks": {
+
+    "isFuel": true,
+    "smellingItemsAmount":1.5,
+
     "conditions": [
 
       {
@@ -673,6 +871,10 @@
   },
   
   "dark_oak_planks": {
+
+    "isFuel": true,
+    "smellingItemsAmount":1.5,
+
     "conditions": [
 
       {
@@ -704,6 +906,10 @@
     ]
   },
   "jungle_planks": {
+
+    "isFuel": true,
+    "smellingItemsAmount":1.5,
+
     "conditions": [
 
       {
@@ -735,6 +941,10 @@
     ]
   },
   "spruce_planks": {
+
+    "isFuel": true,
+    "smellingItemsAmount":1.5,
+
     "conditions": [
 
       {
@@ -769,6 +979,10 @@
     
 
     "birch_log": {
+
+      "isFuel": true,
+      "smellingItemsAmount":1.5,
+ 
       "conditions": [
 
         {
@@ -958,6 +1172,8 @@
     },
 
     "crafting_table": {
+      "isFuel": true,
+      "smellingItemsAmount": 4, 
       "conditions": [
 
         {
@@ -1030,6 +1246,10 @@
       ]
     },
     "stick": {
+
+      "isFuel": true,
+      "smellingItemsAmount":0.5,
+ 
       "madeBy": "mikib",
       "conditions": [
 
@@ -1100,6 +1320,10 @@
 
     
     "oak_log": {
+
+      "isFuel": true,
+      "smellingItemsAmount":1.5,
+ 
       "conditions": [
 
         {
@@ -1123,6 +1347,10 @@
 
 
     "spruce_log": {
+
+      "isFuel": true,
+      "smellingItemsAmount":1.5,
+ 
       "conditions": [
 
         {
@@ -1145,6 +1373,10 @@
     },
 
     "jungle_log": {
+
+      "isFuel": true,
+      "smellingItemsAmount":1.5,
+ 
       "conditions": [
 
         {
@@ -1167,6 +1399,10 @@
     },
 
     "acacia_log": {
+
+      "isFuel": true,
+      "smellingItemsAmount":1.5,
+ 
       "conditions": [
 
         {
@@ -1189,6 +1425,10 @@
     },
     
     "dark_oak_log": {
+
+      "isFuel": true,
+      "smellingItemsAmount":1.5,
+ 
       "conditions": [
 
         {
@@ -1332,6 +1572,10 @@
     
     "coal": {
       "madeBy": "mikib",
+
+      "isFuel": true,
+      "smellingItemsAmount":8,
+ 
       "conditions": [
 
         {
