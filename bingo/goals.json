@@ -77,13 +77,6 @@
           "name": "oak_planks"
         },
 
-        
-        {
-          "type": "blockNearby",
-          "name": "oak_planks",
-          "actionAfterResolved": "recheckConditions"
-        },
-        
         {
           "type": "inInventory",
           "name": "oak_log",
@@ -91,6 +84,12 @@
           "count": 1,
           "resultsIn": 4,
           "actionAfterResolved": "craft"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "oak_planks",
+          "actionAfterResolved": "recheckConditions"
         }
 
       ]
@@ -457,8 +456,191 @@
         }
 
       ]
-    }
+    },
+    
+    "cobblestone": {
+      "madeBy": "mikib",
+      "conditions": [
 
+        {
+          "type":"inInventory",
+          "name": "cobblestone"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "cobblestone"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "stone",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "diorite": {
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "diorite"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "diorite"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "diorite",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+    
+    "granite": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "granite"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "granite"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "granite",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "andesite": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "andesite"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "andesite"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "andesite",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+    
+    "polished_diorite": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"polished_diorite"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "polished_diorite"
+        },
+
+        {
+          "type": "blockNearby",
+          "name":"polished_diorite",
+          "actionAfterResolved":"recheckConditions"  
+        },
+        {
+          "type": "inInventory",
+          "name": "diorite",
+          "recursive": true,
+          "count": 4,
+          "resultsIn": 4,
+          "actionAfterResolved":"craft"
+        }
+      ]
+      
+    },
+    
+    "polished_granite": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"polished_granite"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "polished_granite"
+        },
+
+        {
+          "type": "blockNearby",
+          "name":"polished_granite",
+          "actionAfterResolved":"recheckConditions"  
+        },
+        {
+          "type": "inInventory",
+          "name": "granite",
+          "recursive": true,
+          "count": 4,
+          "resultsIn": 4,
+          "actionAfterResolved":"craft"
+        }
+      ]
+      
+    },
+
+    "polished_andesite": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"polished_andesite"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "polished_andesite"
+        },
+
+        {
+          "type": "blockNearby",
+          "name":"polished_andesite",
+          "actionAfterResolved":"recheckConditions"  
+        },
+        {
+          "type": "inInventory",
+          "name": "andesite",
+          "recursive": true,
+          "count": 4,
+          "resultsIn": 4,
+          "actionAfterResolved":"craft"
+        }
+      ]
+      
+    }
 
   }
 }
