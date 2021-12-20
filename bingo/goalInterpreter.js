@@ -223,10 +223,10 @@ class GoalInterpreter {
   /**
    * @returns {Promise<boolean>}
    */
-  async #resolveActionAfterCondition( condition, resolvingItem, count, currentItemCount ) {
+  async #resolveActionAfterCondition( condition, resolvingItem, count ) {
     let countOfConditionItem = 0;
 
-    if ( !condition.name instanceof Array ) {
+    if ( !(condition.name instanceof Array) ) {
       countOfConditionItem = this.actionExecuter.isItemInInventory( condition.name );
     }
 
@@ -260,6 +260,44 @@ class GoalInterpreter {
 
   }
 
+  async #resolveItem( itemName, requiredCount ) {
+    return await this.GetItem( itemName, requiredCount );
+  }
+
+  async #resolveItemArray( itemArray ) {
+    for ( const requiredBlock of itemArray ) {
+      let count = this.actionExecuter.isItemInInventory( requiredBlock.requiredItem );
+
+      if ( count < requiredBlock.requiredCount ) {
+        const gotBlock = await this.#resolveItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
+        //if any item cannot be optained, the whole condition will fail
+        if ( gotBlock == false ) {
+          return false;
+        }
+      }
+
+    }
+    
+    return true;
+  }
+
+  /**
+   * @returns {Promise<boolean>}
+   */
+  async #resolveInventory( condition ) {
+    //name is an array means we need multiple items to resolve condition  
+    if ( condition.name instanceof Array ) {
+      return await this.#resolveItemArray( condition.name );
+    }
+
+    let requiredItemCount = this.actionExecuter.isItemInInventory( condition.name );
+    if ( condition.recursive == true && requiredItemCount < condition.count ) {
+      return await this.#resolveItem( condition.name, condition.count );
+    }
+      
+    return requiredItemCount == 0 ? false : true;
+  }
+
   /**
    * @returns {Promise<boolean>}
    */
@@ -271,38 +309,7 @@ class GoalInterpreter {
     switch ( condition.type ) {
 
       case 'inInventory':
-
-        if ( condition.name instanceof Array ) {
-
-          for ( const requiredBlock of condition.name ) {
-            let count = this.actionExecuter.isItemInInventory( requiredBlock.requiredItem );
-
-            if ( count < requiredBlock.requiredCount ) {
-              const gotBlock = await this.GetItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
-              //if any item cannot be optained, the whole condition will fail
-              if ( gotBlock == false ) {
-                result = false;
-                break;
-              }
-            }
-
-          }
-
-          result = true;
-          break;
-        }
-
-
-        let count = this.actionExecuter.isItemInInventory( condition.name );
-        
-        if ( condition.recursive == true && count < condition.count ) {
-          //name is an array means we need multiple items to resolve condition  
-          result = await this.GetItem( condition.name, condition.count );
-          break
-        }
-          
-        result = count == 0 ? false : true;
-        break
+        return await this.#resolveInventory( condition );
     
       case 'itemOnGround':
         coordinates = await this.actionExecuter.isItemOnGround( condition.name );
@@ -336,36 +343,27 @@ class GoalInterpreter {
   async GetItem( itemToFind, count = 1 ) {
     const item = this.goals.items[ itemToFind ];
     if ( !item )
-    return false;
-    
-    let iterations = 0;
-    let sum = 0;
+      return false;
+
     for ( const condition of item.conditions ) {
-      iterations++
-      if ( iterations > 100 )
-        break;
 
       const result = await this.#resolveCondition( condition, count );
-      sum = this.actionExecuter.isItemInInventory( itemToFind );
-      console.log({ itemToFind, sum, type: condition.type, block: condition.name, wasResolved: result });
+      let sumInInventory = this.actionExecuter.isItemInInventory( itemToFind );
 
-      if ( sum >= count ) {
+      if ( sumInInventory >= count ) {
         return true;
       }
 
       if ( result ) {
         await wait( 500 );
-        await this.#resolveActionAfterCondition( condition, itemToFind, count, sum );
+        await this.#resolveActionAfterCondition( condition, itemToFind, count );
       }
-      sum = this.actionExecuter.isItemInInventory( itemToFind );
+      sumInInventory = this.actionExecuter.isItemInInventory( itemToFind );
 
-      if ( sum >= count ) {
+      if ( sumInInventory >= count ) {
         return true;
       }
     }
-
-    if ( sum == 0 )
-      return false;
 
     return false;
   }
