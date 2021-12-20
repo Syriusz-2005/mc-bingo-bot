@@ -117,6 +117,68 @@ class ActionExecuter {
   }
 
   /**
+   * @method smellItem messy function that will smell the item in the nearest rurnace works similar to craft item
+   * @param {string} itemToSmell
+   * @param {number} count
+   * @returns {Promise<boolean>}
+   */
+  smellItem( itemToSmell, count ) {
+    return new Promise( async ( resolve ) => {
+      console.log(`smelting: ${itemToSmell}...`);
+
+      const fuelFound = await this._cmds.goalInterpreter.GetFuel( count );
+      if ( !fuelFound ) {
+        resolve( false );
+        return;
+      }
+  
+      let blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+  
+      if ( !blockFurnace ) {
+        const result = await this._cmds.goalInterpreter.GetItem( 'furnace', 1 );
+        if ( !result ) {
+          resolve( false )
+          return;
+        }
+  
+          const res = await this.#placeBlock( 'furnace' );
+          if ( !res ) { 
+            resolve( false );
+            return
+          }
+          blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+      }
+  
+      await this._cmds.digManager.goTo( blockFurnace.position.x, blockFurnace.position.y + 1, blockFurnace.position.z );
+      const furnace = await this._bot.openFurnace( blockFurnace );
+  
+      await furnace.takeOutput().catch( err => {} );
+      await furnace.putFuel( this.#getItemId( fuelFound ), 0, 40 ).catch( err => { console.warn( err ) });
+      await furnace.putInput( this.#getItemId( itemToSmell ), 0, count ).catch( err => { console.warn( err ) } );
+
+      async function onUpdate() {
+        const item = furnace.outputItem();
+        if ( !item ) return;
+        
+        if ( item.count >= count ) {
+          try {
+            furnace.off('update', onUpdate );
+            const item = await furnace.takeOutput();
+            if ( !item ) return;
+
+            furnace.close();
+            resolve( true );
+          } catch(err) {
+            console.warn( err );
+          }
+        }
+      }
+
+      furnace.on( 'update', onUpdate );
+    });
+  }
+
+  /**
    * 
    * @param {number} x 
    * @param {number} y 
@@ -223,18 +285,36 @@ class GoalInterpreter {
   /**
    * @returns {Promise<boolean>}
    */
-  async #resolveActionAfterCondition( condition, resolvingItem, count, currentItemCount ) {
-    const countOfConditionItem = this.actionExecuter.isItemInInventory( condition.name );
+  async #resolveActionAfterCondition( condition, resolvingItem, count ) {
+    let countOfConditionItem = 0;
+
+    if ( !(condition.name instanceof Array) ) {
+      countOfConditionItem = this.actionExecuter.isItemInInventory( condition.name );
+    }
+
     
     switch ( condition.actionAfterResolved ) {
 
       case 'craft':
+
+        if ( condition.name instanceof Array ) {
+          for ( const item of condition.name ) {
+            const countInInventory = this.actionExecuter.isItemInInventory( item.requiredItem );
+
+            if ( countInInventory < item.requiredCount )
+              return false;
+          }
+        } 
+
         if ( condition.count > countOfConditionItem )
           return false;
 
         await this.actionExecuter.craftItem( resolvingItem, Math.ceil( count / condition.resultsIn ) );
         //if the item was already crafted, nothink will happen...
-        await this.GetItem( resolvingItem, count );
+        return await this.GetItem( resolvingItem, count );
+
+      case 'smell':
+        return await this.actionExecuter.smellItem( condition.name, count );
         
       case 'recheckConditions':
         return await this.GetItem( resolvingItem, count );
@@ -243,6 +323,44 @@ class GoalInterpreter {
         return true;
     }
 
+  }
+
+  async #resolveItem( itemName, requiredCount ) {
+    return await this.GetItem( itemName, requiredCount );
+  }
+
+  async #resolveItemArray( itemArray ) {
+    for ( const requiredBlock of itemArray ) {
+      let count = this.actionExecuter.isItemInInventory( requiredBlock.requiredItem );
+
+      if ( count < requiredBlock.requiredCount ) {
+        const gotBlock = await this.#resolveItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
+        //if any item cannot be optained, the whole condition will fail
+        if ( gotBlock == false ) {
+          return false;
+        }
+      }
+
+    }
+    
+    return true;
+  }
+
+  /**
+   * @returns {Promise<boolean>}
+   */
+  async #resolveInventory( condition ) {
+    //name is an array means we need multiple items to resolve condition  
+    if ( condition.name instanceof Array ) {
+      return await this.#resolveItemArray( condition.name );
+    }
+
+    let requiredItemCount = this.actionExecuter.isItemInInventory( condition.name );
+    if ( condition.recursive == true && requiredItemCount < condition.count ) {
+      return await this.#resolveItem( condition.name, condition.count );
+    }
+      
+    return requiredItemCount == 0 ? false : true;
   }
 
   /**
@@ -256,14 +374,7 @@ class GoalInterpreter {
     switch ( condition.type ) {
 
       case 'inInventory':
-        let count = this.actionExecuter.isItemInInventory( condition.name );
-
-        if ( condition.recursive == true && count < condition.count ) {
-          result = await this.GetItem( condition.name, condition.count );
-        } else {
-          result = count == 0 ? false : true;
-        }
-        break
+        return await this.#resolveInventory( condition );
     
       case 'itemOnGround':
         coordinates = await this.actionExecuter.isItemOnGround( condition.name );
@@ -297,38 +408,49 @@ class GoalInterpreter {
   async GetItem( itemToFind, count = 1 ) {
     const item = this.goals.items[ itemToFind ];
     if ( !item )
-    return false;
-    
-    let iterations = 0;
-    let sum = 0;
+      return false;
+
     for ( const condition of item.conditions ) {
-      iterations++
-      if ( iterations > 100 )
-        break;
 
       const result = await this.#resolveCondition( condition, count );
-      sum = this.actionExecuter.isItemInInventory( itemToFind );
-      console.log({ itemToFind, sum, type: condition.type, block: condition.name, wasResolved: result });
+      let sumInInventory = this.actionExecuter.isItemInInventory( itemToFind );
 
-      if ( sum >= count ) {
+      if ( sumInInventory >= count ) {
         return true;
       }
 
       if ( result ) {
         await wait( 500 );
-        await this.#resolveActionAfterCondition( condition, itemToFind, count, sum );
+        await this.#resolveActionAfterCondition( condition, itemToFind, count );
       }
-      sum = this.actionExecuter.isItemInInventory( itemToFind );
+      console.log( itemToFind );
+      sumInInventory = this.actionExecuter.isItemInInventory( itemToFind );
 
-      if ( sum >= count ) {
+      if ( sumInInventory >= count ) {
         return true;
       }
     }
 
-    if ( sum == 0 )
-      return false;
-
     return false;
+  }
+
+  /**
+   * 
+   * @param {number} amountOfItemsToSmell 
+   * @returns {Promise<string|false>}
+   */
+  async GetFuel( amountOfItemsToSmell ) {
+    for ( const key in this.goals.items ) {
+      if ( !this.goals.items[ key ].isFuel ) continue;
+
+      const fuelNeeded = Math.ceil( amountOfItemsToSmell / this.goals.items[ key ].smellingItemsAmount );
+
+      const isItemFound = await this.GetItem( key, fuelNeeded );
+      if ( isItemFound )
+        return key;
+    }
+
+    return false
   }
 
 }
