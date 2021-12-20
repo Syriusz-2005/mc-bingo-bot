@@ -1,6 +1,6 @@
 # mc-bingo-bot
 
-mc-bingo-bot is a mineflayer-based bot that is able to play minecraft map called bingo.
+mc-bingo-bot is a [mineflayer](https://github.com/PrismarineJS/mineflayer) - based bot that is able to play minecraft map called bingo.
 
 The project is not done yet, but you can still install and use it however you want.
 
@@ -20,7 +20,7 @@ Simple.
 npm run start name=<bot_name> host=<server> version=<mc_version>
 ```
 
-After the bot joined you can use one of the following commands:
+After the bot joined you can use one of the following commands on the chat:
 
 ```
 !hello
@@ -28,7 +28,7 @@ After the bot joined you can use one of the following commands:
 !getBlock <block_name> [count]
 ```
 
-Command !getBlock works only for block types specified in 
+Command !getBlock works only for block types specified in:
 
 ```
 bingo/goals.json
