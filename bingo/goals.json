@@ -476,6 +476,35 @@
           "type": "blockNearby",
           "name": "stone",
           "actionAfterResolved": "recheckConditions"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "cobblestone",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+    
+    "blackstone": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "blackstone"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "blackstone"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "blackstone",
+          "actionAfterResolved": "recheckConditions"
         }
 
       ]
@@ -660,15 +689,6 @@
           "type": "blockNearby",
           "name":"furnace",
           "actionAfterResolved":"recheckConditions"  
-        },
-
-        {
-          "type": "inInventory",
-          "name": "cobblestone",
-          "recursive": true,
-          "count": 8,
-          "resultsIn": 1,
-          "actionAfterResolved":"craft"
         },
 
         {

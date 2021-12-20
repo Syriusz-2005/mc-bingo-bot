@@ -224,11 +224,26 @@ class GoalInterpreter {
    * @returns {Promise<boolean>}
    */
   async #resolveActionAfterCondition( condition, resolvingItem, count, currentItemCount ) {
-    const countOfConditionItem = this.actionExecuter.isItemInInventory( condition.name );
+    let countOfConditionItem = 0;
+
+    if ( !condition.name instanceof Array ) {
+      countOfConditionItem = this.actionExecuter.isItemInInventory( condition.name );
+    }
+
     
     switch ( condition.actionAfterResolved ) {
 
       case 'craft':
+
+        if ( condition.name instanceof Array ) {
+          for ( const item of condition.name ) {
+            const countInInventory = this.actionExecuter.isItemInInventory( item.requiredItem );
+
+            if ( countInInventory < item.requiredCount )
+              return false;
+          }
+        } 
+
         if ( condition.count > countOfConditionItem )
           return false;
 
@@ -256,26 +271,32 @@ class GoalInterpreter {
     switch ( condition.type ) {
 
       case 'inInventory':
-        let count = this.actionExecuter.isItemInInventory( condition.name );
 
-        if ( condition.recursive == true && count < condition.count ) {
-          //name is an array means we need multiple items to resolve condition
-          if ( condition.name instanceof Array ) {
+        if ( condition.name instanceof Array ) {
 
-            for ( const requiredBlock of condition.name ) {
+          for ( const requiredBlock of condition.name ) {
+            let count = this.actionExecuter.isItemInInventory( requiredBlock.requiredItem );
+
+            if ( count < requiredBlock.requiredCount ) {
               const gotBlock = await this.GetItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
               //if any item cannot be optained, the whole condition will fail
               if ( gotBlock == false ) {
                 result = false;
                 break;
               }
-
             }
 
-            result = true;
-            break;
-          } 
-            
+          }
+
+          result = true;
+          break;
+        }
+
+
+        let count = this.actionExecuter.isItemInInventory( condition.name );
+        
+        if ( condition.recursive == true && count < condition.count ) {
+          //name is an array means we need multiple items to resolve condition  
           result = await this.GetItem( condition.name, condition.count );
           break
         }
