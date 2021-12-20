@@ -259,10 +259,28 @@ class GoalInterpreter {
         let count = this.actionExecuter.isItemInInventory( condition.name );
 
         if ( condition.recursive == true && count < condition.count ) {
+          //name is an array means we need multiple items to resolve condition
+          if ( condition.name instanceof Array ) {
+
+            for ( const requiredBlock of condition.name ) {
+              const gotBlock = await this.GetItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
+              //if any item cannot be optained, the whole condition will fail
+              if ( gotBlock == false ) {
+                result = false;
+                break;
+              }
+
+            }
+
+            result = true;
+            break;
+          } 
+            
           result = await this.GetItem( condition.name, condition.count );
-        } else {
-          result = count == 0 ? false : true;
+          break
         }
+          
+        result = count == 0 ? false : true;
         break
     
       case 'itemOnGround':

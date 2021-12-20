@@ -640,7 +640,51 @@
         }
       ]
       
-    }
+    },
 
+    "furnace": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"furnace"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "furnace"
+        },
+
+        {
+          "type": "blockNearby",
+          "name":"furnace",
+          "actionAfterResolved":"recheckConditions"  
+        },
+
+        {
+          "type": "inInventory",
+          "name": "cobblestone",
+          "recursive": true,
+          "count": 8,
+          "resultsIn": 1,
+          "actionAfterResolved":"craft"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "blackstone",
+              "requiredCount": 8
+            }
+          ],
+          "recursive": true,
+          "resultsIn": 1,
+          "actionAfterResolved":"craft"
+        }
+      ]
+      
+    }
   }
 }
