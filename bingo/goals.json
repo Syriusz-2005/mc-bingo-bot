@@ -415,6 +415,166 @@
 
       ]
     },
+    
+    "dark_oak_button" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dark_oak_button"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "oak_button"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dark_oak_button",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "dark_oak_planks",
+          "count": 1,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "birch_button" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "birch_button"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "birch_button"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "birch_button",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "birch_planks",
+          "count": 1,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "spruce_button" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "spruce_button"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "spruce_button"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "spruce_button",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "spruce_planks",
+          "count": 1,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "jungle_button" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "jungle_button"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "jungle_button"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "jungle_button",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "jungle_planks",
+          "count": 1,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+    
+    "acacia_button" : {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "oak_button"
+        },
+
+        {
+          "type" : "itemOnGround",
+          "name": "oak_button"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "oak_button",
+          "actionAfterResolved": "recheckConditions"
+        },
+        
+        {
+          "type" : "inInventory",
+          "recursive": true,
+          "name" : "oak_planks",
+          "count": 1,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
 
     "birch_planks": {
       "conditions": [
