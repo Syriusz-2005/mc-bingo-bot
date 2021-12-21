@@ -297,11 +297,11 @@ class GoalInterpreter {
   async #resolveActionAfterCondition( condition, resolvingItem, count ) {
     let countOfConditionItem = 0;
 
-    if ( !(condition.name instanceof Array) ) {
+    // also second condition because name is not always the item, name ( could be entity name )
+    if ( !(condition.name instanceof Array) && this.goals.items[ condition.name ] ) {
       countOfConditionItem = this.actionExecuter.isItemInInventory( condition.name );
     }
 
-    
     switch ( condition.actionAfterResolved ) {
 
       case 'craft':
