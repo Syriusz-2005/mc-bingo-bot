@@ -18,6 +18,7 @@ const bot = mineflayer.createBot({
   host: host,
   username: name,
   version: version,
+  hideErrors: true
 });
 
 bot.loadPlugin( pathfinder );

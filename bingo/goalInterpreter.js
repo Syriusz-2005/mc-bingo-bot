@@ -42,17 +42,13 @@ class ActionExecuter {
     });
 
     this._bot.pathfinder.setGoal( null );
-    await this._cmds.digManager.goTo( blockNearby.position.x, blockNearby.position.y - 1,  blockNearby.position.z );
+    await this._cmds.digManager.goNearbyBlock( blockNearby.position.x, blockNearby.position.y,  blockNearby.position.z );
     await this._bot.equip( blockInInventory, 'hand' );
-    this._bot.setControlState( 'jump', true );
-    await wait( 380 );
     try {
-      await this._bot.placeBlock( blockNearby, new vec( 0, 1, 0 ) ).catch( err => {});
+      await this._bot.placeBlock( blockNearby, vec( 0, 1, 0 ) );
     } catch(err) {
-      console.warn( err );
-      await this._bot.placeBlock( blockNearby, new vec( 0, 2, 0 ) ).catch( err => {});
+      console.log(err);
     }
-    this._bot.setControlState( 'jump', false );
 
     return true;
   }
@@ -105,6 +101,10 @@ class ActionExecuter {
       blockCrafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
     }
 
+    if ( !blockCrafting ) {
+      return await this.craftItem( itemName, count, recipyNumber );
+    }
+
     await this._cmds.digManager.goTo( blockCrafting.position.x, blockCrafting.position.y + 1, blockCrafting.position.z );
 
     try {
@@ -142,6 +142,10 @@ class ActionExecuter {
             return
           }
           blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+      }
+
+      if ( !blockFurnace ) {
+        return await this.smellItem( itemName, count );
       }
 
       const fuelData = await this._cmds.goalInterpreter.GetFuel( count ).catch(err => resolve( false ) );
@@ -354,7 +358,7 @@ class GoalInterpreter {
 
     let currentItemCount = this.actionExecuter.isItemInInventory( condition.name );
     if ( condition.recursive == true && currentItemCount < condition.count ) {
-      return await this.#resolveItem( condition.name, condition.count * count );
+      return await this.#resolveItem( condition.name, ( condition.count ? condition.count : 1 ) * count - currentItemCount );
     }
       
     return currentItemCount == 0 ? false : true;

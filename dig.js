@@ -30,9 +30,28 @@ exports.DigManager = class DigManager {
     });
   }
 
+  async goNearbyBlock( x, y, z ) {
+    const block = this._bot.blockAt( new vec( x, y, z ) );
+    if ( this._bot.canDigBlock( block ) ) {
+      return true;
+    }
+
+    const goal = new (this._movement.getGoals().GoalPlaceBlock)( new vec( x, y, z ), this._bot.world, {
+      range: 3,
+      faces: vec( 0, 1, 0 )
+    });
+    try {
+      await this._movement.goTo( goal );
+      return true;
+    } catch(err) {
+      return false
+    }
+  }
+
 
   digBlockAt( x, y, z ) {
     return new Promise( (resolve, reject) => {
+      console.log('going to block');
       const blockToDig = this._bot.blockAt( new vec( x, y, z ) );
       if ( this._bot.canDigBlock( blockToDig ) ) {
         this.#tryDigBlockAt( x, y, z )
@@ -47,6 +66,7 @@ exports.DigManager = class DigManager {
           resolve();
         })
         .catch( async err => {
+          console.log( err );
           await this.#tryDigBlockAt( x, y, z );
           resolve();
         });
