@@ -14,8 +14,26 @@ class _Block {
 
 }
 
+class BotState {
+  state = '';
+  possibleStates = [];
+
+  constructor( possibleStates ) {
+    this.possibleStates = possibleStates;
+  }
+
+  toggle( newState ) {
+    const isState = this.possibleStates.find( state => state == newState );
+    if ( !isState )
+      throw new Error(`Enexpected state name ${newState}` );
+
+    this.state = newState;
+  }
+}
+
 class GameManager {
   blockList = new Map();
+  state = new BotState([ 'idle', 'looking' ]);
 
   constructor( commandInterperter ) {
     this.cmdInterpreter = commandInterperter;
@@ -33,12 +51,12 @@ class GameManager {
     this.blockList.set( blockId, new _Block( blockId, this.cmdInterpreter )  );
   }
 
-  async updateBlockPositions() {
-    
-  }
-
-  goToNearby() {
-
+  
+  async Get( itemName, count ) {
+    this.state.toggle( 'looking' );
+    const result = await this.cmdInterpreter.goalInterpreter.GetItem( itemName, count );
+    this.state.toggle( 'idle' );
+    return result;
   }
 }
 

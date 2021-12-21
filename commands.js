@@ -63,8 +63,8 @@ const commands = {
      */
     run: async ( user, bot, params, cmds ) => {
       const wantedBlock = params[1];
-      bot.chat(`Analyzing: ${wantedBlock}`);
-      const result = await cmds.goalInterpreter.GetItem( wantedBlock, params[2] || 1 );
+      bot.chat(`Looking for item: ${wantedBlock}`);
+      const result = await cmds.gameManager.Get( wantedBlock, params[2] );
       bot.chat(`getting block resulted in ${result}`);
     }
   },
@@ -82,6 +82,8 @@ const commands = {
         + params[7] || ''
         + params[8] || ''
         + params[9] || ''
+        + params[10] || ''
+        + params[11] || ''
         .toLowerCase()
       ).replace( /\s/g, '_' );
 
