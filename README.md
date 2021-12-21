@@ -25,13 +25,13 @@ After the bot joined you can use one of the following commands on the chat:
 ```
 !hello
 !analyze
-!getBlock <block_name> [count]
+!getItem <block_name> [count]
 !restart
 ```
 
 ### Block types
 
-Command !getBlock works only for block types specified in:
+Command !getItem works only for block types specified in:
 
 ```
 bingo/goals.json

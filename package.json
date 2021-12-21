@@ -16,6 +16,7 @@
     "mineflayer-auto-eat": "^2.3.3",
     "mineflayer-navigate": "^0.0.10",
     "mineflayer-pathfinder": "^1.8.0",
+    "mineflayer-pvp": "^1.0.2",
     "mineflayer-tool": "^1.1.0",
     "mineflayer-web-inventory": "^1.6.3",
     "prismarine-item": "^1.11.1"

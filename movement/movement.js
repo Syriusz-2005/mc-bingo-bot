@@ -13,7 +13,7 @@ class Movement {
     this._bot = bot;
     this.mcData = minecraftData( bot.version );
     this.defaultMove = new pathFinder.Movements( bot, this.mcData );
-
+    this.defaultMove.scafoldingBlocks.push( this.mcData.itemsByName['netherrack'].id );
     bot.pathfinder.setMovements( this.defaultMove );
   }
 
