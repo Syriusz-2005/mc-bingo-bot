@@ -212,7 +212,6 @@ class ActionExecuter {
    * @returns {number} 
    */
   isItemInInventory( itemName ) {
-    console.log( itemName );
     const countInInventory = this._bot.inventory.count( this.mcData.itemsByName[ itemName ].id );
     return countInInventory ? countInInventory : 0;
   }
@@ -277,7 +276,7 @@ class GoalInterpreter {
   }
 
   #logBlocks() {
-    for ( const itemName in this.goals )
+    for ( const itemName in this.goals.items )
       console.log( itemName );
   }
 
