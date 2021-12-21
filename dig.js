@@ -59,17 +59,21 @@ exports.DigManager = class DigManager {
         return;
       }
   
-      const goal = new (this._movement.getGoals().GoalBreakBlock)( x, y, z, this._bot )
-      this._movement.goTo( goal )
-        .then( async () => {
-          await this.#tryDigBlockAt( x, y, z );
-          resolve();
-        })
-        .catch( async err => {
-          console.log( err );
-          await this.#tryDigBlockAt( x, y, z );
-          resolve();
-        });
+      try {
+        const goal = new (this._movement.getGoals().GoalBreakBlock)( x, y, z, this._bot )
+        this._movement.goTo( goal )
+          .then( async () => {
+            await this.#tryDigBlockAt( x, y, z );
+            resolve();
+          })
+          .catch( async err => {
+            console.log( err );
+            await this.#tryDigBlockAt( x, y, z );
+            resolve();
+          });
+      } catch( err ) {
+        resolve();
+      }
     });
   }
 

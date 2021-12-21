@@ -51,7 +51,27 @@ class GameManager {
     this.blockList.set( blockId, new _Block( blockId, this.cmdInterpreter )  );
   }
 
-  
+  playBingo() {
+    return new Promise( async ( resolve, reject ) => {
+
+      for ( const [ key, value ] of this.blockList ) {
+        console.log( 'finding item', value );
+        const result = await this.Get( value.blockId, 1 );
+        if ( result == true )
+          this.bot.chat(`item ${key} found!`);
+        await wait( 1000 );
+      }
+
+      resolve( true );
+    })
+  }
+
+  /**
+   * 
+   * @param {string} itemName 
+   * @param {number} count 
+   * @returns {Promise<boolean>}
+   */
   async Get( itemName, count ) {
     this.state.toggle( 'looking' );
     const result = await this.cmdInterpreter.goalInterpreter.GetItem( itemName, count );

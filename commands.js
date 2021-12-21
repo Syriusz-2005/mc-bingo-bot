@@ -34,6 +34,18 @@ const commands = {
     }
   },
 
+  '!winBingo': {
+    /**
+    * @param {string} user 
+    * @param {mineflayer.Bot} bot
+    * @param {array<string>} params
+    */
+    run: async ( user, bot, params, cmds ) => {
+      bot.chat('give me a couple of minutes...');
+      await cmds.gameManager.playBingo();
+    }
+  },
+
   '!restart': {
     /**
      * @param {string} user 
@@ -78,16 +90,9 @@ const commands = {
     run: async ( user, bot, params, cmds ) => {
       console.log( params );
       const itemName = filterNames(
-        params[6] || ''
-        + params[7] || ''
-        + params[8] || ''
-        + params[9] || ''
-        + params[10] || ''
-        + params[11] || ''
-        .toLowerCase()
-      ).replace( /\s/g, '_' );
-
-      console.log( itemName );
+        params.slice( 6, params.length ).reduce( ( acc, name ) => acc + '_' + name )
+      )
+      .toLowerCase();
 
       cmds.gameManager.addBlock( itemName );
     }

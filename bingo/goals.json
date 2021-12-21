@@ -392,6 +392,213 @@
       ]
     },
 
+    "sugar_cane": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "sugar_cane"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "sugar_cane"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "sugar_cane",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "dead_tube_coral_block": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dead_tube_coral_block"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "dead_tube_coral_block"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dead_tube_coral_block",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "dead_brain_coral_block": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dead_brain_coral_block"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "dead_brain_coral_block"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dead_brain_coral_block",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "dead_bubble_coral_block": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dead_bubble_coral_block"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "dead_bubble_coral_block"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dead_bubble_coral_block",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "dead_fire_coral_block": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dead_fire_coral_block"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "dead_fire_coral_block"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dead_fire_coral_block",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "dead_horn_coral_block": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dead_horn_coral_block"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "dead_horn_coral_block"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dead_horn_coral_block",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "potato": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "potato"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "potato"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "potatoes",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "poisonous_potato": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "poisonous_potato"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "poisonous_potato"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "potatoes",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "carrot": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "carrot"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "carrot"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "carotts",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
 
     "birch_door" : {
       "conditions": [
@@ -483,6 +690,29 @@
           "count": 6,
           "resultsIn": 3,
           "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+
+    "hay_bale": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "hay_bale"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "hay_bale"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "hay_bale",
+          "actionAfterResolved": "recheckConditions"
         }
 
       ]
@@ -3619,6 +3849,130 @@
       
     },
     
+    "diamond_block":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_block"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_block"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "diamond",
+              "requiredCount":9
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "redstone_block":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"redstone_block"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "redstone_block"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "redstone",
+              "requiredCount":9
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "lapis_lazuli_block":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"lapis_lazuli_block"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "lapis_lazuli_block"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "lapis_lazuli",
+              "requiredCount":9
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "coal_block":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"coal_block"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "coal_block"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "coal",
+              "requiredCount":9
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
     "iron_nugget":{
       "madeBy": "mikib",
       "conditions":[
@@ -3712,6 +4066,67 @@
       
     },
 
+    "spider_eye": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "spider_eye"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "spider_eye"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "spider",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type": "entityNearby",
+          "name": "cave_spider",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "bone": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "bone"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "bone"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "skeleton",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type": "entityNearby",
+          "name": "wither_skeleton",
+          "actionAfterResolved": "recheckConditions"
+        }, 
+        {
+          "type": "entityNearby",
+          "name": "stray",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
     "rotten_flesh": {
       "madeBy": "Syriusz",
       "conditions": [
@@ -3729,6 +4144,92 @@
         {
           "type": "entityNearby",
           "name": "zombie",
+          "actionAfterResolved": "recheckConditions"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "drowned",
+          "actionAfterResolved": "recheckConditions"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "husk",
+          "actionAfterResolved": "recheckConditions"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "villager_zombie",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "gunpowder": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "gunpowder"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "gunpowder"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "creeper",
+          "actionAfterResolved": "recheckConditions"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "ghast",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "leather": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "leather"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "leather"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "cow",
+          "actionAfterResolved": "recheckConditions"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "llama",
+          "actionAfterResolved": "recheckConditions"
+        }, 
+        {
+          "type": "entityNearby",
+          "name": "mule",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type": "entityNearby",
+          "name": "donkey",
           "actionAfterResolved": "recheckConditions"
         }
 
