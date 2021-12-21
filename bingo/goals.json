@@ -1,5 +1,75 @@
 {
   "items" : {
+  
+    "dandelion": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "dandelion"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "dandelion"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "dandelion",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "poppy": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "poppy"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "poppy"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "poppy",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "blue_orchid": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "blue_orchid"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "poppy"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "poppy",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
 
     "birch_door" : {
       "conditions": [
@@ -2376,6 +2446,130 @@
       
     },
     
+    "iron_helmet":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"iron_helmet"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "iron_helmet"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"iron_ingot",
+              "requiredCount":5
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "iron_chestplate":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"iron_chestplate"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "iron_chestplate"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"iron_ingot",
+              "requiredCount":8
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "iron_leggings":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"iron_leggings"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "iron_leggings"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"iron_ingot",
+              "requiredCount":7
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "iron_boots":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"iron_boots"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "iron_boots"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"iron_ingot",
+              "requiredCount":4
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
     "bucket":{
       "madeBy": "mikib",
       "conditions":[
@@ -2430,6 +2624,764 @@
             }
           ],
           "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "rail":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"minecart"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "minecart"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"iron_ingot",
+              "requiredCount":6
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":1
+            }
+          
+          ],
+          "resultsIn": 16,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+
+    "golden_pickaxe":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"golden_pickaxe"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "golden_pickaxe"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"gold_ingot",
+              "requiredCount":3
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":2
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "golden_axe":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"golden_axe"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "golden_axe"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"golden_ingot",
+              "requiredCount":3
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":2
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "golden_shovel":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"golden_shovel"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "golden_shovel"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"gold_ingot",
+              "requiredCount":1
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":2
+            }
+          ],
+          "resultsIn": 1,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "golden_sword":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"golden_sword"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "golden_sword"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"gold_ingot",
+              "requiredCount":2
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":1
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "golden_hoe":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"golden_hoe"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "golden_hoe"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"gold_ingot",
+              "requiredCount":2
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":2
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "golden_helmet":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"gold_helmet"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "gold_helmet"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"gold_ingot",
+              "requiredCount":5
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "golden_chestplate":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"gold_chestplate"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "gold_chestplate"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"gold_ingot",
+              "requiredCount":8
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "golden_leggings":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"golden_leggings"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "golden_leggings"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"gold_ingot",
+              "requiredCount":7
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "golden_boots":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"golden_boots"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "golden_boots"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"gold_ingot",
+              "requiredCount":4
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+
+    "diamond_pickaxe":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_pickaxe"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_pickaxe"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"diamond",
+              "requiredCount":3
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":2
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "diamond_axe":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_axe"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_axe"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"diamond",
+              "requiredCount":3
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":2
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "diamond_shovel":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_shovel"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_shovel"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"diamond",
+              "requiredCount":1
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":2
+            }
+          ],
+          "resultsIn": 1,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "diamond_sword":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_sword"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_sword"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"diamond",
+              "requiredCount":2
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":1
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "diamond_hoe":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_hoe"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_hoe"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"diamond",
+              "requiredCount":2
+            },
+            {
+              "requiredItem":"stick",
+              "requiredCount":2
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "diamond_helmet":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_helmet"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_helmet"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"diamond",
+              "requiredCount":5
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "diamond_chestplate":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_chestplate"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_chestplate"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"diamond",
+              "requiredCount":8
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "diamond_leggings":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_leggings"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_leggings"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"diamond",
+              "requiredCount":7
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "diamond_boots":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"diamond_boots"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "diamond_boots"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "diamond",
+              "requiredCount":4
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "iron_block":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"iron_block"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "iron_block"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount":9
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "iron_nugget":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"iron_nugget"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "iron_nugget"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount":1
+            }
+          ],
+          "resultsIn": 9,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "gold_block":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"gold_block"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "gold_block"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "gold_ingot",
+              "requiredCount":9
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "gold_nugget":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"gold_nugget"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "gold_nugget"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "gold_ingot",
+              "requiredCount":1
+            }
+          ],
+          "resultsIn": 9,
           "recursive": true,
           "actionAfterResolved": "craft"  
           

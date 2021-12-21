@@ -4,6 +4,8 @@ const { Item } = require('prismarine-item');
 const vec = require('vec3');
 const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
 
+const { EntityNearby } = require('./goal/entityNearby.js');
+
 class ActionExecuter {
   /**
    * 
@@ -273,10 +275,15 @@ class GoalInterpreter {
     this.#prepare();
   }
 
+  #logBlocks() {
+    for ( const itemName in this.goals )
+      console.log( itemName );
+  }
+
   async #prepare() {
     this.goals = await this.#download( this.pathToGoals );
     console.log( 'Registered the following list of blocks: ' );
-    console.log( this.goals );
+    this.#logBlocks();
   }
 
   async #download( pathToGoals ) {
@@ -319,6 +326,10 @@ class GoalInterpreter {
         
       case 'recheckConditions':
         return await this.GetItem( resolvingItem, count );
+
+      case 'entityNearby':
+        let goal = new EntityNearby( this._cmds.bot, condition );
+        return await goal.resolve();
 
       default:
         return true;
