@@ -212,6 +212,7 @@ class ActionExecuter {
    * @returns {number} 
    */
   isItemInInventory( itemName ) {
+    console.log( itemName );
     const countInInventory = this._bot.inventory.count( this.mcData.itemsByName[ itemName ].id );
     return countInInventory ? countInInventory : 0;
   }
@@ -327,10 +328,6 @@ class GoalInterpreter {
       case 'recheckConditions':
         return await this.GetItem( resolvingItem, count );
 
-      case 'entityNearby':
-        let goal = new EntityNearby( this._cmds.bot, condition );
-        return await goal.resolve();
-
       default:
         return true;
     }
@@ -406,8 +403,8 @@ class GoalInterpreter {
         break;
 
       case 'entityNearby':
-        
-        break;
+        const conditionEntityNearby = new EntityNearby( this._cmds.bot, condition );
+        return await conditionEntityNearby.resolve();
 
       default:
         throw new Error('Invalid condition type');

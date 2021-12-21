@@ -1,4 +1,4 @@
-const Goal = require('./Goal.js');
+const { Goal } = require('./Goal.js');
 const mineflayer = require('mineflayer');
 
 class EntityNearby extends Goal {
@@ -16,14 +16,22 @@ class EntityNearby extends Goal {
     this._bot = bot;
 
     this.mobType = condition.name;
+
   }
 
-  /**
-   * 
-   * @param {string} mobType 
-   */
-  #getEntityNearby( mobType ) {
-    const entity = this._bot.nearestEntity( entity => entity.type == 'mob' && entity.mobType == this.mobType );
+  #killEntity( entity ) {
+    return new Promise( (resolve, reject) => {
+      this._bot.pvp.attack( entity );
+
+      this._bot.once('stoppedAttacking', () => {
+        resolve();
+      });
+    });
+  }
+
+ 
+  #getEntityNearby() {
+    const entity = this._bot.nearestEntity( entity => entity.type == 'mob' && entity.name == this.mobType );
 
     if ( !entity )
       throw new Error( 'Entity not found');
@@ -38,8 +46,10 @@ class EntityNearby extends Goal {
     try {
       const entityToKill = this.#getEntityNearby( this.mobType );
       
-      
+      await this.#killEntity( entityToKill );
+      return true;
     } catch(err) {
+      console.log( err );
       return false;
     }
   }

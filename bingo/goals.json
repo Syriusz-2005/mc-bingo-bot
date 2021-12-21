@@ -58,12 +58,334 @@
         
         {
           "type" : "itemOnGround",
-          "name": "poppy"
+          "name": "blue_orchid"
         },
 
         {
           "type": "blockNearby",
-          "name": "poppy",
+          "name": "blue_orchid",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "allium": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "allium"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "allium"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "allium",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "azure_bluet": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "azure_bluet"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "azure_bluet"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "azure_bluet",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "red_tulip": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "red_tulip"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "red_tulip"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "red_tulip",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "pink_tulip": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "pink_tulip"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "pink_tulip"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "pink_tulip",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "light_tulip": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "light_tulip"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "light_tulip"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "light_tulip",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "gray_tulip": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "gray_tulip"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "gray_tulip"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "gray_tulip",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "orange_tulip": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "orange_tulip"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "orange_tulip"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "orange_tulip",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "oxeye_daisy": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "oxeye_daisy"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "oxeye_daisy"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "oxeye_daisy",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "cornflower": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "cornflower"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "cornflower"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "cornflower",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "lily_of_the_valley": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "lily_of_the_valley"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "lily_of_the_valley"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "lily_of_the_valley",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "sunflower": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "sunflower"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "sunflower"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "sunflower",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "lilac": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "lilac"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "lilac"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "lilac",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "rose_bush": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "rose_bush"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "rose_bush"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "rose_bush",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "peony": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "peony"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "peony"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "peony",
           "actionAfterResolved": "recheckConditions"
         }
 
@@ -3388,6 +3710,29 @@
         }
       ]
       
+    },
+
+    "rotten_flesh": {
+      "madeBy": "Syriusz",
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "rotten_flesh"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "rotten_flesh"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "zombie",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
     }
   }
 }

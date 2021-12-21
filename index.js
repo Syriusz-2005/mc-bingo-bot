@@ -4,6 +4,7 @@ const CommandInterpreter = require( "./commands.js" ).CommandInterperter;
 const pathfinder = require( "mineflayer-pathfinder" ).pathfinder;
 const autoeat = require("mineflayer-auto-eat");
 const toolPlugin = require('mineflayer-tool').plugin;
+const pvp = require( 'mineflayer-pvp' ).plugin;
 const inventoryViewer = require("mineflayer-web-inventory");
 
 const name = process.argv.find( argument => argument.startsWith('name=') )?.split('=')[1] || 'bot';
@@ -22,25 +23,21 @@ const bot = mineflayer.createBot({
 });
 
 bot.loadPlugin( pathfinder );
+bot.loadPlugin( pvp );
 bot.loadPlugin( autoeat );
 bot.loadPlugin( toolPlugin );
 try {
   inventoryViewer( bot, {
     port: 3000
   });
-} catch(err) {
-
-}
+} catch(err) {}
 
 bot.once("spawn", () => {
+  bot.chat('Loading done!');
   bot.autoEat.options.priority = "foodPoints";
   bot.autoEat.options.bannedFood = []
   bot.autoEat.options.eatingTimeout = 3
 });
-
-bot.once('spawn', () => {
-  bot.chat('I spawned');
-})
 
 bot.on("health", () => {
   if (bot.food === 20) bot.autoEat.disable()
