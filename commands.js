@@ -54,7 +54,7 @@ const commands = {
     }
   },
 
-  '!getBlock': {
+  '!getItem': {
     /**
      * @param {string} user 
      * @param {mineflayer.Bot} bot
