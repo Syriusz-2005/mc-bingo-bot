@@ -55,7 +55,8 @@ exports.DigManager = class DigManager {
       const blockToDig = this._bot.blockAt( new vec( x, y, z ) );
       if ( this._bot.canDigBlock( blockToDig ) ) {
         this.#tryDigBlockAt( x, y, z )
-          .then( resolve );
+          .then( resolve )
+          .catch( resolve );
         return;
       }
   

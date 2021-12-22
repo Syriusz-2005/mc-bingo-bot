@@ -90,9 +90,11 @@ const commands = {
     run: async ( user, bot, params, cmds ) => {
       console.log( params );
       const itemName = filterNames(
-        params.slice( 6, params.length ).reduce( ( acc, name ) => acc + '_' + name )
-      )
-      .toLowerCase();
+        params
+          .slice( 6, params.length )
+          .reduce( ( acc, name ) => acc + '_' + name )
+          .toLowerCase()
+      );
 
       cmds.gameManager.addBlock( itemName );
     }

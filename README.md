@@ -27,6 +27,7 @@ After the bot joined you can use one of the following commands on the chat:
 !analyze
 !getItem <block_name> [count]
 !restart
+!winBingo
 ```
 
 ### Block types

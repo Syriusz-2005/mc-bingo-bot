@@ -276,8 +276,11 @@ class GoalInterpreter {
   }
 
   #logBlocks() {
+    let list = '';
     for ( const itemName in this.goals.items )
-      console.log( itemName );
+      list += `, ${itemName}`;
+
+    console.log( list );
   }
 
   async #prepare() {
@@ -419,8 +422,10 @@ class GoalInterpreter {
    */
   async GetItem( itemToFind, count = 1 ) {
     const item = this.goals.items[ itemToFind ];
-    if ( !item )
+    if ( !item ) {
+      console.log(`Item ${itemToFind} not specified in goals list`);
       return false;
+    }
 
     for ( const condition of item.conditions ) {
 

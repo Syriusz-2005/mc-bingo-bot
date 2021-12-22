@@ -55,7 +55,7 @@ class GameManager {
     return new Promise( async ( resolve, reject ) => {
 
       for ( const [ key, value ] of this.blockList ) {
-        console.log( 'finding item', value );
+        console.log( 'finding item ', value.blockId );
         const result = await this.Get( value.blockId, 1 );
         if ( result == true )
           this.bot.chat(`item ${key} found!`);

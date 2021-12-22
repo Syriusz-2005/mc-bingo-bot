@@ -4234,6 +4234,76 @@
         }
 
       ]
+    },
+    
+    "golden_carrot":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"golden_carrot"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "golden_carrot"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"carrot",
+              "requiredCount":1
+            },
+            {
+              "requiredItem":"gold_nugget",
+              "requiredCount":8
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "golden_carrot":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"golden_carrot"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "golden_carrot"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"apple",
+              "requiredCount":1
+            },
+            {
+              "requiredItem":"gold_ingot",
+              "requiredCount":8
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
     }
   }
 }

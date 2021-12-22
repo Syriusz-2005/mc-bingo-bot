@@ -51,3 +51,10 @@ bot.on('kicked', console.log );
 bot.on('error', console.log );
 
 const interpreter = new CommandInterpreter( bot );
+
+bot.on('death', () => {
+  bot.pathfinder.stop();
+  await wait( 1500 );
+  interpreter.commands["!winBingo"].run( null, bot, [], interpreter )
+});
+
