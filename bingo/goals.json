@@ -415,6 +415,52 @@
       ]
     },
 
+    "lily_pad": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "lily_pad"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "lily_pad"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "lily_pad",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "cocoa_beans": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "cocoa_beans"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "cocoa_beans"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "cocoa",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
     "dead_tube_coral_block": {
       "madeBy":"mikib",
       "conditions": [
@@ -4197,6 +4243,203 @@
       ]
     },
 
+    "raw_mutton": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "raw_mutton"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "raw_mutton"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "sheep",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "raw_beef": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "raw_beef"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "raw_beef"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "cow",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "raw_chicken": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "raw_chicken"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "raw_chicken"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "chicken",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "raw_rabbit": {
+      "madeBy": "mikib",
+      "conditions": [
+
+        {
+          "type": "inInventory",
+          "name": "raw_rabbit"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "raw_rabbit"
+        },
+
+        {
+          "type": "entityNearby",
+          "name": "rabbit",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "steak": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"steak"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "steak"
+        },
+
+        {
+          "type": "inInventory",
+          "name":"raw_beef",
+          "count": 1,
+          "recursive": true,
+          "actionAfterResolved": "smell"  
+        }
+
+      ]
+      
+    },
+
+    "coocked_mutton": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"coocked_mutton"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "coocked_mutton"
+        },
+
+        {
+          "type": "inInventory",
+          "name":"raw_mutton",
+          "count": 1,
+          "recursive": true,
+          "actionAfterResolved": "smell"  
+        }
+
+      ]
+      
+    },
+
+    "coocked_rabbit": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"coocked_rabbit"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "coocked_rabbit"
+        },
+
+        {
+          "type": "inInventory",
+          "name":"raw_rabbit",
+          "count": 1,
+          "recursive": true,
+          "actionAfterResolved": "smell"  
+        }
+
+      ]
+      
+    },
+
+    "coocked_chicken": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"coocked_chicken"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "coocked_chicken"
+        },
+
+        {
+          "type": "inInventory",
+          "name":"raw_chicken",
+          "count": 1,
+          "recursive": true,
+          "actionAfterResolved": "smell"  
+        }
+
+      ]
+      
+    },
+
+
     "leather": {
       "madeBy": "mikib",
       "conditions": [
@@ -5048,6 +5291,836 @@
           "type": "blockNearby",
           "name": "sand",
           "actionAfterResolved": "recheckConditions"
+        }
+      ]
+    },
+
+    "bamboo": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "bamboo"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "bamboo"
+        },
+        {
+          "type": "blockNearby",
+          "name": "bamboo",
+          "actionAfterResolved": "recheckConditions"
+        }
+      ]
+    },
+
+    "string": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "string"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "string"
+        },
+        {
+          "type": "entityNearby",
+          "name": "spider",
+          "actionAfterResolved": "recheckConditions"
+        }
+      ]
+    },
+
+    "slime_ball": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "slime_ball"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "slime_ball"
+        },
+        {
+          "type": "entityNearby",
+          "name": "slime",
+          "actionAfterResolved": "recheckConditions"
+        }
+      ]
+    },
+    
+    "lead": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "lead"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "lead"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "string",
+              "requiredCount": 4
+            },
+            {
+              "requiredItem": "slime_ball",
+              "requiredCount": 1
+            }
+          ],
+          "resultsIn": 2,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+    
+    "piston": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "piston"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "piston"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "cobblestone",
+              "requiredCount": 4
+            },
+            {
+              "requiredItem": "oak_planks",
+              "requiredCount": 3
+            }, 
+            {
+              "requiredItem": "redstone",
+              "requiredCount": 1
+            }, 
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "cobblestone",
+              "requiredCount": 4
+            },
+            {
+              "requiredItem": "dark_oak_planks",
+              "requiredCount": 3
+            }, 
+            {
+              "requiredItem": "redstone",
+              "requiredCount": 1
+            }, 
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "cobblestone",
+              "requiredCount": 4
+            },
+            {
+              "requiredItem": "acacia_planks",
+              "requiredCount": 3
+            }, 
+            {
+              "requiredItem": "redstone",
+              "requiredCount": 1
+            }, 
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "cobblestone",
+              "requiredCount": 4
+            },
+            {
+              "requiredItem": "jungle_planks",
+              "requiredCount": 3
+            }, 
+            {
+              "requiredItem": "redstone",
+              "requiredCount": 1
+            }, 
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "cobblestone",
+              "requiredCount": 4
+            },
+            {
+              "requiredItem": "spruce_planks",
+              "requiredCount": 3
+            }, 
+            {
+              "requiredItem": "redstone",
+              "requiredCount": 1
+            }, 
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "cobblestone",
+              "requiredCount": 4
+            },
+            {
+              "requiredItem": "birch_planks",
+              "requiredCount": 3
+            }, 
+            {
+              "requiredItem": "redstone",
+              "requiredCount": 1
+            }, 
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+    
+    "sticky_piston": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "sticky_piston"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "sticky_piston"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "piston",
+              "requiredCount": 4
+            },
+            {
+              "requiredItem": "slime_ball",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+
+    "tnt": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "tnt"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "tnt"
+        },
+        {
+          "type": "blockNearby",
+          "name": "tnt",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "sand",
+              "requiredCount": 4
+            },
+            {
+              "requiredItem": "gunpowder",
+              "requiredCount": 5
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "chest_minecart": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "chest_minecart"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "chest_minecart"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "chest",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "minecart",
+              "requiredCount": 1
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    
+    "pufferfish": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "pufferfish"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "pufferfish"
+        },
+        {
+          "type": "entityNearby",
+          "name": "pufferfish",
+          "actionAfterResolved": "recheckConditions"
+        }
+      ]
+    },
+
+    "leather_leggings": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "leather_leggings"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "leather_leggings"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "leather",
+              "requiredCount": 7
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "leather_helmet": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "leather_helmet"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "leather_helmet"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "leather",
+              "requiredCount": 5
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "leather_chestplate": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "leather_chestplate"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "leather_chestplate"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "leather",
+              "requiredCount": 8
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "leather_boots": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "leather_boots"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "leather_boots"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "leather",
+              "requiredCount": 4
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "egg": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "egg"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "egg"
+        }
+      ]
+    },
+
+    "bread": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "bread"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "bread"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "wheat",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "wheat": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "wheat"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "wheat"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "hay_bale",
+              "requiredCount": 1
+            }
+          ],
+          "resultsIn": 9,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "smithing_table": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "smithing_table"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "smithing_table"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 2
+            },
+            {
+              "requiredItem": "oak_planks",
+              "requiredCount": 2 
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 2
+            },
+            {
+              "requiredItem": "dark_oak_planks",
+              "requiredCount": 2 
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 2
+            },
+            {
+              "requiredItem": "acacaia_planks",
+              "requiredCount": 2 
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 2
+            },
+            {
+              "requiredItem": "jungle_planks",
+              "requiredCount": 2 
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 2
+            },
+            {
+              "requiredItem": "spruce_planks",
+              "requiredCount": 2 
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 2
+            },
+            {
+              "requiredItem": "birch_planks",
+              "requiredCount": 2 
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "cookie": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "cookie"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "cookie"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "wheat",
+              "requiredCount": 2
+            },
+            {
+              "requiredItem": "cocoa_beans",
+              "requiredCount": 1 
+            }
+          ],
+          "resultsIn": 8,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "smooth_stone": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "smooth_stone"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "smooth_stone"
+        },
+        {
+          "type": "blockNearby",
+          "name": "smooth_stone",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": "stone",
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "smell"
+        }
+      ]
+    },
+
+    "blast_furnace": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "blast_furnace"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "blast_furnace"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "furnace",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 5 
+            },
+            {
+              "requiredItem": "smooth_stone",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "smoker": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "smoker"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "smoker"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "furnace",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "oak_log",
+              "requiredCount": 4
+            }
+          
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "furnace",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "dark_oak_log",
+              "requiredCount": 4
+            }
+          
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "furnace",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "jungle_log",
+              "requiredCount": 4
+            }
+          
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "furnace",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "spruce_log",
+              "requiredCount": 4
+            }
+          
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        },
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "furnace",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "birch_log",
+              "requiredCount": 4
+            }
+          
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
         }
       ]
     }

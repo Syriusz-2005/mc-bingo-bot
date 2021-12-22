@@ -12,6 +12,10 @@ exports.DigManager = class DigManager {
     this._movement = new Movement( bot );
   }
 
+  removeGoals() {
+    this._movement.goTo( null );
+  }
+
   goTo( x, y, z ) {
     return new Promise( ( resolve ) => {
       const goal = new (this._movement.getGoals().GoalBlock )( x, y, z, this._bot )

@@ -56,7 +56,7 @@ class GameManager {
   }
 
   forceStop() {
-    
+    this.cmdInterpreter.digManager.removeGoals();
     this.forcedStop = true;
   }
 
