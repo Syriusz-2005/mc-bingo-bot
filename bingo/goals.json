@@ -4271,18 +4271,18 @@
       
     },
     
-    "golden_carrot":{
+    "golden_apple":{
       "madeBy": "mikib",
       "conditions":[
         
         {
           "type":"inInventory",
-          "name":"golden_carrot"
+          "name":"golden_apple"
         },
 
         {
           "type":"itemOnGround",
-          "name": "golden_carrot"
+          "name": "golden_apple"
         },
 
         {

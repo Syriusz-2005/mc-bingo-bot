@@ -1,5 +1,6 @@
 const mineflayer = require( "mineflayer" );
 const CommandInterpreter = require( "./commands.js" ).CommandInterperter;
+const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
 
 const pathfinder = require( "mineflayer-pathfinder" ).pathfinder;
 const autoeat = require("mineflayer-auto-eat");
@@ -52,7 +53,7 @@ bot.on('error', console.log );
 
 const interpreter = new CommandInterpreter( bot );
 
-bot.on('death', () => {
+bot.on('death', async () => {
   bot.pathfinder.stop();
   await wait( 1500 );
   interpreter.commands["!winBingo"].run( null, bot, [], interpreter )

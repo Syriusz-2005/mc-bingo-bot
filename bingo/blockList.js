@@ -3,9 +3,8 @@ const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
 
 class _Block {
 
-  lastSeen = new vec( 0, 0, 0 );
-  lastDistance = Infinity;
   found = false;
+  tries = 0;
 
   constructor( blockId, commandInterpreter ) {
     this.blockId = blockId;
@@ -32,6 +31,10 @@ class BotState {
 }
 
 class GameManager {
+  /**
+   * @type {Map<string, _Block>}
+   * 
+   */
   blockList = new Map();
   state = new BotState([ 'idle', 'looking' ]);
 
@@ -51,19 +54,20 @@ class GameManager {
     this.blockList.set( blockId, new _Block( blockId, this.cmdInterpreter )  );
   }
 
-  playBingo() {
-    return new Promise( async ( resolve, reject ) => {
-
-      for ( const [ key, value ] of this.blockList ) {
-        console.log( 'finding item ', value.blockId );
-        const result = await this.Get( value.blockId, 1 );
-        if ( result == true )
-          this.bot.chat(`item ${key} found!`);
-        await wait( 1000 );
+  async playBingo() {
+    
+    for ( const [ key, value ] of this.blockList ) {
+      console.log( 'finding item ', value.blockId );
+      value.tries++;
+      const result = await this.Get( value.blockId, 1 );
+      if ( result == true ) {
+        value.found = true;
+        this.bot.chat(`item ${key} found!`);
       }
+      await wait( 1000 );
+    }
 
-      resolve( true );
-    })
+    return await this.playBingo();
   }
 
   /**

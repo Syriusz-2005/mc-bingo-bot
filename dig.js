@@ -51,16 +51,15 @@ exports.DigManager = class DigManager {
 
   digBlockAt( x, y, z ) {
     return new Promise( (resolve, reject) => {
-      console.log('going to block');
-      const blockToDig = this._bot.blockAt( new vec( x, y, z ) );
-      if ( this._bot.canDigBlock( blockToDig ) ) {
-        this.#tryDigBlockAt( x, y, z )
-          .then( resolve )
-          .catch( resolve );
-        return;
-      }
-  
       try {
+        const blockToDig = this._bot.blockAt( new vec( x, y, z ) );
+        if ( this._bot.canDigBlock( blockToDig ) ) {
+          this.#tryDigBlockAt( x, y, z )
+            .then( resolve )
+            .catch( resolve );
+          return;
+        }
+      
         const goal = new (this._movement.getGoals().GoalBreakBlock)( x, y, z, this._bot )
         this._movement.goTo( goal )
           .then( async () => {
