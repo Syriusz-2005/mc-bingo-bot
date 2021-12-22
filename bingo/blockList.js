@@ -41,6 +41,7 @@ class GameManager {
   constructor( commandInterperter ) {
     this.cmdInterpreter = commandInterperter;
     this.bot = commandInterperter.bot;
+    this.forcedStop = false;
   }
 
   async analyzeTable() {
@@ -54,10 +55,18 @@ class GameManager {
     this.blockList.set( blockId, new _Block( blockId, this.cmdInterpreter )  );
   }
 
+  forceStop() {
+    this.forcedStop = true;
+  }
+
   async playBingo() {
 
     for ( const [ key, value ] of this.blockList ) {
 
+      if ( this.forcedStop == true ) {
+        this.forcedStop = false;
+        return;
+      }
       if ( value.found ) continue;
 
       console.log( 'finding item ', value.blockId );

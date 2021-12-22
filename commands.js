@@ -46,6 +46,18 @@ const commands = {
     }
   },
 
+  '!forceStop': {
+    /**
+    * @param {string} user 
+    * @param {mineflayer.Bot} bot
+    * @param {array<string>} params
+    */
+    run: async ( user, bot, params, cmds ) => {
+      bot.chat('Stopping bot...');
+      await cmds.gameManager.forceStop();
+    }
+  },
+
   '!restart': {
     /**
      * @param {string} user 

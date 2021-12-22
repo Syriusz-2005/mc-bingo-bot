@@ -12,8 +12,6 @@ cd mc-bingo-bot
 npm install
 ```
 
-Simple.
-
 ## Usage
 
 ```bash
