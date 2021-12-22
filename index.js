@@ -58,4 +58,3 @@ bot.on('death', async () => {
   await wait( 1500 );
   interpreter.commands["!winBingo"].run( null, bot, [], interpreter )
 });
-

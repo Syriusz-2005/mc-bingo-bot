@@ -56,6 +56,7 @@ class GameManager {
   }
 
   forceStop() {
+    
     this.forcedStop = true;
   }
 
@@ -93,6 +94,28 @@ class GameManager {
     const result = await this.cmdInterpreter.goalInterpreter.GetItem( itemName, count );
     this.state.toggle( 'idle' );
     return result;
+  }
+
+  /**
+   * 
+   * @param {string} winTeam 
+   * @returns 
+   */
+  registerWin( winTeam ) {
+    this.forceStop();
+    winTeam = winTeam
+      .replace( /G/g, 'g' )
+      .replace( /R/g, 'r' )
+      .replace( /B/g, 'b' )
+      .replace( /Y/g, 'Y' )
+
+    console.log( 'registered win of ' + winTeam );
+    const botTeam = this.bot.teamMap[ this.bot.username ];
+
+    if ( !botTeam ) return
+    if ( botTeam.team == winTeam ) {
+      this.bot.chat('I won, that was easy');
+    }
   }
 }
 

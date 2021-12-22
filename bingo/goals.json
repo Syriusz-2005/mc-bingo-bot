@@ -4304,6 +4304,753 @@
         }
       ]
       
+    },
+
+    "prismarine":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"prismarine"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "prismarine"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "prismarine",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "sweet_berries":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"sweet_berries"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "prismarine"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "sweet_berry_bush",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "flint":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"flint"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "flint"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "gravel",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "flint_and_steel":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"flint_and_steel"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "flint_and_steel"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "flint",
+              "requiredCount": 1
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+
+      ]
+    },
+
+    "hopper":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"hopper"
+        },
+  
+        {
+          "type":"itemOnGround",
+          "name": "hopper"
+        },
+  
+        {
+          "type": "blockNearby",
+          "name": "hopper",
+          "actionAfterResolved": "recheckConditions"
+        },
+  
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem": "chest",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "iron_ingot",
+              "requiredCount": 5
+            }
+          ],
+          "recursive": true,
+          "resultsIn": 1,
+          "actionAfterResolved": "craft"
+        }
+  
+      ]
+    },
+
+    "torch": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "torch"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "torch"
+        },
+        {
+          "type": "blockNearby",
+          "name": "torch",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type": "blockNearby",
+          "name": "wall_torch",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "stick",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "coal",
+              "requiredCount": 1
+            }
+          ],
+          "resultsIn": 4,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "lantern": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "lantern"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "lantern"
+        },
+        {
+          "type": "blockNearby",
+          "name": "lantern",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "torch",
+              "requiredCount": 1
+            },
+            {
+              "requiredItem": "iron_nugget",
+              "requiredCount": 8
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "smooth_red_sandstone": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "smooth_red_sandstone"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "smooth_red_sandstone"
+        },
+        {
+          "type": "blockNearby",
+          "name": "smooth_red_sandstone",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": "red_sandstone",
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "smell"
+        }
+      ]
+    },
+
+    "chiseled_red_sandstone": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "chiseled_red_sandstone"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "chiseled_red_sandstone"
+        },
+        {
+          "type": "blockNearby",
+          "name": "chiseled_red_sandstone",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "red_sandstone_slab",
+              "requiredCount": 2
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "red_sandstone_slab": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "red_sandstone_slab"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "red_sandstone_slab"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "red_sandstone",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "cut_red_sandstone_slab": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "cut_red_sandstone_slab"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "cut_red_sandstone_slab"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "cut_red_sandstone",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 6,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "red_sandstone_wall": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "red_sandstone_wall"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "red_sandstone_wall"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "red_sandstone",
+              "requiredCount": 6
+            }
+          ],
+          "resultsIn": 6,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "red_sandstone_stairs": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "red_sandstone_stairs"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "red_sandstone_stairs"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "red_sandstone",
+              "requiredCount": 6
+            }
+          ],
+          "resultsIn": 4,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "smooth_red_sandstone_stairs": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "smooth_red_sandstone_stairs"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "smooth_red_sandstone_stairs"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "smooth_red_sandstone",
+              "requiredCount": 6
+            }
+          ],
+          "resultsIn": 4,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "smooth_red_sandstone_slab": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "smooth_red_sandstone_slab"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "smooth_red_sandstone_slab"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "smooth_red_sandstone",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 6,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+
+    "cut_red_sandstone": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "cut_red_sandstone"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "cut_red_sandstone"
+        },
+        {
+          "type": "blockNearby",
+          "name": "cut_red_sandstone",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "red_sand",
+              "requiredCount": 4
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+  
+    "red_sand": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "red_sand"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "red_sand"
+        },
+        {
+          "type": "blockNearby",
+          "name": "red_sand",
+          "actionAfterResolved": "recheckConditions"
+        }
+      ]
+    },
+
+    "smooth_sandstone": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "smooth_sandstone"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "smooth_sandstone"
+        },
+        {
+          "type": "blockNearby",
+          "name": "smooth_sandstone",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": "sandstone",
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "smell"
+        }
+      ]
+    },
+
+    "chiseled_sandstone": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "chiseled_sandstone"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "chiseled_sandstone"
+        },
+        {
+          "type": "blockNearby",
+          "name": "chiseled_sandstone",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "sandstone_slab",
+              "requiredCount": 2
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "sandstone_slab": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "sandstone_slab"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "sandstone_slab"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "sandstone",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "cut_sandstone_slab": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "cut_sandstone_slab"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "cut_sandstone_slab"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "cut_sandstone",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 6,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "sandstone_wall": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "sandstone_wall"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "sandstone_wall"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "sandstone",
+              "requiredCount": 6
+            }
+          ],
+          "resultsIn": 6,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "sandstone_stairs": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "sandstone_stairs"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "sandstone_stairs"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "sandstone",
+              "requiredCount": 6
+            }
+          ],
+          "resultsIn": 4,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "smooth_sandstone_stairs": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "smooth_sandstone_stairs"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "smooth_sandstone_stairs"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "smooth_sandstone",
+              "requiredCount": 6
+            }
+          ],
+          "resultsIn": 4,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+    "smooth_sandstone_slab": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "smooth_sandstone_slab"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "smooth_sandstone_slab"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "smooth_sandstone",
+              "requiredCount": 3
+            }
+          ],
+          "resultsIn": 6,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+
+
+    "cut_sandstone": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "cut_sandstone"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "cut_sandstone"
+        },
+        {
+          "type": "blockNearby",
+          "name": "cut_sandstone",
+          "actionAfterResolved": "recheckConditions"
+        },
+        {
+          "type":"inInventory",
+          "name": [
+            {
+              "requiredItem": "sand",
+              "requiredCount": 4
+            }
+          ],
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"
+        }
+      ]
+    },
+  
+    "sand": {
+      "madeBy": "mikib",
+      "conditions": [
+        {
+          "type": "inInventory",
+          "name": "sand"
+        },
+        {
+          "type": "itemOnGround",
+          "name": "sand"
+        },
+        {
+          "type": "blockNearby",
+          "name": "sand",
+          "actionAfterResolved": "recheckConditions"
+        }
+      ]
     }
+
   }
 }

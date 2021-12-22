@@ -100,7 +100,7 @@ const commands = {
      * @param {Array<string>} params
      */
     run: async ( user, bot, params, cmds ) => {
-      console.log( params );
+      if ( params[1] != 'item' ) return;
       const itemName = filterNames(
         params
           .slice( 6, params.length )
@@ -110,7 +110,55 @@ const commands = {
 
       cmds.gameManager.addBlock( itemName );
     }
-  }
+  },
+
+  'Green': {
+    /**
+     * @param {string} user 
+     * @param {mineflayer.Bot} bot
+     * @param {Array<string>} params
+     */
+    run: async ( user, bot, params, cmds ) => {
+      if ( params[1] != 'has' || params[2] != 'gotten' ) return false;
+      cmds.gameManager.registerWin( params[0] );
+    }
+  },
+
+  'Red': {
+    /**
+     * @param {string} user 
+     * @param {mineflayer.Bot} bot
+     * @param {Array<string>} params
+     */
+    run: async ( user, bot, params, cmds ) => {
+      if ( params[1] != 'has' || params[2] != 'gotten' ) return false;
+      cmds.gameManager.registerWin( params[0] );
+    }
+  },
+
+  'Yellow': {
+    /**
+     * @param {string} user 
+     * @param {mineflayer.Bot} bot
+     * @param {Array<string>} params
+     */
+    run: async ( user, bot, params, cmds ) => {
+      if ( params[1] != 'has' || params[2] != 'gotten' ) return false;
+      cmds.gameManager.registerWin( params[0] );
+    }
+  },
+
+  'Blue': {
+    /**
+     * @param {string} user 
+     * @param {mineflayer.Bot} bot
+     * @param {Array<string>} params
+     */
+    run: async ( user, bot, params, cmds ) => {
+      if ( params[1] != 'has' || params[2] != 'gotten' ) return false;
+      cmds.gameManager.registerWin( params[0] );
+    }
+  },
 
 }
 
