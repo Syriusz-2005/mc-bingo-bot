@@ -55,8 +55,11 @@ class GameManager {
   }
 
   async playBingo() {
-    
+
     for ( const [ key, value ] of this.blockList ) {
+
+      if ( value.found ) continue;
+
       console.log( 'finding item ', value.blockId );
       value.tries++;
       const result = await this.Get( value.blockId, 1 );
