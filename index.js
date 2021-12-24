@@ -58,3 +58,12 @@ bot.on('death', async () => {
   await wait( 1500 );
   interpreter.commands["!winBingo"].run( null, bot, [], interpreter )
 });
+
+bot.on('path_update', ( r ) => {
+  const nodesPerTick = (r.visitedNodes * 50 / r.time).toFixed(2)
+  console.log(`I can get there in ${r.path.length} moves. Computation took ${r.time.toFixed(2)} ms (${r.visitedNodes} nodes, ${nodesPerTick} nodes/tick)`)
+});
+
+bot.on('path_reset', reason => {
+  console.log(`stopped, reason: `, reason );
+})

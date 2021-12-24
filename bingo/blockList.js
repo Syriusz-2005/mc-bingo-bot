@@ -60,7 +60,9 @@ class GameManager {
     this.forcedStop = true;
   }
 
-  async playBingo() {
+  async playBingo( deep = 1 ) {
+    if ( deep >= 40 )
+      return;
 
     for ( const [ key, value ] of this.blockList ) {
 
@@ -80,7 +82,7 @@ class GameManager {
       await wait( 1000 );
     }
 
-    return await this.playBingo();
+    return await this.playBingo( deep + 1 );
   }
 
   /**
