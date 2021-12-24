@@ -55,6 +55,15 @@ exports.DigManager = class DigManager {
 
   digBlockAt( x, y, z ) {
     return new Promise( (resolve, reject) => {
+      const that = this;
+
+      function onPathUpdate( r ) {
+        if ( r.status == 'noPath' ) {
+          that._bot.off('path_update', onPathUpdate );
+          resolve();
+        }
+      }
+
       try {
         const blockToDig = this._bot.blockAt( new vec( x, y, z ) );
         if ( this._bot.canDigBlock( blockToDig ) ) {
@@ -64,18 +73,25 @@ exports.DigManager = class DigManager {
           return;
         }
       
-        const goal = new (this._movement.getGoals().GoalBreakBlock)( x, y, z, this._bot )
+        this._bot.on('path_update', onPathUpdate );
+
+        const goal = new (this._movement.getGoals().GoalBreakBlock)( x, y, z, this._bot );
         this._movement.goTo( goal )
           .then( async () => {
+            this._bot.off('path_update', onPathUpdate );
             await this.#tryDigBlockAt( x, y, z );
             resolve();
           })
           .catch( async err => {
             console.log( err );
+            this._bot.off('path_update', onPathUpdate );
             await this.#tryDigBlockAt( x, y, z );
             resolve();
           });
+
+        
       } catch( err ) {
+        this._bot.off('path_update', onPathUpdate );
         resolve();
       }
     });
