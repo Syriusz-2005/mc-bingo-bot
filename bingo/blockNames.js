@@ -5,4 +5,5 @@ exports.filterNames = ( name ) => {
     .replace('block_of_iron', 'iron_block' )
     .replace( 'sweet_berries', 'sweet_berries' )
     .replace( 'minecart_with_chest', 'chest_minecart' )
+    .replace( 'steak', 'cooked_beef' )
 }

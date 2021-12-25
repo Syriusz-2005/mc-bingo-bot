@@ -38,6 +38,8 @@ class ActionExecuter {
       useExtraInfo: true,
       matching: bl => {
           return bl.name != 'air' 
+          && bl.name != 'water'
+          && bl.name != 'lava'
           && this._bot.blockAt( bl.position.offset( 0, 1, 0 ) ).name == 'air' 
           && this._bot.entity.position.distanceTo( bl.position ) > 2;
       }
@@ -45,6 +47,7 @@ class ActionExecuter {
 
     this._bot.pathfinder.setGoal( null );
     await this._cmds.digManager.goNearbyBlock( blockNearby.position.x, blockNearby.position.y,  blockNearby.position.z );
+    await this._bot.unequip( 'hand' );
     await this._bot.equip( blockInInventory, 'hand' );
     try {
       await this._bot.placeBlock( blockNearby, vec( 0, 1, 0 ) );
@@ -212,6 +215,7 @@ class ActionExecuter {
    * @returns {number} 
    */
   isItemInInventory( itemName ) {
+    console.log( itemName )
     const countInInventory = this._bot.inventory.count( this.mcData.itemsByName[ itemName ].id );
     return countInInventory ? countInInventory : 0;
   }
