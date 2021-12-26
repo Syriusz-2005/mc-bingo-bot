@@ -65,4 +65,4 @@ bot.on('path_update', ( r ) => {
 
 bot.on('path_reset', reason => {
   // console.log(`stopped, reason: `, reason );
-})
+});

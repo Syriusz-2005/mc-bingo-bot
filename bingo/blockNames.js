@@ -6,4 +6,6 @@ exports.filterNames = ( name ) => {
     .replace( 'sweet_berries', 'sweet_berries' )
     .replace( 'minecart_with_chest', 'chest_minecart' )
     .replace( 'steak', 'cooked_beef' )
+    .replace( 'leather_trousers', 'leather_leggings' )
+    .replace( 'leather_pants', 'leather_leggings' )
 }

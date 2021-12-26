@@ -1,6 +1,7 @@
 const vec = require('vec3');
 const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
 const { Actions } = require('./actions.js');
+const { math } = require('../math.js');
 class _Block {
 
   found = false;
@@ -62,6 +63,18 @@ class GameManager {
     this.forcedStop = true;
   }
 
+  getRandomPosition() {
+    const blockToGo = this.bot.findBlock({ 
+      matching: block => block.biome.name != 'ocean' && block.biome.name != 'cold_ocean' && block.biome.name != 'warm_ocean',
+      point: this.bot.entity.position.offset( math.randomInt( -30, 50 ), 0, math.randomInt( -30, 50 ) ) 
+    });
+
+    if ( !blockToGo ) 
+      return this.getRandomPosition();
+
+    return blockToGo.position;
+  }
+
   async playBingo( deep = 1 ) {
     await this.botActions.doActionsBeforeCollecting();
 
@@ -86,6 +99,9 @@ class GameManager {
       await wait( 1000 );
     }
 
+    const newPosition = this.getRandomPosition();
+
+    await this.cmdInterpreter.digManager.goNearby( newPosition.x, newPosition.z );
     return await this.playBingo( deep + 1 );
   }
 

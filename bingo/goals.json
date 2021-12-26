@@ -916,23 +916,23 @@
       ]
     },
 
-    "hay_bale": {
+    "hay_block": {
       "madeBy":"mikib",
       "conditions": [
 
         {
           "type":"inInventory",
-          "name": "hay_bale"
+          "name": "hay_block"
         },
         
         {
           "type" : "itemOnGround",
-          "name": "hay_bale"
+          "name": "hay_block"
         },
 
         {
           "type": "blockNearby",
-          "name": "hay_bale",
+          "name": "hay_block",
           "actionAfterResolved": "recheckConditions"
         }
 
