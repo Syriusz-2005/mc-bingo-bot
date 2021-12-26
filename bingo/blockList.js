@@ -2,6 +2,7 @@ const vec = require('vec3');
 const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
 const { Actions } = require('./actions.js');
 const { math } = require('../math.js');
+const mineflayer = require('mineflayer');
 class _Block {
 
   found = false;
@@ -39,6 +40,10 @@ class GameManager {
   blockList = new Map();
   state = new BotState([ 'idle', 'looking' ]);
   
+  /**
+   * 
+   * @param {{ bot: mineflayer.Bot }} commandInterperter 
+   */
   constructor( commandInterperter ) {
     this.cmdInterpreter = commandInterperter;
     this.bot = commandInterperter.bot;
@@ -64,13 +69,14 @@ class GameManager {
   }
 
   getRandomPosition() {
-    const blockToGo = this.bot.findBlock({ 
-      matching: block => block.biome.name != 'ocean' && block.biome.name != 'cold_ocean' && block.biome.name != 'warm_ocean',
-      point: this.bot.entity.position.offset( math.randomInt( -30, 50 ), 0, math.randomInt( -30, 50 ) ) 
+    const blockToGo = this.bot.findBlock({
+      maxDistance: 100,
+      point: this.bot.entity.position.offset( math.randomInt( -10, 70 ), 0, math.randomInt( -10, 70 ) ),
+      useExtraInfo: true,
+      matching: block => {
+        return block.biome.category != 'ocean';
+      }
     });
-
-    if ( !blockToGo ) 
-      return this.getRandomPosition();
 
     return blockToGo.position;
   }
