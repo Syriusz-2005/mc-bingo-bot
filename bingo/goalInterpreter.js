@@ -215,9 +215,14 @@ class ActionExecuter {
    * @returns {number} 
    */
   isItemInInventory( itemName ) {
-    console.log( itemName )
-    const countInInventory = this._bot.inventory.count( this.mcData.itemsByName[ itemName ].id );
-    return countInInventory ? countInInventory : 0;
+    try {
+      const countInInventory = this._bot.inventory.count( this.#getItemId( itemName ) );
+      return countInInventory ? countInInventory : 0;
+    } catch( err ) {
+      console.warn( `Item ${itemName} is not registered in minecraft data, cannot find item` );
+      console.warn( err );
+      return 0;
+    }
   }
 
   /**

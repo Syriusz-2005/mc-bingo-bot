@@ -1,6 +1,6 @@
 const vec = require('vec3');
 const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
-
+const { Actions } = require('./actions.js');
 class _Block {
 
   found = false;
@@ -37,10 +37,11 @@ class GameManager {
    */
   blockList = new Map();
   state = new BotState([ 'idle', 'looking' ]);
-
+  
   constructor( commandInterperter ) {
     this.cmdInterpreter = commandInterperter;
     this.bot = commandInterperter.bot;
+    this.botActions = new Actions( this.bot, this );
     this.forcedStop = false;
   }
 
@@ -57,10 +58,13 @@ class GameManager {
 
   forceStop() {
     this.cmdInterpreter.digManager.removeGoals();
+    this.state.toggle( 'idle' );
     this.forcedStop = true;
   }
 
   async playBingo( deep = 1 ) {
+    await this.botActions.doActionsBeforeCollecting();
+
     if ( deep >= 40 )
       return;
 

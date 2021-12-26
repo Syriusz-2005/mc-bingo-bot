@@ -5990,7 +5990,7 @@
           "type": "inInventory",
           "name": [
             {
-              "requiredItem": "hay_bale",
+              "requiredItem": "hay_block",
               "requiredCount": 1
             }
           ],
