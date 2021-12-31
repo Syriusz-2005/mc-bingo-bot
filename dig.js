@@ -27,7 +27,7 @@ exports.DigManager = class DigManager {
 
   goNearby( x, z ) {
     return new Promise( ( resolve ) => {
-      const goal = new (this._movement.getGoals().GoalXZ )( x, z )
+      const goal = new (this._movement.getGoals().GoalNearXZ )( x, z, 4 )
       this._movement.goTo( goal )
         .then( resolve )
         .catch( resolve );
