@@ -31,6 +31,7 @@ const commands = {
       bot.chat(`analyzing done! \n
         Registered: ${cmds.gameManager.blockList.size} items to find
       `);
+      console.log( cmds.gameManager.blockList )
     }
   },
 
@@ -100,7 +101,7 @@ const commands = {
      * @param {Array<string>} params
      */
     run: async ( user, bot, params, cmds ) => {
-      if ( params[1] != 'item' ) return;
+      if ( params[1] != 'item' && params[1] != 'block' ) return;
       const itemName = filterNames(
         params
           .slice( 6, params.length )
