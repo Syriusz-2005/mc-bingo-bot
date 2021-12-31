@@ -5731,11 +5731,11 @@
           "name": [
             {
               "requiredItem": "piston",
-              "requiredCount": 4
+              "requiredCount": 1
             },
             {
               "requiredItem": "slime_ball",
-              "requiredCount": 3
+              "requiredCount": 1
             }
           ],
           "resultsIn": 1,
