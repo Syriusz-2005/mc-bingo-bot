@@ -11,10 +11,10 @@ class Actions {
   }
 
   async #getTools() {
-    await this._gameManager.Get( 'iron_ingot', 15 );
-    await this._gameManager.Get( 'iron_pickaxe', 1 );
-    await this._gameManager.Get( 'iron_shovel', 1 );
-    await this._gameManager.Get( 'iron_axe', 1 );
+    const tools = this._gameManager.cmdInterpreter.goalInterpreter.firstItems;
+    for ( const tool of tools ) {
+      await this._gameManager.Get( tool.name, tool.count );
+    }
   }
 
   async doActionsBeforeCollecting() {

@@ -1,4 +1,11 @@
 {
+  "config": {
+    "itemsBotNeeds": [ 
+      { "name" : "iron_pickaxe", "count": 1 },
+      { "name" : "iron_axe", "count": 1 },
+      { "name" : "iron_shovel", "count": 1 }
+    ]
+  },
   "items" : {
   
     "dandelion": {
@@ -7090,7 +7097,7 @@
               "requiredCount": 4
             },
             {
-              "requiredItem": "redstone_dust",
+              "requiredItem": "redstone",
               "requiredCount": 1
             }
           ],

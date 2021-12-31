@@ -31,6 +31,7 @@ const commands = {
       bot.chat(`analyzing done! \n
         Registered: ${cmds.gameManager.blockList.size} items to find
       `);
+      
       console.log( cmds.gameManager.blockList )
     }
   },

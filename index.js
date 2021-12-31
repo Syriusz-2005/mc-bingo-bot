@@ -36,8 +36,8 @@ try {
 bot.once("spawn", () => {
   bot.chat('Loading done!');
   bot.autoEat.options.priority = "foodPoints";
-  bot.autoEat.options.bannedFood = []
-  bot.autoEat.options.eatingTimeout = 3
+  bot.autoEat.options.bannedFood = [ "spider_eye" ];
+  bot.autoEat.options.eatingTimeout = 3;
 });
 
 bot.on("health", () => {
@@ -66,3 +66,4 @@ bot.on('path_update', ( r ) => {
 bot.on('path_reset', reason => {
   // console.log(`stopped, reason: `, reason );
 });
+

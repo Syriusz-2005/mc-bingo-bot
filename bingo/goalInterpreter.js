@@ -294,6 +294,7 @@ class GoalInterpreter {
 
   async #prepare() {
     this.goals = await this.#download( this.pathToGoals );
+    this.firstItems = this.goals.config.itemsBotNeeds;
     console.log( 'Registered the following list of blocks: ' );
     this.#logBlocks();
   }
