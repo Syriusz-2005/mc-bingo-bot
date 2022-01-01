@@ -39,6 +39,12 @@ bingo/goals.json
 You can add your own blocks into goals.json using this schema:
 ```jsonc
 {
+  "config": {
+    //an array of items that bot will optain first after typing !winBingo
+    "itemsBotNeeds": [
+      { "name": "<item_name>", "count" : 1 }
+    ]
+  },
   "items": {
 
     "<your_item_name>": {
