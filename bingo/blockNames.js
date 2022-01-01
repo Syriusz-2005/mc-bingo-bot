@@ -8,4 +8,5 @@ exports.filterNames = ( name ) => {
     .replace( 'steak', 'cooked_beef' )
     .replace( 'leather_trousers', 'leather_leggings' )
     .replace( 'leather_pants', 'leather_leggings' )
+    .replace( 'leather_tunic', 'leather_chestplate')
 }

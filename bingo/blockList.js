@@ -71,7 +71,7 @@ class GameManager {
   getRandomPosition() {
     const blockToGo = this.bot.findBlock({
       maxDistance: 100,
-      point: this.bot.entity.position.offset( math.randomInt( -10, 70 ), 0, math.randomInt( -10, 70 ) ),
+      point: this.bot.entity.position.offset( math.randomInt( -10, 100 ), 0, math.randomInt( -10, 100 ) ),
       useExtraInfo: true,
       matching: block => {
         return block.biome.category != 'ocean';

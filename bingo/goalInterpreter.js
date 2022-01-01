@@ -40,13 +40,18 @@ class ActionExecuter {
           return bl.name != 'air' 
           && bl.name != 'water'
           && bl.name != 'lava'
+          && bl.name != 'dead_bush'
+          && bl.boundingBox == 'block'
           && this._bot.blockAt( bl.position.offset( 0, 1, 0 ) ).name == 'air' 
           && this._bot.entity.position.distanceTo( bl.position ) > 2;
       }
     });
-
+    
     this._bot.pathfinder.setGoal( null );
     await this._cmds.digManager.goNearbyBlock( blockNearby.position.x, blockNearby.position.y,  blockNearby.position.z );
+    if ( this._bot.inventory.emptySlotCount() == 0 ) {
+      //TODO: remove one item from inventory
+    }
     await this._bot.unequip( 'hand' );
     await this._bot.equip( blockInInventory, 'hand' );
     try {

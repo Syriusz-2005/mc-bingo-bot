@@ -60,7 +60,7 @@ bot.on('death', async () => {
 
 bot.on('path_update', ( r ) => {
   const nodesPerTick = (r.visitedNodes * 50 / r.time).toFixed(2)
-  // console.log(`I can get there in ${r.path.length} moves. Computation took ${r.time.toFixed(2)} ms (${r.visitedNodes} nodes, ${nodesPerTick} nodes/tick) status: ${r.status}`)
+  // console.log(`I can get there in ${r.path.length} moves. Computation took ${r.time.toFixed(2)} ms (${r.visitedNodes} nodes, ${nodesPerTick} nodes/tick) status: ${r.status}`);
 });
 
 bot.on('path_reset', reason => {

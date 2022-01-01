@@ -42,7 +42,6 @@ exports.DigManager = class DigManager {
 
     const goal = new (this._movement.getGoals().GoalPlaceBlock)( new vec( x, y, z ), this._bot.world, {
       range: 3,
-      faces: vec( 0, 1, 0 )
     });
     try {
       await this._movement.goTo( goal );
