@@ -1,5 +1,5 @@
 
-exports.filterNames = ( name ) => {
+const filterNames = ( name ) => {
   return name
     .replace( 'hay_bale', 'hay_block' )
     .replace('block_of_iron', 'iron_block' )
@@ -10,3 +10,5 @@ exports.filterNames = ( name ) => {
     .replace( 'leather_pants', 'leather_leggings' )
     .replace( 'leather_tunic', 'leather_chestplate')
 }
+
+export { filterNames }

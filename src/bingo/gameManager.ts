@@ -1,14 +1,19 @@
-const vec = require('vec3');
-const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
-const { Actions } = require('./actions.js');
-const { math } = require('../math.js');
-const mineflayer = require('mineflayer');
+import { CommandInterpreter } from "../commands";
+
+import { DefaultActions } from './actions.js';
+import { math } from '../lib/math';
+import { BingoBot } from "../types/bot";
+
+import { async } from "../lib/async";
+
 class _Block {
 
   found = false;
   tries = 0;
+  blockId: string;
+  _cmdInterpreter: CommandInterpreter;
 
-  constructor( blockId, commandInterpreter ) {
+  constructor( blockId: string, commandInterpreter: CommandInterpreter ) {
     this.blockId = blockId;
     this._cmdInterpreter = commandInterpreter;
   }
@@ -32,28 +37,24 @@ class BotState {
   }
 }
 
-class GameManager {
-  /**
-   * @type {Map<string, _Block>}
-   * 
-   */
-  blockList = new Map();
+export class GameManager {
+  blockList : Map<string, _Block> = new Map();
   state = new BotState([ 'idle', 'looking' ]);
+  cmdInterpreter: any;
+  bot: any;
+  botActions: any;
+  forcedStop: boolean;
   
-  /**
-   * 
-   * @param {{ bot: mineflayer.Bot }} commandInterperter 
-   */
-  constructor( commandInterperter ) {
+  constructor( commandInterperter: CommandInterpreter ) {
     this.cmdInterpreter = commandInterperter;
     this.bot = commandInterperter.bot;
-    this.botActions = new Actions( this.bot, this );
+    this.botActions = new DefaultActions( this.bot, this );
     this.forcedStop = false;
   }
 
   async analyzeTable() {
     for ( let i = 0; i <= 25; i++ ) {
-      await wait( 900 );
+      await async.wait( 900 );
       this.bot.chat(`/trigger clarify set ${i}`);
     }
   }
@@ -102,7 +103,7 @@ class GameManager {
         value.found = true;
         this.bot.chat(`item ${key} found!`);
       }
-      await wait( 1000 );
+      await async.wait( 1000 );
     }
 
     const newPosition = this.getRandomPosition();
@@ -111,13 +112,8 @@ class GameManager {
     return await this.playBingo( deep + 1 );
   }
 
-  /**
-   * 
-   * @param {string} itemName 
-   * @param {number} count 
-   * @returns {Promise<boolean>}
-   */
-  async Get( itemName, count ) {
+
+  async Get( itemName: string, count: number ): Promise<boolean> {
     this.state.toggle( 'looking' );
     const result = await this.cmdInterpreter.goalInterpreter.GetItem( itemName, count );
     this.state.toggle( 'idle' );
@@ -146,5 +142,3 @@ class GameManager {
     }
   }
 }
-
-exports.GameManager = GameManager;

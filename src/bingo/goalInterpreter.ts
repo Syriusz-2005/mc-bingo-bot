@@ -1,39 +1,49 @@
 const fs = require('fs/promises');
-const mineflayer = require('mineflayer');
-const { Item } = require('prismarine-item');
-const vec = require('vec3');
+import { Vec3 } from 'vec3';
 const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
+import minecraftData, { IndexedData } from "minecraft-data";
 
-const { EntityNearby } = require('./goal/entityNearby.js');
+
+import { EntityNearby } from './goal/entityNearby';
+import { CommandInterpreter } from "../commands";
+import { BingoBot } from "../types/bot";
+import { Item } from "prismarine-item";
+
+
+class CountVector extends Vec3 {
+  count: number;
+
+  constructor( x: number, y: number, z: number, count: number ) {
+    super( x, y, z );
+    this.count = count;
+  }
+}
 
 class ActionExecuter {
-  /**
-   * 
-   * @param {CommandInterpreter} cmds
-   */
-  constructor( cmds ) {
-    this._cmds = cmds;
-    this.#setBot( cmds.bot );
-    this.mcData = require('minecraft-data')( cmds.bot.version );
-    this.Item = require( "prismarine-item")( cmds.bot.version );
+  private cmds: CommandInterpreter;
+  mcData: IndexedData;
+  private bot: BingoBot;
+  Item: typeof Item;
+
+  constructor( cmds: CommandInterpreter ) {
+    this.cmds = cmds;
+    this.setBot( cmds.bot );
+    this.mcData = minecraftData( cmds.bot.version );
+    this.Item = Item;
   }
 
-  #getItemId( name ) {
+  private getItemId( name: string ) {
     return this.mcData.itemsByName[ name ].id
   }
 
-  /**
-   * 
-   * @param {*} name 
-   * @returns {Promise<boolean>} 
-   */
-  async #placeBlock( name ) {
-    const blockInInventory = this._bot.inventory.findInventoryItem( name, null );
+
+  private async placeBlock( name: string ): Promise<boolean> {
+    const blockInInventory = this.bot.inventory.findInventoryItem( name, null, false );
 
     if ( !blockInInventory )
       return false;
 
-    const blockNearby = this._bot.findBlock({
+    const blockNearby = this.bot.findBlock({
       maxDistance: 30,
       useExtraInfo: true,
       matching: bl => {
@@ -42,20 +52,20 @@ class ActionExecuter {
           && bl.name != 'lava'
           && bl.name != 'dead_bush'
           && bl.boundingBox == 'block'
-          && this._bot.blockAt( bl.position.offset( 0, 1, 0 ) ).name == 'air' 
-          && this._bot.entity.position.distanceTo( bl.position ) > 2;
+          && this.bot.blockAt( bl.position.offset( 0, 1, 0 ) ).name == 'air' 
+          && this.bot.entity.position.distanceTo( bl.position ) > 2;
       }
     });
     
-    this._bot.pathfinder.setGoal( null );
-    await this._cmds.digManager.goNearbyBlock( blockNearby.position.x, blockNearby.position.y,  blockNearby.position.z );
-    if ( this._bot.inventory.emptySlotCount() == 0 ) {
+    this.bot.pathfinder.setGoal( null );
+    await this.cmds.digManager.goNearbyBlock( blockNearby.position.x, blockNearby.position.y,  blockNearby.position.z );
+    if ( this.bot.inventory.emptySlotCount() == 0 ) {
       //TODO: remove one item from inventory
     }
-    await this._bot.unequip( 'hand' );
-    await this._bot.equip( blockInInventory, 'hand' );
+    await this.bot.unequip( 'hand' );
+    await this.bot.equip( blockInInventory, 'hand' );
     try {
-      await this._bot.placeBlock( blockNearby, vec( 0, 1, 0 ) );
+      await this.bot.placeBlock( blockNearby, new Vec3( 0, 1, 0 ) );
     } catch(err) {
       console.log(err);
     }
@@ -63,27 +73,18 @@ class ActionExecuter {
     return true;
   }
   
-  /**
-   * 
-   * @param {mineflayer.Bot} bot 
-   */
-  #setBot( bot ) {
-    this._bot = bot;
+
+  private setBot( bot: BingoBot ) {
+    this.bot = bot;
   }
-  //as easy as it looks!
   
-  /**
-   * 
-   * @param {*} itemName 
-   * @param {*} count 
-   * @returns {Promise<boolean>}
-   */
-  async craftItem( itemName, count = 1, recipyNumber = 0 ) {
+
+  async craftItem( itemName: string, count: number = 1, recipyNumber = 0 ): Promise<boolean> {
     if ( recipyNumber >= 50 )
       return false;
 
     console.log( 'crafting... ' + itemName );
-    const allRecipies = this._bot.recipesFor( this.#getItemId( itemName ), null, 0, true );
+    const allRecipies = this.bot.recipesFor( this.getItemId( itemName ), null, 0, true );
     const currentRecipe = allRecipies[ recipyNumber ];
 
     if ( !currentRecipe )
@@ -91,34 +92,34 @@ class ActionExecuter {
 
     if ( currentRecipe.requiresTable == false ) {
       try {
-        await this._bot.craft( currentRecipe, count, null );
+        await this.bot.craft( currentRecipe, count, null );
       } catch(err) {
         return await this.craftItem( itemName, count, recipyNumber + 1 );
       }
       return true;
     }
 
-    let blockCrafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table', maxDistance: 70 });
+    let blockCrafting = this.bot.findBlock({ matching: ( block ) => block.name == 'crafting_table', maxDistance: 70 });
 
     if ( !blockCrafting ) {
-      const result = await this._cmds.goalInterpreter.GetItem( 'crafting_table', 1 );
+      const result = await this.cmds.goalInterpreter.GetItem( 'crafting_table', 1 );
       if ( !result )
         return false;
     
-      const res = await this.#placeBlock( 'crafting_table' );
+      const res = await this.placeBlock( 'crafting_table' );
       if ( !res ) return false;
 
-      blockCrafting = this._bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
+      blockCrafting = this.bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
     }
 
     if ( !blockCrafting ) {
       return await this.craftItem( itemName, count, recipyNumber );
     }
 
-    await this._cmds.digManager.goTo( blockCrafting.position.x, blockCrafting.position.y + 1, blockCrafting.position.z );
+    await this.cmds.digManager.goTo( blockCrafting.position.x, blockCrafting.position.y + 1, blockCrafting.position.z );
 
     try {
-      await this._bot.craft( currentRecipe, count, blockCrafting );
+      await this.bot.craft( currentRecipe, count, blockCrafting );
     } catch(err) {
       console.log( err );
       return await this.craftItem( itemName, count, recipyNumber + 1 );
@@ -127,45 +128,39 @@ class ActionExecuter {
     return true
   }
 
-  /**
-   * @method smellItem messy function that will smell the item in the nearest rurnace works similar to craft item
-   * @param {string} itemToSmell
-   * @param {number} count
-   * @returns {Promise<boolean>}
-   */
-  smellItem( itemToSmell, count ) {
+  smellItem( itemToSmell: string, count: number ): Promise<boolean> {
     return new Promise( async ( resolve ) => {
       console.log(`smelting: ${itemToSmell}...`);
   
-      let blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+      let blockFurnace = this.bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
   
       if ( !blockFurnace ) {
-        const result = await this._cmds.goalInterpreter.GetItem( 'furnace', 1 );
+        const result = await this.cmds.goalInterpreter.GetItem( 'furnace', 1 );
         if ( !result ) {
           resolve( false )
           return;
         }
   
-          const res = await this.#placeBlock( 'furnace' );
+          const res = await this.placeBlock( 'furnace' );
           if ( !res ) { 
             resolve( false );
             return
           }
-          blockFurnace = this._bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
+          blockFurnace = this.bot.findBlock({ matching: block => block.name == 'furnace', maxDistance: 70 });
       }
 
       if ( !blockFurnace ) {
-        return await this.smellItem( itemName, count );
+        return await this.smellItem( itemToSmell, count );
       }
 
-      const fuelData = await this._cmds.goalInterpreter.GetFuel( count ).catch(err => resolve( false ) );
+      const fuelData = await this.cmds.goalInterpreter.GetFuel( count ).catch(err => resolve( false ) );
   
-      await this._cmds.digManager.goTo( blockFurnace.position.x, blockFurnace.position.y + 1, blockFurnace.position.z );
-      const furnace = await this._bot.openFurnace( blockFurnace );
-  
-      await furnace.takeOutput().catch( err => {} );
-      await furnace.putFuel( this.#getItemId( fuelData.item ), 0, fuelData.count ).catch( err => {});
-      await furnace.putInput( this.#getItemId( itemToSmell ), 0, count ).catch( err => {} );
+      await this.cmds.digManager.goTo( blockFurnace.position.x, blockFurnace.position.y + 1, blockFurnace.position.z );
+      const furnace = await this.bot.openFurnace( blockFurnace );
+      
+      await furnace.takeOutput( null ).catch( err => {} );
+      await furnace.putFuel( this.getItemId( fuelData.item ), 0, fuelData.count ).catch( err => {});
+      await furnace.putInput( this.getItemId( itemToSmell ), 0, count ).catch( err => {} );
 
       async function onUpdate() {
         const item = furnace.outputItem();
@@ -174,7 +169,7 @@ class ActionExecuter {
         if ( item.count >= count ) {
           try {
             furnace.off('update', onUpdate );
-            const item = await furnace.takeOutput();
+            const item = await furnace.takeOutput( null );
             if ( !item ) return;
 
             furnace.close();
@@ -196,8 +191,8 @@ class ActionExecuter {
    * @param {number} z 
    * @returns {Promise<boolean>} 
    */
-  async goToItem( x, y, z ) {  
-    await this._cmds.digManager.goTo( x, y, z );
+  async goToItem( x: number, y: number, z: number ): Promise<boolean> {  
+    await this.cmds.digManager.goTo( x, y, z );
     return true;
   }
   
@@ -208,8 +203,8 @@ class ActionExecuter {
    * @param {number} z 
    * @returns {Promise<boolean>} 
    */
-  async mineBlock( x, y, z ) {
-    await this._cmds.digManager.digBlockAt( x, y, z );
+  async mineBlock( x: number, y: number, z: number ): Promise<boolean> {
+    await this.cmds.digManager.digBlockAt( x, y, z );
     return true;
   }
   
@@ -219,9 +214,9 @@ class ActionExecuter {
    * @param {number} count
    * @returns {number} 
    */
-  isItemInInventory( itemName ) {
+  isItemInInventory( itemName: string ): number {
     try {
-      const countInInventory = this._bot.inventory.count( this.#getItemId( itemName ) );
+      const countInInventory = this.bot.inventory.count( this.getItemId( itemName ), null );
       return countInInventory ? countInInventory : 0;
     } catch( err ) {
       console.warn( `Item ${itemName} is not registered in minecraft data, cannot find item` );
@@ -230,19 +225,13 @@ class ActionExecuter {
     }
   }
 
-  /**
-   * 
-   * @param {string} itemName
-   * @param {number} count
-   * @returns {Promise<boolean|{x, y, z, count}>} 
-   */
-  async isItemOnGround( itemName ) {
+  async isItemOnGround( itemName: string ): Promise<boolean | CountVector> {
     let overallCount = 0;
 
-    const nearestEntity = this._bot.nearestEntity( entity => {
+    const nearestEntity = this.bot.nearestEntity( entity => {
       if ( entity.mobType != "Item" )
         return false;
-
+      
       const item = this.Item.fromNotch( entity.metadata[7] );
 
       if ( item.name == itemName ) {
@@ -256,19 +245,17 @@ class ActionExecuter {
     if ( !nearestEntity )
       return false;
 
-    nearestEntity.position.count = overallCount;
-    return nearestEntity.position;
+    return new CountVector( 
+        nearestEntity.position.x,
+        nearestEntity.position.y,
+        nearestEntity.position.z,
+        overallCount
+     );
   }
 
-  
-  /**
-   * 
-   * @param {string} blockName
-   * @param {number} count
-   * @returns {Promise<boolean|{x, y, z}>} 
-   */
-  async isBlockNearby( blockName ) {
-    const wantedBlock = this._bot.findBlock({
+
+  async isBlockNearby( blockName: string ): Promise<boolean | Vec3> {
+    const wantedBlock = this.bot.findBlock({
       matching: ( block ) => block.name == blockName,
       maxDistance: 150
     });
@@ -280,16 +267,21 @@ class ActionExecuter {
 }
 
 class GoalInterpreter {
+  private cmds: any;
+  actionExecuter: ActionExecuter;
+  pathToGoals: string;
+  goals: any;
+  firstItems: any;
 
   constructor( cmds, pathToGoals = './bingo/goals.json' ) {
-    this._cmds = cmds;
+    this.cmds = cmds;
     this.actionExecuter = new ActionExecuter( cmds );
 
     this.pathToGoals = pathToGoals;
-    this.#prepare();
+    this.prepare();
   }
 
-  #logBlocks() {
+  private logBlocks() {
     let list = '';
     for ( const itemName in this.goals.items )
       list += `, ${itemName}`;
@@ -297,21 +289,19 @@ class GoalInterpreter {
     console.log( list );
   }
 
-  async #prepare() {
-    this.goals = await this.#download( this.pathToGoals );
+  private async prepare() {
+    this.goals = await this.download( this.pathToGoals );
     this.firstItems = this.goals.config.itemsBotNeeds;
     console.log( 'Registered the following list of blocks: ' );
-    this.#logBlocks();
+    this.logBlocks();
   }
 
-  async #download( pathToGoals ) {
+  private async download( pathToGoals ) : Promise<any> {
     return JSON.parse( await fs.readFile( pathToGoals, 'utf-8' ) );
   }
 
-  /**
-   * @returns {Promise<boolean>}
-   */
-  async #resolveActionAfterCondition( condition, resolvingItem, count ) {
+
+  async resolveActionAfterCondition( condition, resolvingItem, count ): Promise<boolean> {
     let countOfConditionItem = 0;
 
     // also second condition because name is not always the item, name ( could be entity name )
@@ -351,16 +341,16 @@ class GoalInterpreter {
 
   }
 
-  async #resolveItem( itemName, requiredCount ) {
+  private async resolveItem( itemName, requiredCount ) {
     return await this.GetItem( itemName, requiredCount );
   }
 
-  async #resolveItemArray( itemArray ) {
+  private async resolveItemArray( itemArray ) {
     for ( const requiredBlock of itemArray ) {
       let count = this.actionExecuter.isItemInInventory( requiredBlock.requiredItem );
 
       if ( count < requiredBlock.requiredCount ) {
-        const gotBlock = await this.#resolveItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
+        const gotBlock = await this.resolveItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
         //if any item cannot be optained, the whole condition will fail
         if ( gotBlock == false ) {
           return false;
@@ -372,27 +362,23 @@ class GoalInterpreter {
     return true;
   }
 
-  /**
-   * @returns {Promise<boolean>}
-   */
-  async #resolveInventory( condition, count ) {
+ 
+  private async resolveInventory( condition, count ): Promise<boolean> {
     //name is an array means we need multiple items to resolve condition  
     if ( condition.name instanceof Array ) {
-      return await this.#resolveItemArray( condition.name );
+      return await this.resolveItemArray( condition.name );
     }
 
     let currentItemCount = this.actionExecuter.isItemInInventory( condition.name );
     if ( condition.recursive == true && currentItemCount < condition.count ) {
-      return await this.#resolveItem( condition.name, ( condition.count ? condition.count : 1 ) * count - currentItemCount );
+      return await this.resolveItem( condition.name, ( condition.count ? condition.count : 1 ) * count - currentItemCount );
     }
       
     return currentItemCount == 0 ? false : true;
   }
 
-  /**
-   * @returns {Promise<boolean>}
-   */
-  async #resolveCondition( condition, count ) {
+
+  private async resolveCondition( condition, count ): Promise<boolean> {
 
     let coordinates;
     let result = false;
@@ -400,7 +386,7 @@ class GoalInterpreter {
     switch ( condition.type ) {
 
       case 'inInventory':
-        return await this.#resolveInventory( condition, count );
+        return await this.resolveInventory( condition, count );
     
       case 'itemOnGround':
         coordinates = await this.actionExecuter.isItemOnGround( condition.name );
@@ -420,7 +406,7 @@ class GoalInterpreter {
         break;
 
       case 'entityNearby':
-        const conditionEntityNearby = new EntityNearby( this._cmds.bot, condition );
+        const conditionEntityNearby = new EntityNearby( this.cmds.bot, condition );
         return await conditionEntityNearby.resolve();
 
       default:
@@ -435,7 +421,7 @@ class GoalInterpreter {
    * @param {string} itemToFind
    * @returns {Promise<boolean>}
    */
-  async GetItem( itemToFind, count = 1 ) {
+  async GetItem( itemToFind: string, count = 1 ): Promise<boolean> {
     const item = this.goals.items[ itemToFind ];
     if ( !item ) {
       console.log(`Item ${itemToFind} not specified in goals list`);
@@ -444,7 +430,7 @@ class GoalInterpreter {
 
     for ( const condition of item.conditions ) {
 
-      const result = await this.#resolveCondition( condition, count );
+      const result = await this.resolveCondition( condition, count );
       let sumInInventory = this.actionExecuter.isItemInInventory( itemToFind );
 
       if ( sumInInventory >= count ) {
@@ -453,7 +439,7 @@ class GoalInterpreter {
 
       if ( result ) {
         await wait( 500 );
-        await this.#resolveActionAfterCondition( condition, itemToFind, count );
+        await this.resolveActionAfterCondition( condition, itemToFind, count );
       }
       
       sumInInventory = this.actionExecuter.isItemInInventory( itemToFind );
@@ -466,12 +452,9 @@ class GoalInterpreter {
     return false;
   }
 
-  /**
-   * 
-   * @param {number} amountOfItemsToSmell 
-   * @returns {Promise<{ key: string, fuelNeeded: number }>}
-   */
-  async GetFuel( amountOfItemsToSmell ) {
+
+  async GetFuel( amountOfItemsToSmell: number ): Promise<{ item: string; count: number;  }> {
+    //TODO: make an interface for this ^
     for ( const key in this.goals.items ) {
       if ( !this.goals.items[ key ].isFuel ) continue;
 
@@ -479,7 +462,7 @@ class GoalInterpreter {
 
       const isItemFound = await this.GetItem( key, fuelNeeded );
       if ( isItemFound ) {
-        this._cmds.bot.chat('Getting fuel resulted in true');
+        this.cmds.bot.chat('Getting fuel resulted in true');
         return {
           item: key,
           count: fuelNeeded
