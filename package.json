@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "minecraft-data": "^2.99.0",
-    "mineflayer": "^3.11.2",
+    "mineflayer": "^3.14.0",
     "mineflayer-auto-eat": "^2.3.3",
     "mineflayer-navigate": "^0.0.10",
     "mineflayer-pathfinder": "^1.8.0",
