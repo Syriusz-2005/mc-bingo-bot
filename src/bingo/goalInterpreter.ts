@@ -1,5 +1,7 @@
 const fs = require('fs/promises');
 import { Vec3 } from 'vec3';
+const vec = require('vec3');
+
 const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
 import minecraftData, { IndexedData } from "minecraft-data";
 
@@ -10,8 +12,8 @@ import { BingoBot } from "../types/bot";
 import { Item } from 'prismarine-item';
 const getItem = require("prismarine-item");
 
-class CountVector extends Vec3 {
-  count: number;
+class CountVector extends vec {
+  public count: number;
 
   constructor( x: number, y: number, z: number, count: number ) {
     super( x, y, z );

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.filterNames = void 0;
-var filterNames = function (name) {
+const filterNames = (name) => {
     return name
         .replace('hay_bale', 'hay_block')
         .replace('block_of_iron', 'iron_block')

@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "outDir": "./build",
     "allowJs": true,
-    "target": "ES5",
+    "target": "ES2016",
     "moduleResolution": "Node",
     "downlevelIteration": true,
     "rootDir": "src"

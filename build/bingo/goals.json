@@ -7591,6 +7591,206 @@
         }
       ]
       
+    },
+
+    "pumpkin": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "pumpkin"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "pumpkin"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "pumpkin",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+    
+    "pumpkin_pie":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"pumpkin_pie"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "pumpkin_pie"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"pumpkin",
+              "requiredCount":1
+            },
+            {
+              "requiredItem":"egg",
+              "requiredCount":1
+            },
+            {
+              "requiredItem":"sugar",
+              "requiredCount":1
+            }
+          ],
+          "resultsIn": 1,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "sugar":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"sugar"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "sugar"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"sugar_cane",
+              "requiredCount":1
+            }
+          ],
+          "resultsIn": 1,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "paper":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"paper"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "paper"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"sugar_cane",
+              "requiredCount":3
+            }
+          ],
+          "resultsIn": 3,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "book":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"book"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "book"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "bookshelf",
+          "actionAfterResolved": "recheckConditions"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"paper",
+              "requiredCount":3
+            },
+            {
+              "requiredItem":"leather",
+              "requiredCount":3
+            }
+          ],
+          "resultsIn": 1,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "bookshelf":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"bookshelf"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "bookshelf"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"book",
+              "requiredCount":3
+            },
+            {
+              "requiredItem":"oak_planks",
+              "requiredCount":6
+            }
+          ],
+          "resultsIn": 1,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
     }
 
   }

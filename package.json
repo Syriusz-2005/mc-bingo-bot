@@ -19,7 +19,8 @@
     "mineflayer-pvp": "^1.0.2",
     "mineflayer-tool": "^1.1.0",
     "mineflayer-web-inventory": "^1.6.3",
-    "prismarine-item": "^1.11.1"
+    "prismarine-item": "^1.11.1",
+    "vec3": "^0.1.7"
   },
   "devDependencies": {
     "typescript": "^4.5.4"
