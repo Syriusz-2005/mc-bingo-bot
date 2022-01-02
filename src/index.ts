@@ -1,24 +1,26 @@
-const mineflayer = require( "mineflayer" );
-const CommandInterpreter = require( "./commands.js" ).CommandInterperter;
-const wait = ( time ) => new Promise( resolve => setTimeout( resolve, time ) );
+const mineflayer = require('mineflayer');
+import { pathfinder } from "mineflayer-pathfinder";
 
-const pathfinder = require( "mineflayer-pathfinder" ).pathfinder;
-const autoeat = require("mineflayer-auto-eat");
+import { CommandInterpreter } from "./commands";
+import { async } from "./lib/async";
+
+import autoeat from "mineflayer-auto-eat";
 const toolPlugin = require('mineflayer-tool').plugin;
 const pvp = require( 'mineflayer-pvp' ).plugin;
 const inventoryViewer = require("mineflayer-web-inventory");
 
-const name = process.argv.find( argument => argument.startsWith('name=') )?.split('=')[1] || 'bot';
+const botName = process.argv.find( argument => argument.startsWith('name=') )?.split('=')[1] || 'bot';
 const host = process.argv.find( argument => argument.startsWith('host=') )?.split('=')[1] || 'localhost';
 const version =  process.argv.find( argument => argument.startsWith('version=') )?.split('=')[1] || '1.16.4';
 
+
 console.log('Bot params: ');
-console.log({ name, host, version });
+console.log({ botName, host, version });
 console.log( 'To change bot params, type <paramName>=<paramValue>' );
 
 const bot = mineflayer.createBot({
   host: host,
-  username: name,
+  username: botName,
   version: version,
   hideErrors: true
 });
@@ -27,6 +29,7 @@ bot.loadPlugin( pathfinder );
 bot.loadPlugin( pvp );
 bot.loadPlugin( autoeat );
 bot.loadPlugin( toolPlugin );
+
 try {
   inventoryViewer( bot, {
     port: 3000
@@ -35,6 +38,7 @@ try {
 
 bot.once("spawn", () => {
   bot.chat('Loading done!');
+  
   bot.autoEat.options.priority = "foodPoints";
   bot.autoEat.options.bannedFood = [ "spider_eye" ];
   bot.autoEat.options.eatingTimeout = 3;
@@ -55,15 +59,6 @@ const interpreter = new CommandInterpreter( bot );
 
 bot.on('death', async () => {
   bot.pathfinder.stop();
-  await wait( 1500 );
-});
-
-bot.on('path_update', ( r ) => {
-  const nodesPerTick = (r.visitedNodes * 50 / r.time).toFixed(2)
-  // console.log(`I can get there in ${r.path.length} moves. Computation took ${r.time.toFixed(2)} ms (${r.visitedNodes} nodes, ${nodesPerTick} nodes/tick) status: ${r.status}`);
-});
-
-bot.on('path_reset', reason => {
-  // console.log(`stopped, reason: `, reason );
+  await async.wait( 1500 );
 });
 
