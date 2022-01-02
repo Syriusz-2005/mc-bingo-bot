@@ -1,7 +1,7 @@
 const mineflayer = require('mineflayer');
 import { pathfinder } from "mineflayer-pathfinder";
 
-const CommandInterpreter = require( "./commands.ts" ).CommandInterperter;
+import { CommandInterpreter } from "./commands";
 import { async } from "./lib/async";
 
 import autoeat from "mineflayer-auto-eat";
@@ -29,7 +29,6 @@ bot.loadPlugin( pathfinder );
 bot.loadPlugin( pvp );
 bot.loadPlugin( autoeat );
 bot.loadPlugin( toolPlugin );
-
 
 try {
   inventoryViewer( bot, {

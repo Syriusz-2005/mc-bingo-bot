@@ -1,16 +1,16 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "module": "system",
+    "module": "CommonJS",
     "esModuleInterop": true,
     "outDir": "./build",
-    "outFile": "./build/index.js",
     "allowJs": true,
-    "target": "es5",
+    "target": "ES5",
     "moduleResolution": "Node",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "rootDir": "src"
   },
 
   "include": [ "**/*" ],
-  "exclude": [ "node_modules" ]
+  "exclude": [ "node_modules", "build" ]
 }

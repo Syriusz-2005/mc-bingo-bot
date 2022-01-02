@@ -273,7 +273,7 @@ class GoalInterpreter {
   goals: any;
   firstItems: any;
 
-  constructor( cmds, pathToGoals = './bingo/goals.json' ) {
+  constructor( cmds, pathToGoals =  './build/bingo/goals.json' ) {
     this.cmds = cmds;
     this.actionExecuter = new ActionExecuter( cmds );
 
