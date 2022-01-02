@@ -7457,6 +7457,140 @@
           "actionAfterResolved": "craft"
         }
       ] 
+    },
+
+    "crimson_fungus": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "crimson_fungus"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "crimson_fungus"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "crimson_fungus",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "clay_ball": {
+      "madeBy":"mikib",
+      "conditions": [
+
+        {
+          "type":"inInventory",
+          "name": "clay_ball"
+        },
+        
+        {
+          "type" : "itemOnGround",
+          "name": "clay_ball"
+        },
+
+        {
+          "type": "blockNearby",
+          "name": "clay",
+          "actionAfterResolved": "recheckConditions"
+        }
+
+      ]
+    },
+
+    "brick": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"brick"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "brick"
+        },
+
+        {
+          "type": "inInventory",
+          "name":"clay_ball",
+          "count": 1,
+          "recursive": true,
+          "actionAfterResolved": "smell"  
+        }
+
+      ]
+      
+    },
+
+    "pot": {
+      "madeBy": "mikib",
+      "conditions": [
+        
+        {
+          "type":"inInventory",
+          "name":"pot"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "pot"
+        },
+
+        {
+          "type": "inInventory",
+          "name":"brick",
+          "count": 3,
+          "resultsIn": 1,
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+        }
+
+      ]
+      
+    },
+    
+    "chain":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"chain"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "chain"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"iron_ingot",
+              "requiredCount":1
+            },
+            {
+              "requiredItem":"iron_nugget",
+              "requiredCount":2
+            }
+          ],
+          "resultsIn": 1,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
     }
 
   }

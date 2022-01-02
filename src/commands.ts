@@ -45,7 +45,7 @@ const commands = {
 
       bot.webInventory.stop();
 
-      var cmd = "node " + 'index.js';
+      var cmd = "node " + './build/index.js';
 
       var exec = require('child_process').exec;
       exec( cmd , function () {

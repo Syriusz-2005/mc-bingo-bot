@@ -7,8 +7,8 @@ import minecraftData, { IndexedData } from "minecraft-data";
 import { EntityNearby } from './goal/entityNearby';
 import { CommandInterpreter } from "../commands";
 import { BingoBot } from "../types/bot";
-import { Item } from "prismarine-item";
-
+import { Item } from 'prismarine-item';
+const getItem = require("prismarine-item");
 
 class CountVector extends Vec3 {
   count: number;
@@ -29,7 +29,7 @@ class ActionExecuter {
     this.cmds = cmds;
     this.setBot( cmds.bot );
     this.mcData = minecraftData( cmds.bot.version );
-    this.Item = Item;
+    this.Item = getItem( cmds.bot.version );
   }
 
   private getItemId( name: string ) {
@@ -401,7 +401,7 @@ class GoalInterpreter {
         coordinates = await this.actionExecuter.isBlockNearby( condition.name );
         if ( coordinates ) {
           await this.actionExecuter.mineBlock( coordinates.x, coordinates.y, coordinates.z );
-          result = true
+          result = true;
         }
         break;
 

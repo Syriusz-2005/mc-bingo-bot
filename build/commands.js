@@ -96,7 +96,7 @@ var commands = {
             var cmd, exec;
             return __generator(this, function (_a) {
                 bot.webInventory.stop();
-                cmd = "node " + 'index.js';
+                cmd = "node " + './build/index.js';
                 exec = require('child_process').exec;
                 exec(cmd, function () {
                     process.kill(0);

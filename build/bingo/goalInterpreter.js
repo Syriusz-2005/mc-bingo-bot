@@ -70,7 +70,7 @@ var vec3_1 = require("vec3");
 var wait = function (time) { return new Promise(function (resolve) { return setTimeout(resolve, time); }); };
 var minecraft_data_1 = __importDefault(require("minecraft-data"));
 var entityNearby_1 = require("./goal/entityNearby");
-var prismarine_item_1 = require("prismarine-item");
+var getItem = require("prismarine-item");
 var CountVector = /** @class */ (function (_super) {
     __extends(CountVector, _super);
     function CountVector(x, y, z, count) {
@@ -85,7 +85,7 @@ var ActionExecuter = /** @class */ (function () {
         this.cmds = cmds;
         this.setBot(cmds.bot);
         this.mcData = (0, minecraft_data_1.default)(cmds.bot.version);
-        this.Item = prismarine_item_1.Item;
+        this.Item = getItem(cmds.bot.version);
     }
     ActionExecuter.prototype.getItemId = function (name) {
         return this.mcData.itemsByName[name].id;
