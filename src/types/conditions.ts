@@ -1,12 +1,15 @@
 
-export interface ConditionParam {
+export interface ItemParam {
   requiredItem: string;
   requiredCount: number;
 }
 
+export type mainParam = string | ItemParam[];
+
 export interface Condition {
   type: string;
-  name: string | ConditionParam[];
+  name: mainParam;
+  count?: number;
   resultsIn?: number;
   recursive?: boolean;
   actionAfterResolved: string;

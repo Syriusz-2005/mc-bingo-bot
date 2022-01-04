@@ -3,13 +3,13 @@ import mineflayer from 'mineflayer';
 import { Condition } from '../../types/conditions';
 import { Resolvable } from './resolvable';
 import { BingoBot } from '../../types/bot.js';
-import { Entity } from 'minecraft-data';
+import { Entity, IndexedData } from 'minecraft-data';
 
 export class EntityNearby extends Goal implements Resolvable {
   mobType: string | any[];
 
-  constructor( bot: BingoBot, condition: Condition ) {
-    super( bot, condition );
+  constructor( bot: BingoBot, condition: Condition, mcData: IndexedData ) {
+    super( bot, condition, mcData );
 
     if ( condition.type != 'entityNearby' )
       throw new Error( 'condition type must be entityNearby' );

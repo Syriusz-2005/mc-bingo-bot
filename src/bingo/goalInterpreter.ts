@@ -302,7 +302,7 @@ class GoalInterpreter {
   }
 
 
-  async resolveActionAfterCondition( condition, resolvingItem, count ): Promise<boolean> {
+  async resolveActionAfterCondition( condition, resolvingItem, count: number ): Promise<boolean> {
     let countOfConditionItem = 0;
 
     // also second condition because name is not always the item, name ( could be entity name )
@@ -407,7 +407,7 @@ class GoalInterpreter {
         break;
 
       case 'entityNearby':
-        const conditionEntityNearby = new EntityNearby( this.cmds.bot, condition );
+        const conditionEntityNearby = new EntityNearby( this.cmds.bot, condition, this.actionExecuter.mcData );
         return await conditionEntityNearby.resolve();
 
       default:
