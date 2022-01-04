@@ -1,7 +1,13 @@
 
+export interface ConditionParam {
+  requiredItem: string;
+  requiredCount: number;
+}
 
 export interface Condition {
   type: string;
-  name: string | any[];
-  //TODO: all condition params here!
+  name: string | ConditionParam[];
+  resultsIn?: number;
+  recursive?: boolean;
+  actionAfterResolved: string;
 }

@@ -171,8 +171,7 @@ class ActionExecuter {
         if ( item.count >= count ) {
           try {
             furnace.off('update', onUpdate );
-            const item = await furnace.takeOutput( null );
-            if ( !item ) return;
+            await furnace.takeOutput( null );
 
             furnace.close();
             resolve( true );

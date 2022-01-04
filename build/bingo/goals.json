@@ -399,18 +399,18 @@
       ]
     },
 
-    "ink_sack": {
+    "ink_sac": {
       "madeBy": "mikib",
       "conditions": [
 
         {
           "type": "inInventory",
-          "name": "ink_sack"
+          "name": "ink_sac"
         },
 
         {
           "type":"itemOnGround",
-          "name": "ink_sack"
+          "name": "ink_sac"
         },
 
         {
@@ -7062,7 +7062,7 @@
           "type": "inInventory",
           "name": [
             {
-              "requiredItem": "ink_sack",
+              "requiredItem": "ink_sac",
               "requiredCount": 1
             }
             
@@ -7781,6 +7781,72 @@
             },
             {
               "requiredItem":"oak_planks",
+              "requiredCount":6
+            }
+          ],
+          "resultsIn": 1,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "smooth_stone_slab":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"smooth_stone_slab"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "smooth_stone_slab"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"smooth_stone",
+              "requiredCount":3
+            }
+          ],
+          "resultsIn": 6,          
+          "recursive": true,
+          "actionAfterResolved": "craft"  
+          
+        }
+      ]
+      
+    },
+    
+    "armor_stand":{
+      "madeBy": "mikib",
+      "conditions":[
+        
+        {
+          "type":"inInventory",
+          "name":"armor_stand"
+        },
+
+        {
+          "type":"itemOnGround",
+          "name": "armor_stand"
+        },
+
+        {
+          "type": "inInventory",
+          "name": [
+            {
+              "requiredItem":"smooth_stone_slab",
+              "requiredCount":1
+            }, 
+            {
+              "requiredItem":"stick",
               "requiredCount":6
             }
           ],

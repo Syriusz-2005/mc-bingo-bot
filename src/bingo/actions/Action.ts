@@ -17,7 +17,3 @@ export class Action {
 export interface ActionExecuter {
   doAction( condition: Condition, countNeeded: number ): Promise<boolean>
 }
-
-export interface ConditionExecuter {
-  resolveCondition( condition: Condition, countNeeded: number ): Promise<boolean>
-}

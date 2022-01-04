@@ -3,6 +3,7 @@ import mineflayer from 'mineflayer';
 import { Condition } from '../../types/conditions';
 import { Resolvable } from './resolvable';
 import { BingoBot } from '../../types/bot.js';
+import { Entity } from 'minecraft-data';
 
 export class EntityNearby extends Goal implements Resolvable {
   mobType: string | any[];

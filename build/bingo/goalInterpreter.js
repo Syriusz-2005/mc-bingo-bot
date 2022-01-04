@@ -148,9 +148,7 @@ class ActionExecuter {
                     if (item.count >= count) {
                         try {
                             furnace.off('update', onUpdate);
-                            const item = yield furnace.takeOutput(null);
-                            if (!item)
-                                return;
+                            yield furnace.takeOutput(null);
                             furnace.close();
                             resolve(true);
                         }
