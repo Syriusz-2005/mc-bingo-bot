@@ -10,6 +10,8 @@ import { EntityNearby } from './goal/entityNearby';
 import { CommandInterpreter } from "../commands";
 import { BingoBot } from "../types/bot";
 import { Item } from 'prismarine-item';
+import { CraftAction } from './actions/craft';
+import { Condition } from '../types/conditions';
 const getItem = require("prismarine-item");
 
 class CountVector extends vec {
@@ -78,56 +80,6 @@ class ActionExecuter {
 
   private setBot( bot: BingoBot ) {
     this.bot = bot;
-  }
-  
-
-  async craftItem( itemName: string, count: number = 1, recipyNumber = 0 ): Promise<boolean> {
-    if ( recipyNumber >= 50 )
-      return false;
-
-    console.log( 'crafting... ' + itemName );
-    const allRecipies = this.bot.recipesFor( this.getItemId( itemName ), null, 0, true );
-    const currentRecipe = allRecipies[ recipyNumber ];
-
-    if ( !currentRecipe )
-      return false;
-
-    if ( currentRecipe.requiresTable == false ) {
-      try {
-        await this.bot.craft( currentRecipe, count, null );
-      } catch(err) {
-        return await this.craftItem( itemName, count, recipyNumber + 1 );
-      }
-      return true;
-    }
-
-    let blockCrafting = this.bot.findBlock({ matching: ( block ) => block.name == 'crafting_table', maxDistance: 70 });
-
-    if ( !blockCrafting ) {
-      const result = await this.cmds.goalInterpreter.GetItem( 'crafting_table', 1 );
-      if ( !result )
-        return false;
-    
-      const res = await this.placeBlock( 'crafting_table' );
-      if ( !res ) return false;
-
-      blockCrafting = this.bot.findBlock({ matching: ( block ) => block.name == 'crafting_table' });
-    }
-
-    if ( !blockCrafting ) {
-      return await this.craftItem( itemName, count, recipyNumber );
-    }
-
-    await this.cmds.digManager.goTo( blockCrafting.position.x, blockCrafting.position.y + 1, blockCrafting.position.z );
-
-    try {
-      await this.bot.craft( currentRecipe, count, blockCrafting );
-    } catch(err) {
-      console.log( err );
-      return await this.craftItem( itemName, count, recipyNumber + 1 );
-    }
-
-    return true
   }
 
   smellItem( itemToSmell: string, count: number ): Promise<boolean> {
@@ -268,7 +220,7 @@ class ActionExecuter {
 }
 
 class GoalInterpreter {
-  private cmds: any;
+  private cmds: CommandInterpreter;
   actionExecuter: ActionExecuter;
   pathToGoals: string;
   goals: any;
@@ -302,36 +254,20 @@ class GoalInterpreter {
   }
 
 
-  async resolveActionAfterCondition( condition, resolvingItem, count: number ): Promise<boolean> {
-    let countOfConditionItem = 0;
-
-    // also second condition because name is not always the item, name ( could be entity name )
-    if ( !(condition.name instanceof Array) && this.goals.items[ condition.name ] ) {
-      countOfConditionItem = this.actionExecuter.isItemInInventory( condition.name );
-    }
+  async resolveActionAfterCondition( condition: Condition, resolvingItem: string, count: number ): Promise<boolean> {
 
     switch ( condition.actionAfterResolved ) {
 
       case 'craft':
-
-        if ( condition.name instanceof Array ) {
-          for ( const item of condition.name ) {
-            const countInInventory = this.actionExecuter.isItemInInventory( item.requiredItem );
-
-            if ( countInInventory < item.requiredCount )
-              return false;
-          }
-        } 
-
-        if ( condition.count > countOfConditionItem )
-          return false;
-
-        await this.actionExecuter.craftItem( resolvingItem, Math.ceil( count / condition.resultsIn ) );
+        const action = new CraftAction( this.actionExecuter.mcData, this.cmds.bot, this.cmds );
+        await action.doAction( resolvingItem, condition, count );
         //if the item was already crafted, nothink will happen...
         return await this.GetItem( resolvingItem, count );
 
       case 'smell':
-        return await this.actionExecuter.smellItem( condition.name, count );
+
+        if ( typeof condition.name == 'string' )
+          return await this.actionExecuter.smellItem( condition.name, count );
         
       case 'recheckConditions':
         return await this.GetItem( resolvingItem, count );

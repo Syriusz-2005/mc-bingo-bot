@@ -40,15 +40,18 @@ export class CraftAction extends Action implements Executable {
       }
 
       //recipe requires crafting table!
-
+      const crafting = await this.inventoryMethods.goOntoBlock( 'crafting_table' );
+      try {
+        await this.bot.craft( recipe, timesCrafted, crafting );
+        return true;
+      } catch( err ) {}
     }
     
-    
-    return true;
+    return false;
   }
 
   async doAction( neededItem: string, condition: Condition, countNeeded: number ) : Promise<boolean> {
-    const neededItemCount: number = this.getNeededItemCount( neededItem );
+    const currentItemCount: number = this.getNeededItemCount( neededItem );
 
     //handling deprecated way of writing crafting data where condition.name is a string not an Array
     const craftingData : ItemParam[]  = 
@@ -67,6 +70,6 @@ export class CraftAction extends Action implements Executable {
     if ( !isReadyToCraft )
       return false;
     
-    return await this.craftItem( neededItem, Math.ceil( countNeeded / condition.resultsIn ) );
+    return await this.craftItem( neededItem, Math.ceil( ( countNeeded - currentItemCount ) / condition.resultsIn ) );
   }
 }

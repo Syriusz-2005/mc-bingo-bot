@@ -69,7 +69,7 @@ export class InventoryMethods {
     }
   }
 
-  public async goOntoBlock( blockName: string ): Promise<void> {
+  public async goOntoBlock( blockName: string ): Promise<Block> {
     this.placeBlock( blockName );
     const blockPlaced = this.bot.findBlock({
       maxDistance: Number( process.env.BLOCK_PLACING_SEARCH_DISTANCE ),
@@ -77,5 +77,6 @@ export class InventoryMethods {
       matching: block => block.name == blockName
     });
     await this.cmds.digManager.goTo( blockPlaced.position.x, blockPlaced.position.y , blockPlaced.position.z );
+    return blockPlaced;
   }
 }
