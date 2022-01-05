@@ -1,15 +1,18 @@
 import { IndexedData } from "minecraft-data";
 import { Recipe, RecipeConstructor } from "prismarine-recipe";
+import { CommandInterpreter } from "../../commands";
+import { BingoBot } from "../../types/bot";
 import { Condition, ItemParam, mainParam } from "../../types/conditions";
 import { Action, Executable } from "./Action";
 
 
 export class CraftAction extends Action implements Executable {
-  constructor( mcData: IndexedData, bot ) {
+  constructor( mcData: IndexedData, bot: BingoBot, cmds: CommandInterpreter ) {
     super( false, {
       allowedConditions: [ "in_inventory" ],
       mcData,
-      bot
+      bot,
+      cmds
     });
   }
 

@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config();
+
 const mineflayer = require('mineflayer');
 import { pathfinder } from "mineflayer-pathfinder";
 

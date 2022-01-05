@@ -12,11 +12,12 @@ export class Action {
   constructor( overwriteDefaultBehaviors = false, {
     allowedConditions = [],
     mcData,
-    bot
+    bot,
+    cmds
   }) {
     this.overwriteDefaultBehaviors = overwriteDefaultBehaviors;
     this.allowedConditions = allowedConditions;
-    this.inventoryMethods = new InventoryMethods( mcData, bot );
+    this.inventoryMethods = new InventoryMethods( mcData, bot, cmds );
     this.bot = bot;
   }
 
