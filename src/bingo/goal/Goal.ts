@@ -1,4 +1,5 @@
 import { IndexedData } from "minecraft-data";
+import { CommandInterpreter } from "../../commands";
 import { BingoBot } from "../../types/bot";
 import { Condition } from "../../types/conditions";
 import { InventoryMethods } from "../inventoryMethods";
@@ -10,11 +11,11 @@ export class Goal {
   inventoryMethods: InventoryMethods;
 
 
-  constructor( bot: BingoBot, condition: Condition, mcData: IndexedData ) {
+  constructor( bot: BingoBot, condition: Condition, mcData: IndexedData, commandInterpreter: CommandInterpreter) {
     this.bot = bot;
     this.condition = condition;
     this.mcData = mcData;
-    this.inventoryMethods = new InventoryMethods( mcData );
+    this.inventoryMethods = new InventoryMethods( mcData, bot, commandInterpreter );
   }
 
   itemsInInventory( itemName: string ): number {

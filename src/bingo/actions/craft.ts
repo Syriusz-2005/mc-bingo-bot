@@ -55,7 +55,7 @@ export class CraftAction extends Action implements Executable {
 
     //handling deprecated way of writing crafting data where condition.name is a string not an Array
     const craftingData : ItemParam[]  = 
-      condition.name instanceof Array 
+      condition.name instanceof Array
       ? condition.name 
       : [{ requiredItem: condition.name, requiredCount: condition.count }];
 

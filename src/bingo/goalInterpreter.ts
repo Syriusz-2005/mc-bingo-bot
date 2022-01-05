@@ -343,7 +343,7 @@ class GoalInterpreter {
         break;
 
       case 'entityNearby':
-        const conditionEntityNearby = new EntityNearby( this.cmds.bot, condition, this.actionExecuter.mcData );
+        const conditionEntityNearby = new EntityNearby( this.cmds.bot, condition, this.actionExecuter.mcData, this.cmds );
         return await conditionEntityNearby.resolve();
 
       default:

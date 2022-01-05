@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 const mineflayer = require('mineflayer');
 const mineflayer_pathfinder_1 = require("mineflayer-pathfinder");
 const commands_1 = require("./commands");

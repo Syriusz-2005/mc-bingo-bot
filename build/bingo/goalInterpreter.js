@@ -18,6 +18,7 @@ const vec = require('vec3');
 const wait = (time) => new Promise(resolve => setTimeout(resolve, time));
 const minecraft_data_1 = __importDefault(require("minecraft-data"));
 const entityNearby_1 = require("./goal/entityNearby");
+const craft_1 = require("./actions/craft");
 const getItem = require("prismarine-item");
 class CountVector extends vec {
     constructor(x, y, z, count) {
@@ -71,48 +72,6 @@ class ActionExecuter {
     }
     setBot(bot) {
         this.bot = bot;
-    }
-    craftItem(itemName, count = 1, recipyNumber = 0) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (recipyNumber >= 50)
-                return false;
-            console.log('crafting... ' + itemName);
-            const allRecipies = this.bot.recipesFor(this.getItemId(itemName), null, 0, true);
-            const currentRecipe = allRecipies[recipyNumber];
-            if (!currentRecipe)
-                return false;
-            if (currentRecipe.requiresTable == false) {
-                try {
-                    yield this.bot.craft(currentRecipe, count, null);
-                }
-                catch (err) {
-                    return yield this.craftItem(itemName, count, recipyNumber + 1);
-                }
-                return true;
-            }
-            let blockCrafting = this.bot.findBlock({ matching: (block) => block.name == 'crafting_table', maxDistance: 70 });
-            if (!blockCrafting) {
-                const result = yield this.cmds.goalInterpreter.GetItem('crafting_table', 1);
-                if (!result)
-                    return false;
-                const res = yield this.placeBlock('crafting_table');
-                if (!res)
-                    return false;
-                blockCrafting = this.bot.findBlock({ matching: (block) => block.name == 'crafting_table' });
-            }
-            if (!blockCrafting) {
-                return yield this.craftItem(itemName, count, recipyNumber);
-            }
-            yield this.cmds.digManager.goTo(blockCrafting.position.x, blockCrafting.position.y + 1, blockCrafting.position.z);
-            try {
-                yield this.bot.craft(currentRecipe, count, blockCrafting);
-            }
-            catch (err) {
-                console.log(err);
-                return yield this.craftItem(itemName, count, recipyNumber + 1);
-            }
-            return true;
-        });
     }
     smellItem(itemToSmell, count) {
         return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
@@ -262,27 +221,15 @@ class GoalInterpreter {
     }
     resolveActionAfterCondition(condition, resolvingItem, count) {
         return __awaiter(this, void 0, void 0, function* () {
-            let countOfConditionItem = 0;
-            // also second condition because name is not always the item, name ( could be entity name )
-            if (!(condition.name instanceof Array) && this.goals.items[condition.name]) {
-                countOfConditionItem = this.actionExecuter.isItemInInventory(condition.name);
-            }
             switch (condition.actionAfterResolved) {
                 case 'craft':
-                    if (condition.name instanceof Array) {
-                        for (const item of condition.name) {
-                            const countInInventory = this.actionExecuter.isItemInInventory(item.requiredItem);
-                            if (countInInventory < item.requiredCount)
-                                return false;
-                        }
-                    }
-                    if (condition.count > countOfConditionItem)
-                        return false;
-                    yield this.actionExecuter.craftItem(resolvingItem, Math.ceil(count / condition.resultsIn));
+                    const action = new craft_1.CraftAction(this.actionExecuter.mcData, this.cmds.bot, this.cmds);
+                    yield action.doAction(resolvingItem, condition, count);
                     //if the item was already crafted, nothink will happen...
                     return yield this.GetItem(resolvingItem, count);
                 case 'smell':
-                    return yield this.actionExecuter.smellItem(condition.name, count);
+                    if (typeof condition.name == 'string')
+                        return yield this.actionExecuter.smellItem(condition.name, count);
                 case 'recheckConditions':
                     return yield this.GetItem(resolvingItem, count);
                 default:
@@ -345,7 +292,7 @@ class GoalInterpreter {
                     }
                     break;
                 case 'entityNearby':
-                    const conditionEntityNearby = new entityNearby_1.EntityNearby(this.cmds.bot, condition);
+                    const conditionEntityNearby = new entityNearby_1.EntityNearby(this.cmds.bot, condition, this.actionExecuter.mcData, this.cmds);
                     return yield conditionEntityNearby.resolve();
                 default:
                     throw new Error('Invalid condition type');

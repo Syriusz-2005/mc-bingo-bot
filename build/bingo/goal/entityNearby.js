@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntityNearby = void 0;
 const Goal_js_1 = require("./Goal.js");
 class EntityNearby extends Goal_js_1.Goal {
-    constructor(bot, condition) {
-        super(bot, condition);
+    constructor(bot, condition, mcData, cmdInterpreter) {
+        super(bot, condition, mcData, cmdInterpreter);
         if (condition.type != 'entityNearby')
             throw new Error('condition type must be entityNearby');
         this.mobType = condition.name;
