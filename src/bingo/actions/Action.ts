@@ -16,7 +16,7 @@ export class Action {
   }) {
     this.overwriteDefaultBehaviors = overwriteDefaultBehaviors;
     this.allowedConditions = allowedConditions;
-    this.inventoryMethods = new InventoryMethods( mcData );
+    this.inventoryMethods = new InventoryMethods( mcData, bot );
     this.bot = bot;
   }
 

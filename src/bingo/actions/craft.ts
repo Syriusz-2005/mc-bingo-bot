@@ -1,4 +1,5 @@
 import { IndexedData } from "minecraft-data";
+import { Recipe, RecipeConstructor } from "prismarine-recipe";
 import { Condition, ItemParam, mainParam } from "../../types/conditions";
 import { Action, Executable } from "./Action";
 
@@ -12,9 +13,34 @@ export class CraftAction extends Action implements Executable {
     });
   }
 
-  private async craftItem( itemName: string ) : Promise<boolean> {
+  private async craftInInventory( recipe: Recipe, timesCrafted: number ) : Promise<boolean> {
+    try {
+      await this.bot.craft( recipe, timesCrafted, null );
+      return true;
+    } catch( err ) {
+      return false;
+    }
+  }
 
+  private async craftItem( itemName: string, timesCrafted: number = 1 ) : Promise<boolean> {
+    const recipies = this.bot.recipesFor( this.inventoryMethods.getItemId( itemName ), null, 0, true );
 
+    for ( let i = 0; i < recipies.length; i++ ) {
+      const recipe = recipies[ i ];
+
+      if ( !recipe ) 
+        continue;
+      
+      if ( !recipe.requiresTable ) {
+        this.craftInInventory( recipe, timesCrafted );
+        continue;
+      }
+
+      //recipe requires crafting table!
+
+    }
+    
+    
     return true;
   }
 
@@ -25,7 +51,7 @@ export class CraftAction extends Action implements Executable {
     const craftingData : ItemParam[]  = 
       condition.name instanceof Array 
       ? condition.name 
-      : [{ requiredItem: condition.name, requiredCount: condition.count }]
+      : [{ requiredItem: condition.name, requiredCount: condition.count }];
 
     const isReadyToCraft = craftingData
       .map( param => {
@@ -38,8 +64,6 @@ export class CraftAction extends Action implements Executable {
     if ( !isReadyToCraft )
       return false;
     
-     
-
-    return true;
+    return await this.craftItem( neededItem, Math.ceil( countNeeded / condition.resultsIn ) );
   }
 }
