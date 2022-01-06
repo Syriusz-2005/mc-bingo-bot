@@ -137,36 +137,16 @@ class ActionExecuter {
     });
   }
 
-  /**
-   * 
-   * @param {number} x 
-   * @param {number} y 
-   * @param {number} z 
-   * @returns {Promise<boolean>} 
-   */
   async goToItem( x: number, y: number, z: number ): Promise<boolean> {  
     await this.cmds.digManager.goTo( x, y, z );
     return true;
   }
   
-  /**
-   * 
-   * @param {number} x 
-   * @param {number} y 
-   * @param {number} z 
-   * @returns {Promise<boolean>} 
-   */
   async mineBlock( x: number, y: number, z: number ): Promise<boolean> {
     await this.cmds.digManager.digBlockAt( x, y, z );
     return true;
   }
   
-    /**
-   * 
-   * @param {string} itemName
-   * @param {number} count
-   * @returns {number} 
-   */
   isItemInInventory( itemName: string ): number {
     try {
       const countInInventory = this.bot.inventory.count( this.getItemId( itemName ), null );
@@ -239,7 +219,8 @@ class GoalInterpreter {
     for ( const itemName in this.goals.items )
       list += `, ${itemName}`;
 
-    console.log( list );
+    //hack just to delete first coma
+    console.log( list.replace( ', ', '' ) );
   }
 
   private async prepare() {
