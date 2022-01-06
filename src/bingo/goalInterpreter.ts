@@ -278,16 +278,13 @@ class GoalInterpreter {
 
   }
 
-  private async resolveItem( itemName, requiredCount ) {
-    return await this.GetItem( itemName, requiredCount );
-  }
-
   private async resolveItemArray( itemArray ) {
+    
     for ( const requiredBlock of itemArray ) {
       let count = this.actionExecuter.isItemInInventory( requiredBlock.requiredItem );
 
       if ( count < requiredBlock.requiredCount ) {
-        const gotBlock = await this.resolveItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
+        const gotBlock = await this.GetItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
         //if any item cannot be optained, the whole condition will fail
         if ( gotBlock == false ) {
           return false;
@@ -300,7 +297,8 @@ class GoalInterpreter {
   }
 
  
-  private async resolveInventory( condition, count ): Promise<boolean> {
+  private async resolveInventory( condition: Condition, count: number ): Promise<boolean> {
+    console.log( condition.name )
     //name is an array means we need multiple items to resolve condition  
     if ( condition.name instanceof Array ) {
       return await this.resolveItemArray( condition.name );
@@ -308,7 +306,7 @@ class GoalInterpreter {
 
     let currentItemCount = this.actionExecuter.isItemInInventory( condition.name );
     if ( condition.recursive == true && currentItemCount < condition.count ) {
-      return await this.resolveItem( condition.name, ( condition.count ? condition.count : 1 ) * count - currentItemCount );
+      return await this.GetItem( condition.name, ( condition.count ? condition.count : 1 ) * count - currentItemCount );
     }
       
     return currentItemCount == 0 ? false : true;

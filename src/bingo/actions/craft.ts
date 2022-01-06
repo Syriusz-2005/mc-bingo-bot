@@ -52,7 +52,7 @@ export class CraftAction extends Action implements Executable {
 
   async doAction( neededItem: string, condition: Condition, countNeeded: number ) : Promise<boolean> {
     const currentItemCount: number = this.getNeededItemCount( neededItem );
-
+    
     //handling deprecated way of writing crafting data where condition.name is a string not an Array
     const craftingData : ItemParam[]  = 
       condition.name instanceof Array
@@ -62,11 +62,11 @@ export class CraftAction extends Action implements Executable {
     const isReadyToCraft = craftingData
       .map( param => {
         const count = this.getNeededItemCount( param.requiredItem );
-
+        console.log( count >= param.requiredCount );
         return count >= param.requiredCount;
       })
-      .some( param => !param );
-
+      .every( param => param == true );
+    
     if ( !isReadyToCraft )
       return false;
     

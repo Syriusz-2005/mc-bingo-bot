@@ -237,17 +237,12 @@ class GoalInterpreter {
             }
         });
     }
-    resolveItem(itemName, requiredCount) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.GetItem(itemName, requiredCount);
-        });
-    }
     resolveItemArray(itemArray) {
         return __awaiter(this, void 0, void 0, function* () {
             for (const requiredBlock of itemArray) {
                 let count = this.actionExecuter.isItemInInventory(requiredBlock.requiredItem);
                 if (count < requiredBlock.requiredCount) {
-                    const gotBlock = yield this.resolveItem(requiredBlock.requiredItem, requiredBlock.requiredCount);
+                    const gotBlock = yield this.GetItem(requiredBlock.requiredItem, requiredBlock.requiredCount);
                     //if any item cannot be optained, the whole condition will fail
                     if (gotBlock == false) {
                         return false;
@@ -259,13 +254,14 @@ class GoalInterpreter {
     }
     resolveInventory(condition, count) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(condition.name);
             //name is an array means we need multiple items to resolve condition  
             if (condition.name instanceof Array) {
                 return yield this.resolveItemArray(condition.name);
             }
             let currentItemCount = this.actionExecuter.isItemInInventory(condition.name);
             if (condition.recursive == true && currentItemCount < condition.count) {
-                return yield this.resolveItem(condition.name, (condition.count ? condition.count : 1) * count - currentItemCount);
+                return yield this.GetItem(condition.name, (condition.count ? condition.count : 1) * count - currentItemCount);
             }
             return currentItemCount == 0 ? false : true;
         });

@@ -63,9 +63,10 @@ class CraftAction extends Action_1.Action {
             const isReadyToCraft = craftingData
                 .map(param => {
                 const count = this.getNeededItemCount(param.requiredItem);
+                console.log(count >= param.requiredCount);
                 return count >= param.requiredCount;
             })
-                .some(param => !param);
+                .every(param => param == true);
             if (!isReadyToCraft)
                 return false;
             return yield this.craftItem(neededItem, Math.ceil((countNeeded - currentItemCount) / condition.resultsIn));
