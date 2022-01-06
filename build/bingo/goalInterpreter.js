@@ -224,9 +224,8 @@ class GoalInterpreter {
             switch (condition.actionAfterResolved) {
                 case 'craft':
                     const action = new craft_1.CraftAction(this.actionExecuter.mcData, this.cmds.bot, this.cmds);
-                    yield action.doAction(resolvingItem, condition, count);
-                    //if the item was already crafted, nothink will happen...
-                    return yield this.GetItem(resolvingItem, count);
+                    const result = yield action.doAction(resolvingItem, condition, count);
+                    return result;
                 case 'smell':
                     if (typeof condition.name == 'string')
                         return yield this.actionExecuter.smellItem(condition.name, count);
@@ -237,33 +236,28 @@ class GoalInterpreter {
             }
         });
     }
-    resolveItemArray(itemArray) {
-        return __awaiter(this, void 0, void 0, function* () {
-            for (const requiredBlock of itemArray) {
-                let count = this.actionExecuter.isItemInInventory(requiredBlock.requiredItem);
-                if (count < requiredBlock.requiredCount) {
-                    const gotBlock = yield this.GetItem(requiredBlock.requiredItem, requiredBlock.requiredCount);
-                    //if any item cannot be optained, the whole condition will fail
-                    if (gotBlock == false) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        });
+    howManyItemsNeededToCraft(condition, countWeNeed) {
+        const count = (typeof condition.name === 'string')
+            ? [{ item: condition.name, count: Math.ceil(condition.count * countWeNeed / condition.resultsIn) }]
+            : condition.name
+                .map(craftPart => {
+                const alreadyOptainedCount = this.actionExecuter.isItemInInventory(craftPart.requiredItem);
+                return {
+                    item: craftPart.requiredItem,
+                    count: Math.ceil((craftPart.requiredCount * countWeNeed / condition.resultsIn) - alreadyOptainedCount)
+                };
+            });
+        return count;
     }
     resolveInventory(condition, count) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(condition.name);
-            //name is an array means we need multiple items to resolve condition  
-            if (condition.name instanceof Array) {
-                return yield this.resolveItemArray(condition.name);
+            const resources = this.howManyItemsNeededToCraft(condition, count);
+            if (condition.recursive == true) {
+                const isSuccess = yield Promise.all(resources
+                    .filter(resource => resource.count > 0)
+                    .map((resource) => __awaiter(this, void 0, void 0, function* () { return yield this.GetItem(resource.item, resource.count); })));
+                return isSuccess.every(success => success);
             }
-            let currentItemCount = this.actionExecuter.isItemInInventory(condition.name);
-            if (condition.recursive == true && currentItemCount < condition.count) {
-                return yield this.GetItem(condition.name, (condition.count ? condition.count : 1) * count - currentItemCount);
-            }
-            return currentItemCount == 0 ? false : true;
         });
     }
     resolveCondition(condition, count) {
@@ -284,7 +278,7 @@ class GoalInterpreter {
                     coordinates = yield this.actionExecuter.isBlockNearby(condition.name);
                     if (coordinates) {
                         yield this.actionExecuter.mineBlock(coordinates.x, coordinates.y, coordinates.z);
-                        result = true;
+                        return true;
                     }
                     break;
                 case 'entityNearby':
@@ -296,11 +290,6 @@ class GoalInterpreter {
             return result;
         });
     }
-    /**
-     *
-     * @param {string} itemToFind
-     * @returns {Promise<boolean>}
-     */
     GetItem(itemToFind, count = 1) {
         return __awaiter(this, void 0, void 0, function* () {
             const item = this.goals.items[itemToFind];

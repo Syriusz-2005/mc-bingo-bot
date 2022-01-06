@@ -11,7 +11,7 @@ import { CommandInterpreter } from "../commands";
 import { BingoBot } from "../types/bot";
 import { Item } from 'prismarine-item';
 import { CraftAction } from './actions/craft';
-import { Condition } from '../types/conditions';
+import { Condition, ItemParam } from '../types/conditions';
 const getItem = require("prismarine-item");
 
 class CountVector extends vec {
@@ -260,9 +260,8 @@ class GoalInterpreter {
 
       case 'craft':
         const action = new CraftAction( this.actionExecuter.mcData, this.cmds.bot, this.cmds );
-        await action.doAction( resolvingItem, condition, count );
-        //if the item was already crafted, nothink will happen...
-        return await this.GetItem( resolvingItem, count );
+        const result = await action.doAction( resolvingItem, condition, count );
+        return result;
 
       case 'smell':
 
@@ -278,38 +277,34 @@ class GoalInterpreter {
 
   }
 
-  private async resolveItemArray( itemArray ) {
-    
-    for ( const requiredBlock of itemArray ) {
-      let count = this.actionExecuter.isItemInInventory( requiredBlock.requiredItem );
+  private howManyItemsNeededToCraft( condition: Condition, countWeNeed: number ): { item: string, count: number }[] {
+    const count = ( typeof condition.name === 'string') 
+      ? [{ item: condition.name, count: Math.ceil( condition.count * countWeNeed / condition.resultsIn )}]
+      : condition.name
+        .map( craftPart => {
+          const alreadyOptainedCount = this.actionExecuter.isItemInInventory( craftPart.requiredItem );
+          return { 
+            item: craftPart.requiredItem, 
+            count: Math.ceil( ( craftPart.requiredCount * countWeNeed / condition.resultsIn ) - alreadyOptainedCount )
+          }
+        });
 
-      if ( count < requiredBlock.requiredCount ) {
-        const gotBlock = await this.GetItem( requiredBlock.requiredItem, requiredBlock.requiredCount );
-        //if any item cannot be optained, the whole condition will fail
-        if ( gotBlock == false ) {
-          return false;
-        }
-      }
-
-    }
-    
-    return true;
+    return count;
   }
 
  
   private async resolveInventory( condition: Condition, count: number ): Promise<boolean> {
-    console.log( condition.name )
-    //name is an array means we need multiple items to resolve condition  
-    if ( condition.name instanceof Array ) {
-      return await this.resolveItemArray( condition.name );
-    }
+    
+    const resources = this.howManyItemsNeededToCraft( condition, count );
 
-    let currentItemCount = this.actionExecuter.isItemInInventory( condition.name );
-    if ( condition.recursive == true && currentItemCount < condition.count ) {
-      return await this.GetItem( condition.name, ( condition.count ? condition.count : 1 ) * count - currentItemCount );
+    if ( condition.recursive == true ) {
+      const isSuccess = await Promise.all( 
+        resources
+          .filter( resource => resource.count > 0 )
+          .map( async resource => await this.GetItem( resource.item, resource.count ) ) 
+      );
+      return isSuccess.every( success => success );
     }
-      
-    return currentItemCount == 0 ? false : true;
   }
 
 
@@ -336,7 +331,7 @@ class GoalInterpreter {
         coordinates = await this.actionExecuter.isBlockNearby( condition.name );
         if ( coordinates ) {
           await this.actionExecuter.mineBlock( coordinates.x, coordinates.y, coordinates.z );
-          result = true;
+          return true;
         }
         break;
 
@@ -351,11 +346,6 @@ class GoalInterpreter {
     return result;
   }
 
-  /**
-   * 
-   * @param {string} itemToFind
-   * @returns {Promise<boolean>}
-   */
   async GetItem( itemToFind: string, count = 1 ): Promise<boolean> {
     const item = this.goals.items[ itemToFind ];
     if ( !item ) {
