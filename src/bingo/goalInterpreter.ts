@@ -12,6 +12,7 @@ import { BingoBot } from "../types/bot";
 import { Item } from 'prismarine-item';
 import { CraftAction } from './actions/craft';
 import { Condition, ItemParam } from '../types/conditions';
+import { GoalsData } from '../types/goals';
 const getItem = require("prismarine-item");
 
 class CountVector extends vec {
@@ -203,7 +204,7 @@ class GoalInterpreter {
   private cmds: CommandInterpreter;
   actionExecuter: ActionExecuter;
   pathToGoals: string;
-  goals: any;
+  goals: GoalsData;
   firstItems: any;
 
   constructor( cmds, pathToGoals =  './build/bingo/goals.json' ) {
@@ -230,7 +231,7 @@ class GoalInterpreter {
     this.logBlocks();
   }
 
-  private async download( pathToGoals ) : Promise<any> {
+  private async download( pathToGoals: string ) : Promise<GoalsData> {
     return JSON.parse( await fs.readFile( pathToGoals, 'utf-8' ) );
   }
 
@@ -297,7 +298,7 @@ class GoalInterpreter {
 
   private async resolveCondition( condition, count ): Promise<boolean> {
 
-    let coordinates;
+    let coordinates: boolean | CountVector | Vec3;
     let result = false;
 
     switch ( condition.type ) {
@@ -308,7 +309,7 @@ class GoalInterpreter {
       case 'itemOnGround':
         coordinates = await this.actionExecuter.isItemOnGround( condition.name );
 
-        if ( coordinates ) {
+        if ( coordinates && coordinates instanceof CountVector ) {
           await this.actionExecuter.goToItem( coordinates.x, coordinates.y, coordinates.z );
           result = true;
         }
@@ -316,7 +317,7 @@ class GoalInterpreter {
 
       case 'blockNearby':
         coordinates = await this.actionExecuter.isBlockNearby( condition.name );
-        if ( coordinates ) {
+        if ( coordinates && coordinates instanceof Vec3 ) {
           await this.actionExecuter.mineBlock( coordinates.x, coordinates.y, coordinates.z );
           return true;
         }
