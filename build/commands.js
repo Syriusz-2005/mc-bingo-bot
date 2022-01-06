@@ -56,7 +56,7 @@ const commands = {
         run: (user, bot, params, cmds) => __awaiter(void 0, void 0, void 0, function* () {
             const wantedBlock = params[1];
             bot.chat(`Looking for item: ${wantedBlock}`);
-            const result = yield cmds.gameManager.Get(wantedBlock, params[2]);
+            const result = yield cmds.gameManager.Get(wantedBlock, Number(params[2]));
             bot.chat(`getting block resulted in ${result}`);
         })
     },

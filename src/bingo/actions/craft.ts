@@ -70,6 +70,7 @@ export class CraftAction extends Action implements Executable {
     if ( !isReadyToCraft )
       return false;
     
+    
     return await this.craftItem( neededItem, Math.ceil( ( countNeeded - currentItemCount ) / condition.resultsIn ) );
   }
 }

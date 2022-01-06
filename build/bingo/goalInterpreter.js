@@ -224,8 +224,8 @@ class GoalInterpreter {
             switch (condition.actionAfterResolved) {
                 case 'craft':
                     const action = new craft_1.CraftAction(this.actionExecuter.mcData, this.cmds.bot, this.cmds);
-                    const result = yield action.doAction(resolvingItem, condition, count);
-                    return result;
+                    yield action.doAction(resolvingItem, condition, count);
+                    return yield this.GetItem(resolvingItem, count);
                 case 'smell':
                     if (typeof condition.name == 'string')
                         return yield this.actionExecuter.smellItem(condition.name, count);
@@ -238,24 +238,28 @@ class GoalInterpreter {
     }
     howManyItemsNeededToCraft(condition, countWeNeed) {
         const count = (typeof condition.name === 'string')
-            ? [{ item: condition.name, count: Math.ceil(condition.count * countWeNeed / condition.resultsIn) }]
+            ? [
+                {
+                    item: condition.name,
+                    toCollectCount: Math.ceil(condition.count * countWeNeed / condition.resultsIn)
+                }
+            ]
             : condition.name
                 .map(craftPart => {
-                const alreadyOptainedCount = this.actionExecuter.isItemInInventory(craftPart.requiredItem);
                 return {
                     item: craftPart.requiredItem,
-                    count: Math.ceil((craftPart.requiredCount * countWeNeed / condition.resultsIn) - alreadyOptainedCount)
+                    toCollectCount: Math.ceil(craftPart.requiredCount * countWeNeed / condition.resultsIn)
                 };
             });
         return count;
     }
     resolveInventory(condition, count) {
         return __awaiter(this, void 0, void 0, function* () {
-            const resources = this.howManyItemsNeededToCraft(condition, count);
             if (condition.recursive == true) {
+                const resources = this.howManyItemsNeededToCraft(condition, Number(count));
                 const isSuccess = yield Promise.all(resources
-                    .filter(resource => resource.count > 0)
-                    .map((resource) => __awaiter(this, void 0, void 0, function* () { return yield this.GetItem(resource.item, resource.count); })));
+                    .filter(resource => resource.toCollectCount > 0)
+                    .map((resource) => __awaiter(this, void 0, void 0, function* () { return yield this.GetItem(resource.item, resource.toCollectCount); })));
                 return isSuccess.every(success => success);
             }
         });

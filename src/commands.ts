@@ -59,7 +59,7 @@ const commands = {
     run: async ( user: string, bot: BingoBot, params: Array<string>, cmds: CommandInterpreter ) => {
       const wantedBlock = params[1];
       bot.chat(`Looking for item: ${wantedBlock}`);
-      const result = await cmds.gameManager.Get( wantedBlock, params[2] );
+      const result = await cmds.gameManager.Get( wantedBlock, Number( params[2] ) );
       bot.chat(`getting block resulted in ${result}`);
     }
   },

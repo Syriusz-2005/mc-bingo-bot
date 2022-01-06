@@ -260,8 +260,8 @@ class GoalInterpreter {
 
       case 'craft':
         const action = new CraftAction( this.actionExecuter.mcData, this.cmds.bot, this.cmds );
-        const result = await action.doAction( resolvingItem, condition, count );
-        return result;
+        await action.doAction( resolvingItem, condition, count );
+        return await this.GetItem( resolvingItem, count );
 
       case 'smell':
 
@@ -277,15 +277,20 @@ class GoalInterpreter {
 
   }
 
-  private howManyItemsNeededToCraft( condition: Condition, countWeNeed: number ): { item: string, count: number }[] {
+  private howManyItemsNeededToCraft( condition: Condition, countWeNeed: number ): { item: string, toCollectCount: number }[] {
+    
     const count = ( typeof condition.name === 'string') 
-      ? [{ item: condition.name, count: Math.ceil( condition.count * countWeNeed / condition.resultsIn )}]
+      ? [
+          { 
+            item: condition.name, 
+            toCollectCount: Math.ceil( condition.count * countWeNeed / condition.resultsIn )
+          }
+        ]
       : condition.name
         .map( craftPart => {
-          const alreadyOptainedCount = this.actionExecuter.isItemInInventory( craftPart.requiredItem );
           return { 
             item: craftPart.requiredItem, 
-            count: Math.ceil( ( craftPart.requiredCount * countWeNeed / condition.resultsIn ) - alreadyOptainedCount )
+            toCollectCount: Math.ceil( craftPart.requiredCount * countWeNeed / condition.resultsIn )
           }
         });
 
@@ -295,14 +300,15 @@ class GoalInterpreter {
  
   private async resolveInventory( condition: Condition, count: number ): Promise<boolean> {
     
-    const resources = this.howManyItemsNeededToCraft( condition, count );
-
     if ( condition.recursive == true ) {
+      const resources = this.howManyItemsNeededToCraft( condition, Number( count ) );
+      
       const isSuccess = await Promise.all( 
         resources
-          .filter( resource => resource.count > 0 )
-          .map( async resource => await this.GetItem( resource.item, resource.count ) ) 
+          .filter( resource => resource.toCollectCount > 0 )
+          .map( async resource => await this.GetItem( resource.item, resource.toCollectCount ) ) 
       );
+      
       return isSuccess.every( success => success );
     }
   }
@@ -346,7 +352,7 @@ class GoalInterpreter {
     return result;
   }
 
-  async GetItem( itemToFind: string, count = 1 ): Promise<boolean> {
+  async GetItem( itemToFind: string, count: number = 1 ): Promise<boolean> {
     const item = this.goals.items[ itemToFind ];
     if ( !item ) {
       console.log(`Item ${itemToFind} not specified in goals list`);
